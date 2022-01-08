@@ -1,0 +1,64 @@
+@Author: Gilbert Loiseau
+@Date:   2021/12/19
+@Email:  gjowl04@gmail.com
+@Filename: ideas.txt
+@Last modified by:   Gilbert Loiseau
+@Last modified time: 2021/12/19
+
+"""
+This file contains a list of ideas that I want to implement for my NBA data, and how I would like to one day implement it into a website.
+"""
+
+Sections for the website so far:
+  -Fantasy
+  -Box Scores
+  -Daily Stats (and predictions? This needs to take a training algorithm of some sort)
+  -Advanced Stats (and predictions? This needs to take a training algorithm of some sort)
+  -Who's on pace for history?
+
+//Fantasy
+Stream targets depending on matchups: Steven Adams isn’t a hold, but if he’s playing 2 teams with
+smaller big men ( and maybe lower ranked in categories that he’s good in) could be a good stream
+
+Also try to find some combination of stats that will help predict the list of
+potential breakout players of the season (go through most improved candidates
+from the past and see what changed)
+
+//Box Scores
+My own box score viewer: pull the data of each game from nba.com and plant into my own
+box score. I can also add in images of my own stats and analyses/of other peoples’ scoring metrics. Could also add in a shot chart for team and players using that one r-plot analyzer. Start with just end of the day get the data, eventually move it to updating by the hour.
+Output a new box score: include things like usage, RAPTOR, screen assists, potential assists, etc.
+
+//Advanced Stats
+I should write code that gets the data from basketball reference and projects
+how well a player will do the next season? How do you forward project though?
+PER? Big games per year? VORP? DWS? Consistency? Shot selection?
+What are things that are likely to trend up?
+
+Take into account usage rate and how it will change depending on the players
+on the team, assuming players with increased percentages will get more usage
+and touches (and same with players in contract years and such as well)
+
+Also an output file that will pull out top x percentile and a couple players around
+each in that percentile (need to figure out what statistic method I want to use for this)
+
+Similar to power rankings on nba.com, make weekly stats
+ -best and worst in some stats per the week/month/etc.
+
+Output the cats they are best in and the cats you may want to punt with each player,
+that way can kinda come up with the ideal draft plan when also factoring in the projected
+draft positions
+
+Records when teams shoots x% from 3, midrange, etc.
+
+For information that likely isn't found on https://www.basketball-reference.com/
+  -Would be an interesting thing to look into the random stats (running around screens,
+   how much running on the court vs walking, time in defensive stance vs not, etc.)
+  -Random efficiency stats (ts and fg% that they hold people to)
+  -Charges drawn per game
+
+Contract stuff similar to prox graphs (show performance against actual contract over time)
+
+Referees: which refs and ref combos do each team have the most wins with, losses, etc.
+last 5 years is probably a good sample size (is there a way to tell refs for better or worse?
+Like number of calls/types of calls?)

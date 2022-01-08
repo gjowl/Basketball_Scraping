@@ -1,0 +1,48 @@
+@Author: Gilbert Loiseau
+@Date:   2021/12/19
+@Email:  gjowl04@gmail.com
+@Filename: notes.txt
+@Last modified by:   Gilbert Loiseau
+@Last modified time: 2022/01/07
+
+"""
+This file is for taking notes on things that I have implemented from my analysis of data
+from https://www.basketball-reference.com/.
+"""
+
+Once I am able to scrape data, the most important task:
+Set this up so it’s updating by the day
+
+Then, this could be nice to have:
+All in one statswatch website: will tell how far away someone is from a particular milestone,
+refreshing daily
+
+Similar to power rankings on nba.com, make weekly stats
+ -best and worst in some stats per the week/month/etc.
+
+2021/12/22: I started my first bit of scraping aiming to try to search for all point totals
+on basketball-reference, but I couldn't find those numbers on there.
+
+In my search for another website, I found this one:
+https://basketball.realgm.com/nba/stats/2022/Totals/Qualified/points/All/desc/1/Regular_Season
+
+It has all of the data from the seasons, and has current totals for every single player. If I
+can't find another website to do with totals, I could just search through all datasets of
+previous seasons and add them per player, then update per player:
+I think the easiest there would be to have a list of all players all time, then just
+add the data to their spot. That might be a really nice and easy way to do it, with each
+player having a really nice dataframe of data?
+
+LOL nevermind I just found that they actually have all of those stats in here!
+https://basketball.realgm.com/nba/stats/Historical/Totals/Qualified/points/All/desc/1/Regular_Season
+
+So I can try to read through this and keep it for all players, then just have to constantly update.
+Alternatively, I can just read in this data from the website everyday (but I wonder how long that
+would take everyday?)
+This list also doesn't have years played (they have games played, but I think I'd want to look
+more on a yearly basis to see year to year improvement)
+
+Also this:https://www.nba.com/stats/players/box-outs/
+nba.com actually has quite a wealth of data as well: point per possession, frequence of plays
+including and ones and turnovers. They even have box out information! Now only if I could
+find info on screen assists
