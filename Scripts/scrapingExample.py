@@ -3,7 +3,7 @@
 # @Email:  gjowl04@gmail.com
 # @Filename: scrapingExample.py
 # @Last modified by:   Gilbert Loiseau
-# @Last modified time: 2022/01/07
+# @Last modified time: 2022/02/01
 
 
 """
@@ -121,3 +121,8 @@ rows_data = [[td.getText() for td in rows[i].findAll('td')]
 # so, remove the empty row
 rows_data.pop(20)# for simplicity subset the data for only 39 seasons
 rows_data = rows_data[0:38]
+
+# print out data to console
+print(rows_data)
+
+#TODO: add in a way to output to a file here
