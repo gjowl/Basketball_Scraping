@@ -1,0 +1,141 @@
+#Developing a neural network: notes
+
+2022-2-8
+To start, I'm watching: https://www.youtube.com/watch?v=Wo5dMEP_BbI&ab_channel=sentdex
+sentdex has a whole playlist of a tutorial to build a neural network: https://www.youtube.com/playlist?list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3
+  - This tutorial made sense to me when I started it, so I just kept going with it
+  - Need prior coding experience in object oriented programing language
+  - He seems to break it down in a way that makes it sound relatively simple
+  - Apparently there's also a book if you want to learn from that or follow along with the videos: nnfs.io
+
+Episode 1: Intro and Neuron Code
+End goal is to take input data, pass through the neural network to get a desired output. To do this, you tune the weights and biases (training) in such a way so that the
+neural network can take in new input data and still give you a reasonable output.
+
+To do this, you end up getting a large number of tunable parameters that will impact the output of the next neuron, which could theoretically be mapped.
+
+The important thing to build is a connection of neurons to the next neurons, parameterizing your network.
+
+Every unique neruon has a unique bias.
+
+First step of a neuron is to add up all of the inputs times the weights plus the bias.
+
+Example (neuron with 3 inputs):
+inputs = [1.2, 5.1, 2.1]
+weights = [3.1, 2.1, 8.7]
+bias = 3
+
+output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] + bias
+print(output)
+
+output should be 35.7
+
+Most steps should look like the above.
+
+Ep. 2: Coding a layer
+
+It should be possible to randomly initialize weights that the neural network can tweak.
+
+Example that matches the book:
+inputs = [1, 2, 3]
+weights = [0.2, 0.8, -0.5]
+bias = 2
+
+output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] + bias
+print(output)
+
+output should be 2.3
+
+Every input should have it's own unique weight, but there should only be one bias per neuron.
+
+input layer = values that you are tracking (if basketball: points, rebounds, assists, etc.)
+Adding one more input:
+  - inputs can be:
+    - values from the input layer
+    - given values from a vector of values
+  - Example (neuron with 4 inputs):
+      inputs = [1, 2, 3, 2.5]
+      weights = [0.2, 0.8, -0.5, 1.0]
+      bias = 2
+
+      output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] + inputs[3]*weights[3] +bias
+      print(output)
+
+      output should be 4.8
+
+What if we wanted to model 3 neurons, with 4 inputs:
+  - 4 inputs
+  - 3 unique weight sets/vectors
+  - each weight set has 4 unique values
+  - 3 total values, one for each neuron
+
+Example (3 neuron layer):
+inputs = [1, 2, 3, 2.5]
+
+weights1 = [0.2, 0.8, -0.5, 1.0]
+weights2 = [0.5, -0.91, 0.26, -0.5]
+weights3 = [-0.26, -0.27, 0.17, 0.87]
+
+bias1 = 2
+bias2 = 3
+bias3 = 0.5
+
+output = [inputs[0]*weights1[0] + inputs[1]*weights1[1] + inputs[2]*weights1[2] + inputs[3]*weights1[3] +bias1,
+          inputs[0]*weights2[0] + inputs[1]*weights2[1] + inputs[2]*weights2[2] + inputs[3]*weights2[3] +bias2,
+          inputs[0]*weights3[0] + inputs[1]*weights3[1] + inputs[2]*weights3[2] + inputs[3]*weights3[3] +bias3]
+print(output)
+
+output should be [4.8, 1.21, 2.385]
+
+So you can't change the inputs (that's your data), but you can change your outputs by changing weights and biases.
+The idea of deep learning is figuring how to adjust those weights and biases to get those outputs that you desire.
+
+Ep. 3: The Dot Product
+
+Transitioning to using vectors and matrices, the standard of doing deep learning.
+
+github link: https://github.com/Sentdex/NNfSiX (has different languages that you can follow along in)
+
+Example (3 neuron layer, but nicer):
+inputs = [1, 2, 3, 2.5]
+
+weights = [[0.2, 0.8, -0.5, 1.0],
+           [0.5, -0.91, 0.26, -0.5],
+           [-0.26, -0.27, 0.17, 0.87]]
+
+biases = [2, 3, 0.5]
+
+layer_outputs = [] # output of current layer
+
+#zip: combines two lists so that they can be easily accessed element wise (for 1: neuron_weights)
+for neuron_weights, neuron_bias in zip(weights, biases):
+    neuron_output = 0 #output of given neuron
+    for n_input, weight in zip(inputs, neuron_weights):
+        neuron_output += n_input*weight
+    neuron_output += neuron_bias
+    layer_outputs.append(neuron_object)
+
+print(layer_outputs)
+
+layer_outputs should be [4.8, 1.21, 2.385]
+
+weights and biases are knobs that get tuned in an attempt to fit to data. These are tunable parameters
+that impact a neuron's output. Weight is a multiple, and bias offsets the value. Weight is changing the
+magnitude while bias is changing the ... of the output.
+
+Next: getting into numpy
+  - Shape: a list with 4
+
+
+
+Ep. 4: Batches, Layers, and Objects
+
+Ep. 5: Hidden Layer Activator Functions
+
+Ep. 6: Softmax Activation
+
+Ep. 7: Calculating Loss with Categorical Cross-Entropy
+
+Ep. 8: Implementing Loss
+
+Ep. 9: Introducing Optimization and Derivatives
