@@ -3,7 +3,7 @@
 @Email:  gjowl04@gmail.com
 @Filename: deep_learning_notes.txt
 @Last modified by:   Gilbert Loiseau
-@Last modified time: 2022/03/14
+@Last modified time: 2022/03/18
 
 
 #Developing a neural network: notes
@@ -376,11 +376,281 @@ Using the nnfs package:
   -nnfs
     -shows help options and tells how to install the code for each part of the tutorial
 
-
+2022-3-15
 Ep. 6: Softmax Activation
+The first part in training a model is determining how wrong the model is.
+Not many good solid ways of determining the difference in how wrong neurons are,
+but softmax activation helps us solve that.
+
+Ideally, output values would be a probability distribution and you can overall calculate
+how accurate something is.
+
+If you're using ReLU, if the value of an output is negative, it will give a 0. This makes
+it impossible to learn from these values.
+
+Exponential function: y=e^x. Solves the issue of having negative outputs without tossing away
+the meaning of a negative value: it keeps it on a scale.
+
+Example of softmax activation exponentiation:
+*
+import math
+
+layer_outputs = [4.8, 1.21, 2.385]
+
+E = math.e
+
+#rids of any negative values
+for output in layer_outputs:
+  exp_values.append(E**output)
+
+print(exp_values)
+
+norm_base = sum(exp_values)
+norm_values = []
+
+for value in exp_values:
+  norm_values.append(value / norm_base)
+
+print(norm_values)
+#should add up to 1
+print(sum(norm_values))
+*
+
+#shorter version of the above using numpy
+*
+import numpy as np
+
+layer_outputs = [4.8, 1.21, 2.385]
+
+#rids of any negative values by exponentiating (y=e^x)
+exp_values = np.exp(layer_outputs)
+norm_values = exp_values / np.sum(exp_values)
+
+print(norm_values)
+#should add up to 1
+print(sum(norm_values))
+*
+
+#conversion of the above to a batch
+*
+import numpy as np
+
+layer_outputs = [[4.8, 1.21, 2.385],
+                 [8.9, -1.81, 0.2],
+                 [1.41, 1.051, 0.026]]
+
+exp_values = np.exp(layer_outputs)
+
+#axis=0 is the sum of columns, axis=1 is sum of rows
+#The above does not have the proper shape, so keepdims=True
+#makes it the proper dimensions
+norm_values = exp_values / np.sum(exp_values, axis=1, keepdims=True)
+*
+
+Overflow prevention: subtract the largest value in a layer by all of the other values in that layer.
+This leads to the range of possibilities post exponentiation is from 0 to 1.
+
+Adding softmax activation class to code:
+*
+import numpy as np
+import nnfs
+from nnfs.datasets import spiral_data
+
+nnfs.init()#override for replication of the nnfs data and datasets.
+
+class Layer_Dense:
+  def_init_(self, n_inputs, n_neurons):
+    self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)#size of inputs and number of neurons; multiply by 0.10 makes weights between -0.1 and 0.1
+    self.biases = np.zeros((1, n_neurons))
+  def forward(self):
+    self.output = np.dot(inputs, self.weights) + self.biases
+
+class Activation_ReLU:
+  def forward(self, inputs):
+    self.output = np.maximum(0.inputs)
+
+class Activation_Softmax:
+  def forward(self, inputs):
+    exp_values = np.exp(inputs - np.max(inputs, axis=1, keepdims=True))#subtracts the max of a layer (row) and keeps dimensions
+    probabilities = exp_values / np.sum(exp_values, axis=1, keepdims=True)
+    self.output = probabilities
+
+X,y = spiral_data(samples=100, classes=3)
+
+dense1 = Layer_Dense(2,3)
+activation1 = Activation_ReLU()
+dense2 = Layer_Dense(3, 3)#output layer outputs 3 for the 3 classes of data above
+activation2 = Activation_Softmax()
+
+dense1.forward(X)
+activation1.forward(dense1.output)
+
+dense2.forward(activation1.output)
+activation2.forward(dense2.output)
+*
+
+To calculate how right vs how wrong each neuron in each layer may be, we need a loss function.
 
 Ep. 7: Calculating Loss with Categorical Cross-Entropy
+Important to have a metric for error: how wrong is the model that we're trying to train.
+
+Why not use accuracy?
+  -optimize neural network by binary true or false
+    -imagine going through images of cats vs dogs and it only outputs yes or no for cat
+    -instead, seeing how confident the model is tells you more information: 55% likely to be a cat and 45% dog
+
+From our distribution, we can know from the training data what the target value is (?)
+In general, the loss function for classification using softmax is Categorical Cross-Entropy: image saved
+as screenshot 2022-3-15. 3:30 mark in the video. Simplifies to another screenshot because of one-hot encoding
+This method is very convenient in the back propogation and optimization steps.
+
+What is one-hot encoding:
+  -vector that is n classes long filled with 0 except for at the index of the target class, where it will be 1
+  -Examples:
+    -Classes: 3; Label: 2; One-hot: [0, 0, 1]
+    -Classes: 4; Label: 1; One-hot: [0, 1, 0, 0]
+
+Categorical cross entropy: take the negative sum (-sum) of the target value (yi) times the log of the predicted value (yhatj)
+
+*
+import math
+
+softmax_output = [0.7, 0.1, 0.2]
+target_output = [1, 0, 0]
+
+loss = -(math.log(softmax_output[0])*target_output[0] +
+         math.log(softmax_output[1])*target_output[1] +
+         math.log(softmax_output[2])*target_output[2])
+
+print(loss)
+
+#above becomes the same as below since targets are 0 at non zero position
+loss = -math.log(softmax_output[0])
+print(loss)
+
+print(-math.log(0.5))#this value is higher because it is more loss, therefore more error
+
+I don't yet know where the target_output comes from, but I hope he explains in the next video.
 
 Ep. 8: Implementing Loss
+Applying loss and addressing hurdles that could occur.
+
+Need to apply a batch of data and a batch of targets for the softmax outputs.
+To get confidences, get the value of the corresponding output for each target.
+
+Example on getting confidence values:
+*
+import numpy as np
+
+softmax_outputs = np.array([[0.7, 0.1, 0.2],
+                            [0.1, 0.5, 0.4],
+                            [0.02, 0.9, 0.08]])
+
+class_targets = [0, 1, 1]
+
+print(softmax_outputs[[0, 1, 2], class_targets])
+#The above iterates through the entire np array [0, 1, 2] and gets the corresponding targets [0, 1, 1]
+*
+
+Simplifying with numpy:
+*
+import numpy as np
+
+softmax_outputs = np.array([[0.7, 0.1, 0.2],
+                            [0.1, 0.5, 0.4],
+                            [0.02, 0.9, 0.08]])
+
+class_targets = [0, 1, 1]
+
+neg_log = -np.logsoftmax_outputs[range(len(softmax_outputs)), class_targets])
+# the above however gives problems because if you get a 0, -log(0) is infinite,
+# which isn't the best for future calculations
+*
+
+Predicting accuracy:
+*
+import numpy as np
+
+softmax_outputs = np.array([[0.7, 0.1, 0.2],
+                            [0.1, 0.5, 0.4],
+                            [0.02, 0.9, 0.08]])
+
+class_targets = [0, 1, 1]
+
+predictions = np.argmax(softmax_outputs, axis=1)
+
+accuracy = np.mean(predictions == class_targets)#get mean: Check how often the target matched the predicted output
+
+accuracy is the mean of the predictions and the class targets
+neg_log = -np.logsoftmax_outputs[range(len(softmax_outputs)), class_targets])
+# the above however gives problems because if you get a 0, -log(0) is infinite,
+# which isn't the best for future calculations
+
+Adding loss class to code:
+*
+import numpy as np
+import nnfs
+from nnfs.datasets import spiral_data
+
+nnfs.init()#override for replication of the nnfs data and datasets.
+
+class Layer_Dense:
+  def_init_(self, n_inputs, n_neurons):
+    self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)#size of inputs and number of neurons; multiply by 0.10 makes weights between -0.1 and 0.1
+    self.biases = np.zeros((1, n_neurons))
+  def forward(self):
+    self.output = np.dot(inputs, self.weights) + self.biases
+
+class Activation_ReLU:
+  def forward(self, inputs):
+    self.output = np.maximum(0.inputs)
+
+class Activation_Softmax:
+  def forward(self, inputs):
+    exp_values = np.exp(inputs - np.max(inputs, axis=1, keepdims=True))#subtracts the max of a layer (row) and keeps dimensions
+    probabilities = exp_values / np.sum(exp_values, axis=1, keepdims=True)
+    self.output = probabilities
+
+class Loss:
+  def calculate(self, output, y):
+    sample_losses = self.forward(output, y)
+    data_loss = np.mean(sample_losses)
+    return data_loss
+
+#Inherits from the base Loss class
+class Loss_CategorialCrossEntropy(Loss):
+  def forward(self, y_pred, y_true):
+    samples = len(y_pred)
+    #the below prevents values from going to infinity, clipping at 1e-7
+    y_pred_clipped = np.clip(y_pred, 1e-7, 1-1e-7)
+
+    #below means that scalar values have been passed ([0,1,2],[0,1,1])
+    if len(y_true.shape) == 1:
+      correct_confidences = y_pred_clipped[range(samples), y_true]
+    #below is for one hot encoded vectors ([[1,0,0],[0,1,0],[0,1,0]]); multiplies each in predicted neurons
+    #against the target classes confidence; since things are multiplied by 0 outside of the target,
+    #sum gets you the output confidence vector
+    elif len(y_true.shape) == 2:
+      correct_confidences = np.sum(y_pred_clipped*y_true, axis=1)
+    negative_log_likelihoods = -np.log(correct_confidences)
+    return negative_log_likelihoods
+X,y = spiral_data(samples=100, classes=3)
+
+dense1 = Layer_Dense(2,3)
+activation1 = Activation_ReLU()
+dense2 = Layer_Dense(3, 3)#output layer outputs 3 for the 3 classes of data above
+activation2 = Activation_Softmax()
+
+dense1.forward(X)
+activation1.forward(dense1.output)
+
+dense2.forward(activation1.output)
+activation2.forward(dense2.output)
+
+loss_function = Loss_CategorialCrossEntropy()
+loss = loss_function.calculate(activation2.output, y)
+
+print("Loss: ", loss)
+*
 
 Ep. 9: Introducing Optimization and Derivatives
