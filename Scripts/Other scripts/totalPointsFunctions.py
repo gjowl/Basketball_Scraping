@@ -1,3 +1,9 @@
+# @Author: Gilbert Loiseau
+# @Date:   2022/04/17
+# @Filename: totalPointsFunctions.py
+# @Last modified by:   Gilbert Loiseau
+# @Last modified time: 2022/04/17
+
 
 """
 This file contains functions for my totalPoints code.

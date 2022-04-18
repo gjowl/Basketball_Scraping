@@ -3,7 +3,7 @@
 # @Email:  gjowl04@gmail.com
 # @Filename: totalPoints.py
 # @Last modified by:   Gilbert Loiseau
-# @Last modified time: 2022/01/07
+# @Last modified time: 2022/04/17
 
 
 """
@@ -30,27 +30,22 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 #Main
-# URL to scrape
-url = "https://www.basketball-reference.com/"
+if __name__ == '__main__':
+    # URL to scrape
+    url = "https://www.basketball-reference.com/"
 
-# collect HTML data
-html = urlopen(url)
+    # collect HTML data
+    html = urlopen(url)
 
-# create beautiful soup object from HTML
-soup = BeautifulSoup(html, features="lxml")
+    # create beautiful soup object from HTML
+    soup = BeautifulSoup(html, features="lxml")
 
-# collect HTML data
-html = urlopen(url)
+    # get rows from table
+    rows = soup.findAll('tr')[2:]
+    rows_data = [[td.getText() for td in rows[i].findAll('td')]
+                        for i in range(len(rows))]# if you print row_data here you'll see an empty row
+                        # so, remove the empty row
+    rows_data.pop(20)# for simplicity subset the data for only 39 seasons
+    rows_data = rows_data[0:38]
 
-# create beautiful soup object from HTML
-soup = BeautifulSoup(html, features="lxml")
-
-# get rows from table
-rows = soup.findAll('tr')[2:]
-rows_data = [[td.getText() for td in rows[i].findAll('td')]
-                    for i in range(len(rows))]# if you print row_data here you'll see an empty row
-# so, remove the empty row
-rows_data.pop(20)# for simplicity subset the data for only 39 seasons
-rows_data = rows_data[0:38]
-
-#test 2
+    #test 2

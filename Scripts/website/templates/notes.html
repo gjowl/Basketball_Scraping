@@ -1,0 +1,33 @@
+<!--first extension of base.html-->
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    %}
+    <!--now I have to think about how to setup my homepage after signing in:
+    This will be where people's data is (previous players searched, previous stats made and looked at, etc.)
+    To do this, I need to make sure I have an understanding of the "Note" class made in models.py.
+    That is where I will have to start setting up things: where my new files will output to, thinking of how to navbar should 
+    be set up for all of that info, etc. -->
+    <!--how to make a notes area below; honestly, it could be a nice framework for how to setup saving the searched data and such-->
+    <h1 align="center">Notes</h1>
+    <!--a way to show all of the notes in a list below-->
+    <ul class="list-group list-group-flush" id="notes">
+      <!--loops through all of the stores notes-->
+      {% for note in user.notes %}
+      <li class="list-group-item">
+        <!--text associated with the note-->
+        {{ note.data }}
+        <!--button that can be made for a request to delete a note; the onClick=calls a function names deleteNote that passes the id of the note-->
+        <button type="button" class="close" onClick="deleteNote({{note.id}})">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+    <!--a way to make a note with a button that says add note-->
+    <form method="POST">
+      <textarea name="note" id="note" class="form-control"></textarea>
+      <br />
+      <div align="center">
+        <button type="submit" class="btn btn-primary">Add Note</button>
+      </div>
+    </form>
+    {% endblock %}

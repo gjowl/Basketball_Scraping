@@ -1,0 +1,115 @@
+<!--Theme of the website; parts of this template can then be overriden except content of page based on what page we're on-->
+<!DOCTYPE html>
+<html>
+<!-- head holds metadata -->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /><!--typical html code, changes scaling and how to view the page-->
+    <!--the below downloads a bunch of custom css and javascript from the bootstrap website that can be used for making the website nicer
+        allows for using the bootstrap classes found on:https://getbootstrap.com/docs/5.1/getting-started/introduction/ -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <!-- the % % is a way to setup a syntax for python in jinja (which is used by flask for websites); can add if statements, loops, etc.-->
+    <title>{% block title %}Home{% endblock %}</title>
+    <!--the above allows you to change the title Home in any child templates, overriding/replacing it as necessary for other web templates-->
+  </head>
+  <!--body holds actual stuff for website-->
+  <body>
+    <!--below taken from the bootstrap website that customizes the navigation bar:https://getbootstrap.com/ -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff9239;">
+      <!--adds in a title/logo on the left side of the navbar-->
+      <a class="navbar-brand" style="color:rgb(105, 199, 236)" href="#">gjl</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar"
+      >
+        <!--icon for this button-->
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--collapsible navbar-->
+      <div class="collapse navbar-collapse" id="navbar">
+        <!--setting up the navigation to a variety of urls for logging in and signing out-->
+        <div class="navbar-nav me-auto">
+        <!--checks to see if there is a user logged in; customizes the navigation bar for logged in vs not-->
+        {% if user.is_authenticated %}
+            <!--px-1-5 adds space after the navbar-->
+          <a class="nav-item nav-link px-4" id="home" style="color:rgb(255, 255, 255)" href="/">Home</a>
+          <a class="nav-item nav-link px-2" id="logout" style="color:rgba(221, 221, 221, 0.959)" href="/logout">Logout</a>
+          <a class="nav-item nav-link px-2" id="Notes" style="color:rgba(221, 221, 221, 0.959)" href="/notes">Notes</a>
+        {% else %}
+          <a class="nav-item nav-link px-2" id="home" style="color:rgb(255, 255, 255)" href="/">Home</a>
+          <a class="nav-item nav-link px-2" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link px-2" id="signUp" href="/sign-up">Sign Up</a>
+        {% endif %}
+        <!--adds in a search bar that as of 4/17/22 does not work-->
+        <form class="d-flex">
+            <input class="form-control me-2 px-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline" style="color:rgb(255, 255, 255)" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!--the below displays messages that are flashed from the auth.py -->
+    {%with messages = get_flashed_messages(with_categories=true)%}
+        <!--check to see if we have messages-->
+        {% if messages %}
+            <!--loop through the messages-->
+            {% for category, message in messages %}
+                {% if category =='error' %}
+                <!--html that displays alert: danger=red, dismissable alert, fade and allow us to dismiss then show the alert-->
+                <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                    {{message}}
+                    <!--button that allows us to dismiss the alert-->
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <!--html that displays alert: success=green, dismissable alert, fade and allow us to dismiss then show the alert-->
+                <div class="alert alert-success alter-dismissable fade show" role="alert">
+                    {{message}}
+                    <!--button that allows us to dismiss the alert-->
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <!--anything inside of the below can be shown up and overriden in templates that extend this html-->
+    <div class="container">{% block content %} {% endblock %}</div>
+    <!--loading the javascript related to bootstrap css framework (?); must be at the bottom of your body tag-->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='index.js') }}"
+    ></script>
+  </body>
+</html>
