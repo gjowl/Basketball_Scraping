@@ -654,3 +654,31 @@ print("Loss: ", loss)
 *
 
 Ep. 9: Introducing Optimization and Derivatives
+#Introduce optimization and the calculus to overcome this challenge
+"""
+Solving using weights and biases is a way to improve the model, but the
+best way to do this would be to decrease the loss. Randomly hunting for
+weight and bias combinations and looking for loss is a way to do it, but 
+it doesn't decrease the loss very well or very quickly.
+
+Instead making random tweaks to the current best weights and biases may
+work better for optimizing. It works for datasets that are pretty easy to
+solve, but not for more complex models. An issue is that we're treating each
+of these weights and biases as equal, whereas it's likely that some weights
+or biases may be more impactful.
+
+To address this, derivatives are useful. Remember, derivatives are the change
+in x over change in y, or deltax/deltay. This can be used to measure the impact
+of x over y by using the slope of the tangent on the curve, or the derivative of
+the function. It's important to know the impact of each value of the parameters
+on the output of the function.
+
+It's not that simple in a neural network, because we have so many nodes and
+parameters in a neural network. Attempting to adjust these using numerical differentiation
+is quite difficult: would need to do a pass through the network, calculate loss, change
+1 parameter, pass through network, calculate loss, reset and switch to another parameter,
+and continue iteratively. And we'd need to do that for each input sample. Using 
+numerical derivatives, it would be like brute forcing the issue, which is slower than ideal.
+
+Analytical and partial derivatives would be the better option.
+"""
