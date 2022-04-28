@@ -28,9 +28,12 @@ This will give me practice in a couple of things that I'll need to do to get thi
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
+from totalPointsFunctions import *
 
 #Main
 if __name__ == '__main__':
+    scrapeTotalPoints() 
+    """ 
     # URL to scrape
     url = "https://www.basketball-reference.com/"
 
@@ -49,3 +52,5 @@ if __name__ == '__main__':
     rows_data = rows_data[0:38]
 
     #test 2
+    """
+

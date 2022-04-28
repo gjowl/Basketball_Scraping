@@ -16,7 +16,28 @@ import pandas as pd
 def scrapeTotalPoints():
     #TODO: make a way to get every single player from every single team ever and scrape the total points scored value
     # may be a little difficult: have to go to url for each player? or can I type a search into the bar or something?
-    # I got a csv file of data from bballreference
+    # I got a csv file of data from bballreference: playersFromBasketballReference.csv
+    # TODO: I should work on a way to update this automatically each year
+    allPlayersCSV = "C:\Users\gjowl\github\Basketball_Scraping\Data files\playersFromBasketballReference.csv"
+    #Read in player name
+    allPlayers = pd.read_csv(allPlayersCSV)
+    
+    #Pass through getter Function 
+    print(allPlayers)
+   
+    # URL to scrape, notice f string:
+    playersUrl = f"https://www.basketball-reference.com/players/"
+    print(playersUrl)
+    #add first letter of name
+    #add the name string for the player
+    #url = f"https://www.basketball-reference.com/leagues/NBA_{year}_standings.html"
+
+    ## collect HTML data
+    #html = urlopen(url)
+    
+    # Output points (but set this up so that I can eventually just output whatever info I want from their webpage)
+    # TODO: get a list of all of the different stats found on basketball reference
+"""
     final_df = pd.DataFrame(columns = ["Year", "Team", "W", "L",
                                        "W/L%", "GB", "PS/G", "PA/G",
                                        "SRS", "Playoffs",
@@ -96,3 +117,4 @@ def scrapeTotalPoints():
     print(final_df.info)
     # export to csv
     final_df.to_csv("nba_team_data.csv", index=False)
+"""
