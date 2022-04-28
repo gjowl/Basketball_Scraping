@@ -18,12 +18,21 @@ def scrapeTotalPoints():
     # may be a little difficult: have to go to url for each player? or can I type a search into the bar or something?
     # I got a csv file of data from bballreference: playersFromBasketballReference.csv
     # TODO: I should work on a way to update this automatically each year
-    allPlayersCSV = "C:\Users\gjowl\github\Basketball_Scraping\Data files\playersFromBasketballReference.csv"
+    allPlayersCSV = "/mnt/c/Users/gjowl/github/Basketball_Scraping/Data files/playersFromBasketballReference.csv"
+
+    #addURLInfo() make this into a function to add in the url info to the file
     #Read in player name
-    allPlayers = pd.read_csv(allPlayersCSV)
-    
-    #Pass through getter Function 
+    allPlayers = pd.read_csv(allPlayersCSV, sep=",")
     print(allPlayers)
+
+
+    for name in allPlayers["Player"]:
+        #When I get player names from Basketball Reference, they come as the name attached the the url
+        #The below gets the index of the \ so that I can separate this for each added name
+        index = name.index('\\')
+        print(name[index:])
+        
+    #Pass through getter Function 
    
     # URL to scrape, notice f string:
     playersUrl = f"https://www.basketball-reference.com/players/"
