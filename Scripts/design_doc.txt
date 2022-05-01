@@ -1,0 +1,60 @@
+Overview
+While watching basketball games, I usually think of data based analytical questions: 
+    - How well does this rookie player compare to another well known player?
+        - What are potential breakout players for the next year? How can I use this
+        information to affect my understanding of drafting fantasy players? Can I 
+        compare stats between players to see what kind of trajectory they may have?
+    - How is a player's usage rate likely to change after getting a new teammate/
+    with other players on the floor? 
+        Bulls: How does adding Derozan and Lonzo basketball affect on Zach Lavine's?
+        Spurs: Dejounte's usage rate without Derozan?
+        Cavs: Garland without Sexton and Rubio after injuries?
+    - What is this team's record when:
+        - they shoot x% from 3? 
+        - they make x 3s?
+        - they outrebound a team by x?
+
+After thinking of many questions that I feel like aren't answered in an easy to access
+way for the public like myself, I decided to put in the effort to design my own website
+for analyzing this data that people may be interested in.
+
+Goal
+Design a website that analyzes data and updates in real time (or at least by the end of a day).
+
+Design
+Make it easy to navigate to interesting data:
+    - Have a page with each team that highlights some of the interesting datapoints for players:
+        Offense:
+        - Highest usage rate
+        - 
+        Defense: 
+        - # deflections per game
+        - 
+        Team:
+        - # deflections
+        - comparison in points, defense, etc. to all other teams 
+    - Has tabs to remove or open bits of data easily so you don't have to scroll for too long
+    - Advanced stats tab
+
+Methods
+Analyze data from open source parties:
+    - https://www.basketball-reference.com/
+    - https://www.nba.com/stats/
+
+Using python Beautiful Soup package to scrape these websites for data, and save that
+information externally: https://realpython.com/beautiful-soup-web-scraper-python/
+
+Example: https://medium.com/analytics-vidhya/intro-to-scraping-basketball-reference-data-8adcaa79664a
+
+Classes
+year - holds statistics for 1 year of players career (hash? df?)
+player - holds all of the year statistics for the length of a player's career
+
+TODO: will likely need more for this
+team - holds team data
+
+Undecided:
+Ads?
+Subscription for more advanced data? Maybe if I actually get the ML stuff working well
+
+
