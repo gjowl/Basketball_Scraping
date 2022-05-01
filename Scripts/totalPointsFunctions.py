@@ -4,7 +4,6 @@
 # @Last modified by:   Gilbert Loiseau
 # @Last modified time: 2022/04/17
 
-
 """
 This file contains functions for my totalPoints code.
 """
@@ -17,26 +16,71 @@ def scrapeTotalPoints():
     #TODO: make a way to get every single player from every single team ever and scrape the total points scored value
     # may be a little difficult: have to go to url for each player? or can I type a search into the bar or something?
     # I got a csv file of data from bballreference: playersFromBasketballReference.csv
-    # TODO: I should work on a way to update this automatically each year
-    allPlayersCSV = "/mnt/c/Users/gjowl/github/Basketball_Scraping/Data files/playersFromBasketballReference.csv"
-
-    #addURLInfo() make this into a function to add in the url info to the file
-    #Read in player name
-    allPlayers = pd.read_csv(allPlayersCSV, sep=",")
-    print(allPlayers)
-
-
-    for name in allPlayers["Player"]:
-        #When I get player names from Basketball Reference, they come as the name attached the the url
-        #The below gets the index of the \ so that I can separate this for each added name
-        index = name.index('\\')
-        print(name[index:])
-        
-    #Pass through getter Function 
-   
+    dataDir = "/mnt/c/Users/gjowl/github/Basketball_Scraping/Data files/"
+    playersCsv = dataDir+"playersUpdated.csv"
+    df = pd.read_csv(playersCsv, sep=",")
+    
     # URL to scrape, notice f string:
-    playersUrl = f"https://www.basketball-reference.com/players/"
+    playersUrl = "https://www.basketball-reference.com/players/"
     print(playersUrl)
+
+    #Pass through getter Function 
+    for url in df["Url"]:
+        urlToSearch = playersUrl+url
+
+        print(url) 
+        print(urlToSearch) 
+        # collect HTML data
+        html = urlopen(urlToSearch)
+        #html = urlopen(eval("f'{}'".format(urlToSearch)))
+
+        tableIds = []        
+        # convert the types of tables from beautiful soup
+        # create beautiful soup object from HTML
+        soup = BeautifulSoup(html, features="lxml")
+
+        # get all the tables from the page
+        tables = soup.find_all('table')
+        #div = soup.find_all('div', class_='table_wrapped')
+        #for d in div:
+        #    id = div['id']
+        #    tableIds.append(id)
+        for table in tables:
+            id = table.get('id')
+            tableIds.append(id)
+# search through the url using this to convert dataframes to data
+
+        # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
+        df_list = []
+        for id in tableIds:
+            print(id)
+            df = pd.read_html(urlToSearch, attrs={'id':id}, flavor='bs4')
+            print(df)
+            df_list.append(df)
+        
+        
+        # use getText()to extract the headers into a list
+        titles = [th.getText() for th in soup.findAll('tr', limit=2)[0].findAll('th')]
+        print(titles)
+
+        #per_game = soup.find("table", {"id":'per_game'})
+        ## prin
+        #for t in table:
+        #    df = pd.DataFrame(columns=titles)
+        #    for row in t.tbody.find_all('tr'):
+        #        columns = row.find_all('td')
+
+
+        
+        
+        # first, find only column headers
+        headers = titles[1:titles.index("SRS")+1]
+
+
+
+        # then, exclude first set of column headers (duplicated)
+        #titles = titles[titles.index("SRS")+1:]
+
     #add first letter of name
     #add the name string for the player
     #url = f"https://www.basketball-reference.com/leagues/NBA_{year}_standings.html"
