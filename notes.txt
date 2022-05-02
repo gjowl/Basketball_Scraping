@@ -50,3 +50,5 @@ find info on screen assists
 Helpful for analysis:
 Found on 5-1-2022
 use apply to do operations on a dataframe: https://stackoverflow.com/questions/57362633/loop-through-columns-in-pandas-dataframe
+
+

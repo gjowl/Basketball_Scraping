@@ -20,6 +20,10 @@ for analyzing this data that people may be interested in.
 
 Goal
 Design a website that analyzes data and updates in real time (or at least by the end of a day).
+Can't do a website with their data, BUT I can do a blog with stuff I find from it 
+(and that blog could probably have analyzed data; if not, I'll likely check terms of service for nba.com or espn)
+
+Spotrac.com has contract data!
 
 Design
 Make it easy to navigate to interesting data:
@@ -43,6 +47,7 @@ Analyze data from open source parties:
 
 Using python Beautiful Soup package to scrape these websites for data, and save that
 information externally: https://realpython.com/beautiful-soup-web-scraper-python/
+https://medium.com/geekculture/web-scraping-tables-in-python-using-beautiful-soup-8bbc31c5803e
 
 Example: https://medium.com/analytics-vidhya/intro-to-scraping-basketball-reference-data-8adcaa79664a
 
