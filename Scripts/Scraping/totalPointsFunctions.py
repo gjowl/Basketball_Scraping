@@ -14,6 +14,7 @@ import pandas as pd
 import player
 
 def scrapeTotalPoints():
+    #will still use this script for points at some point, but for now working on just scraping functions as of 5-1-22
     #TODO: make a way to get every single player from every single team ever and scrape the total points scored value
     # may be a little difficult: have to go to url for each player? or can I type a search into the bar or something?
     # I got a csv file of data from bballreference: playersFromBasketballReference.csv
@@ -59,19 +60,27 @@ def scrapeTotalPoints():
                 df_data = pd.DataFrame(df)
                 #make a dictionary with id and dataframe (named list)
                 df_dict[id] = df_data #.append to update
+        # I think this will kind of be the end of the scraping script. Just need to add in a way to save the data to files
 
         # create the player
-        #player = player.player
+        player = player.player
 
         #for df in df_list:
         for name, df in df_dict.items():
             #loop through the years in each dictionary
             print(name)
             print(df.head())
+            print(df.columns)
+            colNames = df.columns
             for index, row in df.iterrows():
-                print(row)
-            exit()
-            
+                #season = df.at[index,'Season']
+                #year = year.year(season)
+                for col in colNames:
+                    data = df.at[index,col]
+                    # below should add to a new dataframe that will be added to the player at the end
+                    #year.add(col, data)
+                # loop through the rest of the values and add them to the year class
+                #for 
         # use getText()to extract the headers into a list
         titles = [th.getText() for th in soup.findAll('tr', limit=2)[0].findAll('th')]
         print(titles)
@@ -83,13 +92,19 @@ def scrapeTotalPoints():
         #    for row in t.tbody.find_all('tr'):
         #        columns = row.find_all('td')
 
+        #notes on automation for this script:
+        """
+        for everyday:
+            - scrape current list against the new list of players from bball reference and compare; if new, flag
+            - scrape data for players who are playing the day before
+            - scrape boxscores; if new, flag
+            - scrape data for the current 450ish players who are in the league every day
+                - for efficiency, maybe make a csv to update for the year? Not for all data
+        """
 
-        
-        
+                
         # first, find only column headers
         headers = titles[1:titles.index("SRS")+1]
-
-
 
         # then, exclude first set of column headers (duplicated)
         #titles = titles[titles.index("SRS")+1:]

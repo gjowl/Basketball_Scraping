@@ -46,3 +46,7 @@ Also this:https://www.nba.com/stats/players/box-outs/
 nba.com actually has quite a wealth of data as well: point per possession, frequence of plays
 including and ones and turnovers. They even have box out information! Now only if I could
 find info on screen assists
+
+Helpful for analysis:
+Found on 5-1-2022
+use apply to do operations on a dataframe: https://stackoverflow.com/questions/57362633/loop-through-columns-in-pandas-dataframe
