@@ -54,21 +54,24 @@ def scrapeTotalPoints():
         # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
         df_dict = {}
         for id in tableIds:
-            df = pd.read_html(urlToSearch, attrs={'id':id}, flavor='bs4')
-            #make a dictionary with id and dataframe (named list)
-            df_dict[id] = df #.append to update
-        
-
-        
+            list_of_df = pd.read_html(urlToSearch, attrs={'id':id}, flavor='bs4')
+            for df in list_of_df:
+                df_data = pd.DataFrame(df)
+                #make a dictionary with id and dataframe (named list)
+                df_dict[id] = df_data #.append to update
 
         # create the player
         #player = player.player
 
         #for df in df_list:
-        for name, data in df_dict.items():
+        for name, df in df_dict.items():
+            #loop through the years in each dictionary
             print(name)
-            print(data)
-        
+            print(df.head())
+            for index, row in df.iterrows():
+                print(row)
+            exit()
+            
         # use getText()to extract the headers into a list
         titles = [th.getText() for th in soup.findAll('tr', limit=2)[0].findAll('th')]
         print(titles)
