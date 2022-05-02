@@ -11,6 +11,7 @@ This file contains functions for my totalPoints code.
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
+import player
 
 def scrapeTotalPoints():
     #TODO: make a way to get every single player from every single team ever and scrape the total points scored value
@@ -51,13 +52,22 @@ def scrapeTotalPoints():
 # search through the url using this to convert dataframes to data
 
         # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
-        df_list = []
+        df_dict = {}
         for id in tableIds:
-            print(id)
             df = pd.read_html(urlToSearch, attrs={'id':id}, flavor='bs4')
-            print(df)
-            df_list.append(df)
+            #make a dictionary with id and dataframe (named list)
+            df_dict[id] = df #.append to update
         
+
+        
+
+        # create the player
+        #player = player.player
+
+        #for df in df_list:
+        for name, data in df_dict.items():
+            print(name)
+            print(data)
         
         # use getText()to extract the headers into a list
         titles = [th.getText() for th in soup.findAll('tr', limit=2)[0].findAll('th')]
