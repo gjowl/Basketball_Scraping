@@ -3,6 +3,16 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
 import player
+import os
+
+def makeOutputDir(outputDir):
+    # check if the path to the directory exists
+    if not os.path.isdir(outputDir):
+        print('Creating output directory: ' + outputDir + '.')
+        # the below makes directories for the entire path
+        os.makedirs(outputDir)
+    else:
+        print('Output Directory: ' + outputDir + ' exists.')
 
 def getTableNames(url):
     # collect HTML data
@@ -36,48 +46,47 @@ def scrapeAllPlayers():
     dataDir = "/mnt/c/Users/gjowl/github/Basketball_Scraping/Data files/"
     playersCsv = dataDir+"playersUpdated.csv"
     df = pd.read_csv(playersCsv, sep=",")
+
+    scrapeDataDir = "/mnt/h/Basketball_Reference/"
+    makeOutputDir(scrapeDataDir)
     
     # URL to scrape
     playersUrl = "https://www.basketball-reference.com/players/"
 
     # getter function
-    for url in df["Url"]:
+    for name, url in zip(df.PlayerName, df.Url):
         #TODO: it will lock me out if I have too many requests per second, so I'll have to add in a wait time
         # append player url with url of each player
         urlToSearch = playersUrl+url
         
         # Get table names from the website
         tableIds = getTableNames(urlToSearch)
-        print(tableIds)
 
         # convert the types of tables using beautiful soup
         # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
         df_dict = getTablesAsDataframes(tableIds, urlToSearch)
-        print(df_dict) 
-        # create the player
-        #player = player.player
-
+        
+        print(name)
+        
+        dataFile = scrapeDataDir+'/' + name + '.csv'
+        
         # loop through all dataframes 
-        for name, df in df_dict.items():
+        for id, df in df_dict.items():
             #loop through the years in each dictionary
-            print(name)
+            print(id)
             print(df.head())
-            print(df.columns)
             colNames = df.columns
-            for index, row in df.iterrows():
-                #season = df.at[index,'Season']
-                #year = year.year(season)
-                # loop through all columns and add to year data 
-                for col in colNames:
-                    data = df.at[index,col]
-                    print(data)
-                    # add year data to player data
-                    #year.add(col, data)
+            #df.to_csv(dataFile)
+            #for index, row in df.iterrows():
+            #    # loop through all columns and add to year data 
+            #    for col in colNames:
+            #        data = df.at[index,col]
+            #        print(data)
+
         #TODO: think of good ways to save this data for all players: name of the spreadsheet is the name of the table?
         # I just decided to read about the terms of use, and looks like I can't actually create a website using this data (and maybe not even results of this data? Not sure though.
         # At the very least, I can blog/create content about this stuff as I find it using data from basketball reference as a source?) And this scraper is a nice piece of software
         # for others as well! At the least I'll have a real life experience coding project under my belt.
-
         
         # use getText()to extract the headers into a list
         titles = [th.getText() for th in soup.findAll('tr', limit=2)[0].findAll('th')]
