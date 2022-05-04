@@ -3,6 +3,7 @@ from urllib.request import urlopen
 # https://github.com/microsoft/WSL/issues/5126: helped with problems installing chromium
 # which was necessary for using chromedriver
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 import pandas as pd
 import player
@@ -22,7 +23,11 @@ def getTableNames(url):
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--incognito')
     options.add_argument('--headless')
-    driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", chrome_options=options)
+    options.binary_location = ("/mnt/c/Program Files/Google/Chrome/Application/chrome.exe")
+    # Set path to chromedriver as per your configuration
+    webdriver_service = Service("/usr/bin/chromedriver")
+    driver = webdriver.Chrome(service=webdriver_service, chrome_options=options)
+    driver.close()
     print('worked')
     exit()
     # collect HTML data
