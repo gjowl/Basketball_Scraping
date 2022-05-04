@@ -51,4 +51,15 @@ Helpful for analysis:
 Found on 5-1-2022
 use apply to do operations on a dataframe: https://stackoverflow.com/questions/57362633/loop-through-columns-in-pandas-dataframe
 
-
+#notes on automation for this script:
+"""
+for everyday:
+    - scrape current list against the new list of players from bball reference and compare; if new, flag
+    - scrape data for players who are playing the day before
+    - scrape boxscores; if new, flag
+    - scrape data for the current 450ish players who are in the league every day
+        - for efficiency, maybe make a csv to update for the year? Not for all data
+"""
+It seems like this person has some cool code that is open access that could be useful
+https://eyalshafran.github.io/scraping_basketball_reference.html
+https://eyalshafran.github.io/team_logos.html
