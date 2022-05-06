@@ -1,5 +1,7 @@
 https://www.lineups.com/nba/team-stats
     - May be the most favorable for me in terms of use
+http://www.hoopsstats.com/basketball/fantasy/nba/home
+    - data site that uses data from lineups.com
 https://www.nbastuffer.com/
     - Has referee stats
 https://www.nba.com/stats/
@@ -9,4 +11,10 @@ https://www.statmuse.com/nba
     - The site most similar to what I want in my own:
         - very clean and organized
         - made by the creator of basketball reference (?)
-https://basketball.realgm.coms
+https://basketball.realgm.com
+
+https://www.landofbasketball.com/
+
+https://cleaningtheglass.com/
+
+For ads: https://www.google.com/adsense/start/

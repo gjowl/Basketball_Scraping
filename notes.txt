@@ -63,3 +63,6 @@ for everyday:
 It seems like this person has some cool code that is open access that could be useful
 https://eyalshafran.github.io/scraping_basketball_reference.html
 https://eyalshafran.github.io/team_logos.html
+
+The below is what made me realize I needed to use selenium to dynamically scrape basketball reference:
+https://vishaalagartha.github.io/projects/2020/01/15/bbref-scraper
