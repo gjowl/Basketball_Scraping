@@ -52,9 +52,8 @@ def getTables(url):
     for table in tables:
         t = table.get_attribute('outerHTML')
         df=pd.read_html(t)
-        listDf.append(df)
+        listDf.append(df[0])
     driver.quit()
-    exit()
     return listDf
 
 def getTableNamesStatic(url):
@@ -95,29 +94,29 @@ def scrapeAllPlayers(playersCsv, saveDir):
         # append player url with url of each player
         urlToSearch = playersUrl+url
         
-        # Get table names from the website
-        #tableIds = getTableNames(urlToSearch)
-        listDf = getTables(url)
+        # get tables converted to dfs from website using selenium
+        listDf = getTables(urlToSearch)
 
-        # convert the types of tables using beautiful soup
-        # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
-        #df_dict = getTablesAsDataframes(tableIds, urlToSearch)
-        #print(name)
-        
-        dataFile = saveDir+'/' + name + '.csv'
-        
+        # TODO: currently can't get table name; could just hard code for now
+        # save dataframes as a csv with table name for each spreadsheet        
+        dataFile = saveDir+'/' + name + '.xlsx'
+
         # loop through all dataframes 
-        for id, df in df_dict.items():
+        x = 0
+        writer = pd.ExcelWriter(dataFile, engine='xlsxwriter')
+        for df in listDf:
+            x += 1
+            test = "test"+str(x)
+            print(type(df))
+            df.to_excel(writer, sheet_name=test)
             #loop through the years in each dictionary
-            print(id)
-            print(df.head())
-            colNames = df.columns
-            #df.to_csv(dataFile)
+            #colNames = df.columns
             #for index, row in df.iterrows():
             #    # loop through all columns and add to year data 
             #    for col in colNames:
             #        data = df.at[index,col]
             #        print(data)
+        writer.close()
         exit()
         #TODO: think of good ways to save this data for all players: name of the spreadsheet is the name of the table?
         # I just decided to read about the terms of use, and looks like I can't actually create a website using this data (and maybe not even results of this data? Not sure though.
