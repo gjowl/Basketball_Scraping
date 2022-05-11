@@ -2,12 +2,29 @@ from urllib.request import urlopen
 
 # https://github.com/microsoft/WSL/issues/5126: helped with problems installing chromium
 # which was necessary for using chromedriver
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 import pandas as pd
 import player
 import os
+
+# Selenium for dynamic webscraping; BeautifulSoup only gets static webpages
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.utils import ChromeType
+"""
+Class functions to grab elements from webpage:
+https://www.seleniumeasy.com/python/locating-elements-in-selenium-python
+
+Write out elements using selenium:
+https://stackoverflow.com/questions/33996209/how-to-print-the-information-using-selenium
+
+Convert selenium to dataframe:
+https://stackoverflow.com/questions/65105872/python-selenium-text-convert-into-data-frame#:~:text=If%20you%20using%20selenium%20you%20need%20to%20get,append%20with%20empty%20dataframe%20and%20export%20to%20csv.
+"""
+
 
 def makeOutputDir(outputDir):
     # check if the path to the directory exists
@@ -18,26 +35,29 @@ def makeOutputDir(outputDir):
     else:
         print('Output Directory: ' + outputDir + ' exists.')
 
-def getTableNames(url):
-    options = webdriver.ChromeOptions()
-    #options.add_argument('--no-sandbox')
-    #options.add_argument('--headless')
-    #options.add_argument('--disable-extensions')
-    #options.add_argument('--ignore-certificate-errors')
-    #options.add_argument('--incognito')
-    #options.add_argument('--disable-gpu')
-    #options.add_argument('--disable-software-rasterizer')
-    #options.add_argument('--remote-debugging-port=922')
-    #options.binary_location = ("/mnt/c/Program Files/Google/Chrome/Application/chrome.exe")
-    # Set path to chromedriver as per your configuration
-    #webdriver_service = Service("/usr/bin/chromedriver")
-    #driver = webdriver.Chrome(service=webdriver_service, chrome_options=options)
-    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=options)
-    driver.get('http://www.ubuntu.com/')
-    print('worked')
+def getTables(url):
+    options = Options()
+    options.add_argument('--no-sandbox')
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.get(url)
+    print(driver.title)
+
+    # wait for elements to appear on page (may need longer waits)
+    driver.implicitly_wait(0.5)
+    # get all elements with the table tag
+    tables = driver.find_elements_by_tag_name('table')
+    # loop through all tables and put them into dataframes
+    listDf = []
+    for table in tables:
+        t = table.get_attribute('outerHTML')
+        df=pd.read_html(t)
+        listDf.append(df)
     driver.quit()
-    print('worked')
     exit()
+    return listDf
+
+def getTableNamesStatic(url):
     # collect HTML data
     html = urlopen(url)
     # create beautiful soup object from HTML
@@ -50,7 +70,6 @@ def getTableNames(url):
         id = table.get('id')
         print(id)
         tableIds.append(id)
-    exit()
     return tableIds
 
 def getTablesAsDataframes(tableNames, url):
@@ -77,12 +96,13 @@ def scrapeAllPlayers(playersCsv, saveDir):
         urlToSearch = playersUrl+url
         
         # Get table names from the website
-        tableIds = getTableNames(urlToSearch)
+        #tableIds = getTableNames(urlToSearch)
+        listDf = getTables(url)
 
         # convert the types of tables using beautiful soup
         # get all of the dataframes from the webpage (currently only gets 6 (per ones I can't seem to pull out yet))
-        df_dict = getTablesAsDataframes(tableIds, urlToSearch)
-        print(name)
+        #df_dict = getTablesAsDataframes(tableIds, urlToSearch)
+        #print(name)
         
         dataFile = saveDir+'/' + name + '.csv'
         
