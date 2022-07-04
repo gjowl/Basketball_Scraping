@@ -1,0 +1,29 @@
+2022-6-30
+So I haven't been very productive on this because I've been struggling too hard with
+work. I'm having a lot of trouble getting the balance of learning and utilizing what
+I've learned, and so recently I've reached a troubling point, where I'm so unsure what 
+to do, that I kind of just do nothing. I learn little bits of things outside of work,
+but nothing that will actually help me in work. And I figure out little things to do
+during work (i.e. look at code that I should probably change but don't). And the reason
+that I don't make the changes to the code is because I don't know what to do.
+
+And so I need to get back on this: if I want to graduate well, I need to learn machine learning
+as quickly as I can. So I need to get something going with this basketball stuff ASAP,
+so that I'm inspired and have some ideas to follow through on with the work.
+
+Below I'm adding a list of videos and links that should be inspiration for ideas,
+future goals, and cool things that I found in reinspiring this learning experience:
+
+The NBA Data Scientist: testimony by a 76ers data scientist who majored in math
+https://www.youtube.com/watch?v=66ko_cWSHBU&ab_channel=TED
+
+The Math Behind Basketball's Wildest Moves | Rajiv Maheswaran | TED Talks
+https://www.youtube.com/watch?v=66ko_cWSHBU&ab_channel=TED
+Informative video for how nba data analysts are using machine learning to
+get a better understanding of the NBA game through movements (each player
+as a dot on the court). Using these spatiotemporal features, they've been
+able to define how good certain plays (i.e. pick and rolls) or shots
+(shot probability based on quality of the shot and shooter). 
+
+Bubble charts are a good way to analyze (insert screenshot from 2022-6-30)
+data between two datapoints and to look at variance. #TODO: find a good site to categorize and keep these basketball ideas in where I can embed images and videos and such
