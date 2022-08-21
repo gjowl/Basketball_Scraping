@@ -1,11 +1,73 @@
 """
-Right now I have 10 years worth of data, and I need to figure out what to do with it.
+Right now I have 10 Years worth of data, and I need to figure out what to do with it.
 
-I'm going to look at some other 10 year analyses that people have done, and see if there's anything that
+I'm going to look at some other 10 Year analyses that people have done, and see if there's anything that
 might be interesting for me to look at using machine learning.
 
 I think even just kind of taking all of this data and putting it into a training algorithm could be fun,
-just to see what it comes out with. Maybe best player throughout this time or something simple?
+just to see what it comes out with. MaYbe best player throughout this time or something simple?
+
+Followed the following video to learn how to use sklearn to do this: 
+https://www.Youtube.com/watch?v=R15LjD8aCzc&ab_channel=DataProfessor
 """
 
-from sklearn import 
+from sklearn.model_selection import train_test_split
+from sklearn import linear_model
+from sklearn.metrics import mean_squared_error, r2_score
+import seaborn as sns
+import pandas as pd
+import sys
+
+
+# load in chosen datafile from command line
+alldata = pd.read_csv(sys.argv[1])
+yCol = sys.argv[2]
+
+# rid of unnecessarY columns
+data = alldata.iloc[:,5:67]
+# split x and Y data 
+Y = data.filter([yCol])
+X = data.drop([yCol], axis=1)
+
+# the below code will run the linear regression model on the data
+# split data into train and test sets
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+# look at data dimensions
+print(X_train.shape)
+print(X_test.shape)
+print(Y_train.shape)
+print(Y_test.shape)
+
+# assign model function to variable
+model = linear_model.LinearRegression()
+
+# fit the model to the training data
+model.fit(X_train, Y_train)
+
+# make predictions on the test data
+Y_pred = model.predict(X_test)
+
+# output the model coefficients
+print('Coefficients:', model.coef_)
+print('Intercept:', model.intercept_)
+print(model.score(X_test, Y_test))
+print('Mean squared error (MSE): %2f' % mean_squared_error(Y_test, Y_pred))
+print('Coefficient of determination (R^2): %2f'% r2_score(Y_test, Y_pred))
+
+# Y = coefficients[0](var1) + coefficients[1](var2) + ... + intercept; coefficients are the weights for each of the variables and intercept is the y-intercept
+#Y_test = pd.DataFrame(Y_test)
+#print(Y_test.type)
+Y_test = Y_test.to_numpy()
+#Y_pred = Y_pred.flatten()
+Y_test = Y_test.tolist()
+Y_pred = Y_pred.tolist()
+#TODO: having an issue with actually outputting the scatterplot: will need to find another way to output or figure out what's up with it
+# I think the data type is correct (1D numpy array), and the issue before this was that they don't match up: 
+# https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
+# I could be wrong and the answer actually doesn't help me though, or I did something slightly off?
+# make scatterplot
+sns.scatterplot(x=Y_test, y=Y_pred)
+sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
+
+
