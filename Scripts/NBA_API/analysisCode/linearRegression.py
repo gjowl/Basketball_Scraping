@@ -7,6 +7,8 @@ might be interesting for me to look at using machine learning.
 I think even just kind of taking all of this data and putting it into a training algorithm could be fun,
 just to see what it comes out with. MaYbe best player throughout this time or something simple?
 
+This runs on a given dataset
+
 Followed the following video to learn how to use sklearn to do this: 
 https://www.Youtube.com/watch?v=R15LjD8aCzc&ab_channel=DataProfessor
 """
@@ -15,9 +17,11 @@ from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn.metrics import mean_squared_error, r2_score
 import seaborn as sns
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 import pandas as pd
 import sys
-
 
 # load in chosen datafile from command line
 alldata = pd.read_csv(sys.argv[1])
@@ -62,12 +66,10 @@ Y_test = Y_test.to_numpy()
 #Y_pred = Y_pred.flatten()
 Y_test = Y_test.tolist()
 Y_pred = Y_pred.tolist()
-#TODO: having an issue with actually outputting the scatterplot: will need to find another way to output or figure out what's up with it
-# I think the data type is correct (1D numpy array), and the issue before this was that they don't match up: 
-# https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
-# I could be wrong and the answer actually doesn't help me though, or I did something slightly off?
+
 # make scatterplot
-sns.scatterplot(x=Y_test, y=Y_pred)
-sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
-
-
+plt.scatter(Y_test, Y_pred)
+plt.show()
+# trying to fix seaborn issue: https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
+#sns.scatterplot(x=Y_test, y=Y_pred)
+#sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly

@@ -46,20 +46,22 @@ def scraperFunction(per_mode_list, seasons, config):
     outputDir            = config["outputDir"]
     # loop through the per_mode_list to determine what types of statistics to get 
     for per_mode in per_mode_list:
+        modeOutputDir = outputDir + per_mode + '/'
+        makeOutputDir(modeOutputDir)
         # loop through each season in season list
         for season in seasons:
             # generate a player file and data file for each season
-            player_file = f"{outputDir}{season}_players.csv"
-            all_data_file = f"{outputDir}{per_mode}_{season}.csv"
+            #player_file = f"{outputDir}{season}_players.csv"
+            all_data_file = f"{modeOutputDir}{season}.csv"
             # mandatory wait step to not exceed API rate limit of requests to nba server
             wait()
             # get player data
             nba_df = getDataframeFromWeb(per_mode, season, config)
             # get all of the player names
-            players = nba_df['PLAYER_NAME']
-            # save the player names to a csv file
-            if not os.path.exists(player_file):
-                players.to_csv(player_file, index=False)
+            #players = nba_df['PLAYER_NAME']
+            ## save the player names to a csv file
+            #if not os.path.exists(player_file):
+            #    players.to_csv(player_file, index=False)
             # save the nba_df to a csv file
             nba_df.to_csv(all_data_file, index=False)
             print(all_data_file + ' saved.')
