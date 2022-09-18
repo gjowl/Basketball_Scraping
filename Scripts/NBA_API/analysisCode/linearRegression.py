@@ -22,13 +22,27 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
+import datetime
 
 # load in chosen datafile from command line
 alldata = pd.read_csv(sys.argv[1])
 yCol = sys.argv[2]
 
+# get current date
+date = datetime.datetime.now()
+date = date.strftime("%Y-%m-%d")
+
+# define save directory as the cwd + analysisDir + date
+cwd = sys.path[0]
+saveDir = cwd + '/' + date + '/'
+
+# make the output directory if it doesn't exist
+if not os.path.exists(saveDir):
+    os.makedirs(saveDir)
+
 # rid of unnecessarY columns
 data = alldata.iloc[:,5:67]
+
 # split x and Y data 
 Y = data.filter([yCol])
 X = data.drop([yCol], axis=1)
@@ -68,8 +82,12 @@ Y_test = Y_test.tolist()
 Y_pred = Y_pred.tolist()
 
 # make scatterplot
+
+# define output file for scatterplot
+scatterplotFile = saveDir + 'scatterplot.png'
 plt.scatter(Y_test, Y_pred)
-plt.show()
+# save scatterplot
+plt.savefig(scatterplotFile)
 # trying to fix seaborn issue: https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
 #sns.scatterplot(x=Y_test, y=Y_pred)
 #sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
