@@ -7,7 +7,10 @@ might be interesting for me to look at using machine learning.
 I think even just kind of taking all of this data and putting it into a training algorithm could be fun,
 just to see what it comes out with. MaYbe best player throughout this time or something simple?
 
-This runs on a given dataset
+This runs on a given dataset and determines the linear regression of the data.
+
+It works as of 2022-9-18, but I'm not really sure what to use it for...I need to do a bit more research to understand
+how I can run this on a bunch of data and get some interesting results.
 
 Followed the following video to learn how to use sklearn to do this: 
 https://www.Youtube.com/watch?v=R15LjD8aCzc&ab_channel=DataProfessor
@@ -22,6 +25,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
+import os
 import datetime
 
 # load in chosen datafile from command line
@@ -91,3 +95,5 @@ plt.savefig(scatterplotFile)
 # trying to fix seaborn issue: https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
 #sns.scatterplot(x=Y_test, y=Y_pred)
 #sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
+## save sns scatterplot
+#sns.savefig(scatterplotFile)
