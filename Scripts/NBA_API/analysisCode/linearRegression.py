@@ -28,8 +28,19 @@ import sys
 import os
 import datetime
 
-# load in chosen datafile from command line
-alldata = pd.read_csv(sys.argv[1])
+# load in chosen data directory from command line
+dataDir = sys.argv[1]
+# read through the data directory and get all of the csv files
+dataFiles = [f for f in os.listdir(dataDir) if f.endswith('.csv')]
+# create a dataframe to hold all of the data from the csv files
+allData = pd.DataFrame()
+# loop through all of the csv files and add them to the dataframe
+for file in dataFiles:
+    tempDf = pd.read_csv(dataDir + file)
+    # add using concat
+    allData = pd.concat([allData, tempDf], ignore_index=True)
+
+# column to set as the target
 yCol = sys.argv[2]
 
 # get current date
@@ -44,10 +55,10 @@ saveDir = cwd + '/' + date + '/'
 if not os.path.exists(saveDir):
     os.makedirs(saveDir)
 
-# rid of unnecessarY columns
-data = alldata.iloc[:,5:67]
+# rid of unnecessary columns
+data = allData.iloc[:,5:67]
 
-# split x and Y data 
+# split x and Y data (train and test on x to try and see correlation for y)
 Y = data.filter([yCol])
 X = data.drop([yCol], axis=1)
 
@@ -88,12 +99,12 @@ Y_pred = Y_pred.tolist()
 # make scatterplot
 
 # define output file for scatterplot
-scatterplotFile = saveDir + 'scatterplot.png'
-plt.scatter(Y_test, Y_pred)
-# save scatterplot
-plt.savefig(scatterplotFile)
+#scatterplotFile = saveDir + 'scatterplot.png'
+#plt.scatter(Y_test, Y_pred)
+## save scatterplot
+#plt.savefig(scatterplotFile)
 # trying to fix seaborn issue: https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
-#sns.scatterplot(x=Y_test, y=Y_pred)
-#sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
-## save sns scatterplot
-#sns.savefig(scatterplotFile)
+sns.scatterplot(x=Y_test, y=Y_pred)
+sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
+# save sns scatterplot
+sns.savefig(scatterplotFile)
