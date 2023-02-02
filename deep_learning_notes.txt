@@ -24,7 +24,7 @@ To do this, you end up getting a large number of tunable parameters that will im
 
 The important thing to build is a connection of neurons to the next neurons, parameterizing your network.
 
-Every unique neruon has a unique bias.
+Every unique neuron has a unique bias.
 
 First step of a neuron is to add up all of the inputs times the weights plus the bias.
 

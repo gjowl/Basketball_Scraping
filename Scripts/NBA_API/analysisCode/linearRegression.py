@@ -7,7 +7,10 @@ might be interesting for me to look at using machine learning.
 I think even just kind of taking all of this data and putting it into a training algorithm could be fun,
 just to see what it comes out with. MaYbe best player throughout this time or something simple?
 
-This runs on a given dataset
+This runs on a given dataset and determines the linear regression of the data.
+
+It works as of 2022-9-18, but I'm not really sure what to use it for...I need to do a bit more research to understand
+how I can run this on a bunch of data and get some interesting results.
 
 Followed the following video to learn how to use sklearn to do this: 
 https://www.Youtube.com/watch?v=R15LjD8aCzc&ab_channel=DataProfessor
@@ -22,14 +25,40 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
+import os
+import datetime
 
-# load in chosen datafile from command line
-alldata = pd.read_csv(sys.argv[1])
+# load in chosen data directory from command line
+dataDir = sys.argv[1]
+# read through the data directory and get all of the csv files
+dataFiles = [f for f in os.listdir(dataDir) if f.endswith('.csv')]
+# create a dataframe to hold all of the data from the csv files
+allData = pd.DataFrame()
+# loop through all of the csv files and add them to the dataframe
+for file in dataFiles:
+    tempDf = pd.read_csv(dataDir + file)
+    # add using concat
+    allData = pd.concat([allData, tempDf], ignore_index=True)
+
+# column to set as the target
 yCol = sys.argv[2]
 
-# rid of unnecessarY columns
-data = alldata.iloc[:,5:67]
-# split x and Y data 
+# get current date
+date = datetime.datetime.now()
+date = date.strftime("%Y-%m-%d")
+
+# define save directory as the cwd + analysisDir + date
+cwd = sys.path[0]
+saveDir = cwd + '/' + date + '/'
+
+# make the output directory if it doesn't exist
+if not os.path.exists(saveDir):
+    os.makedirs(saveDir)
+
+# rid of unnecessary columns
+data = allData.iloc[:,5:67]
+
+# split x and Y data (train and test on x to try and see correlation for y)
 Y = data.filter([yCol])
 X = data.drop([yCol], axis=1)
 
@@ -68,8 +97,14 @@ Y_test = Y_test.tolist()
 Y_pred = Y_pred.tolist()
 
 # make scatterplot
-plt.scatter(Y_test, Y_pred)
-plt.show()
+
+# define output file for scatterplot
+#scatterplotFile = saveDir + 'scatterplot.png'
+#plt.scatter(Y_test, Y_pred)
+## save scatterplot
+#plt.savefig(scatterplotFile)
 # trying to fix seaborn issue: https://stackoverflow.com/questions/71577514/valueerror-per-column-arrays-must-each-be-1-dimensional-when-trying-to-create-a
-#sns.scatterplot(x=Y_test, y=Y_pred)
-#sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
+sns.scatterplot(x=Y_test, y=Y_pred)
+sns.scatterplot(Y_test, Y_pred, alpha=0.5)# alpha is the transparency of the points; lowering will help see more dense points more clearly
+# save sns scatterplot
+sns.savefig(scatterplotFile)
