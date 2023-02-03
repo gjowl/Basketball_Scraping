@@ -45,6 +45,11 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     &GameSegment=&Height=&LastNGames='+lastNGames+'&LeagueID=00&Location=&MeasureType=Base&Month='+month+'&OpponentTeamID=0&Outcome='+outcome+'&PORound=0&PaceAdjust=N&PerMode='+per_mode+'&Period='+period+'\
     0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season='+season+'&SeasonSegment=&SeasonType='+season_type+'&ShotClockRange=\
     &StarterBench='+starter_bench+'&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
+    # There are a bunch more urls that can be used to get more data; for example, the below url can be used to get the shot locations of each player
+    # need to figure out a way to run through more urls easily instead of just one
+    #shotLocation_url = 'https://stats.nba.com/stats/leaguedashplayershotlocations?College=&Conference=&Country=&DateFrom=&DateTo=&DistanceRange=By Zone&Division=&DraftPick=&DraftYear=&GameScope=\
+    #&GameSegment=&Height=&LastNGames=0&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N\
+    #&Rank=N&Season=2022-23&SeasonSegment=&SeasonType=Pre Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight='
     try:
         response = requests.get(url=player_info_url, headers=headers).json()
     # in case there is an error, print the url that caused the error
@@ -89,6 +94,6 @@ for mode in per_mode:
         # define the file name for the data
         outDir = outputDir + '/' + date
         makeOutputDir(outDir)
-        filename =  outDir + '/' + mode + '_last' + lastN + 'games.csv'
+        filename =  outDir + '/' + mode + '/last' + lastN + 'games.csv'
         # save the nba_df to a csv file
         nba_df.to_csv(filename, index=False)
