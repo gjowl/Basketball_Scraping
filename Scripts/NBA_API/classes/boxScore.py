@@ -1,5 +1,6 @@
 import os, sys, pandas as pd
 from classes.teamScore import teamScore
+from classes.playerScore import playerScore 
 
 # initializes an class object to hold the data file. Contains simple functions for handling data
 class boxScore:
@@ -41,6 +42,11 @@ class boxScore:
     def getTeamScore(self, team):
         score = teamScore(self.box)
         score.setTeam(team)
+        return score
+
+    def getPlayerScore(self, player):
+        score = playerScore(self.box)
+        score.setPlayer(player)
         return score
 
     # returns the top n players in the boxscore
