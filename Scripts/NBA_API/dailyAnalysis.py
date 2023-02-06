@@ -1,6 +1,7 @@
 import os, sys
 import pandas as pd
 from classes.boxScore import boxScore
+from classes.teamScore import teamScore
 
 # read in the input data from the command line
 dataFile = sys.argv[1]
@@ -21,16 +22,22 @@ box.statDivision('PTS', 'GP', 'PPG')
 box.statDivision('AST', 'TOV', 'AST/TO')
 
 # add the 3pm per game column
-box.statDivision('FG3M', 'GP', '3PM/GP')
-
-# only keep the columns we want
-box.setBoxScoreColumns(['PLAYER_NAME', 'PPG', 'AST/TO', '3PM/GP'])
+box.statDivision('FG3M', 'GP', '3PM/G')
 
 # sort the boxscore by points per game
 box.sortBoxScore('PPG')
 
-# print the top 10 players in points per game
-print(box.topN(10))
+# only keep the columns we want
+df = box.extractBoxScoreColumns(['PLAYER_NAME', 'PPG', 'AST/TO', '3PM/G'])
+
+# print the top 10 players in points per game without the index
+miaScore = box.getTeamScore('MIA')
+print(miaScore.getBoxScore())
+
+
+
+# TODO: find value players (50, 40, 75? 50, 35, 80? maybe depending on usage rate? how many of those guys are on playoff teams?, non-playoff teams?, 
+# championship teams?, non-championship teams?)
 
 ## TODO: choose what stats to search for; assist to turnover ratio, 3pms, triple doubles, etc.
 ## define the points per game column
