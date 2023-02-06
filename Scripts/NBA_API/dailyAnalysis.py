@@ -15,6 +15,9 @@ box = boxScore()
 # set the boxscore
 box.setBoxScore(dataFile)
 
+# TODO: how to decide what stats to output? maybe just the top for each on the ticker? Or add these to a list, shuffle them to a ticker, etc.?
+# or like a rolling ticker up and down on different parts of the page? like the top 5 players in each stat
+
 # add the points per game column
 box.statDivision('PTS', 'GP', 'PPG')
 

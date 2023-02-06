@@ -73,6 +73,7 @@ def read_config(configFile):
 configFile = sys.argv[1]
 configName = sys.argv[2]
 date = sys.argv[3]
+
 # Read in configuration file:
 globalConfig = read_config(configFile)
 config = globalConfig[configName]
