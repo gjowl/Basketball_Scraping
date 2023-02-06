@@ -34,6 +34,9 @@ def getFilename(file):
     filename, programExt = os.path.splitext(programFile)
     return filename
 
+# get the current working directory
+cwd = os.getcwd()
+
 # Use the function to get the configFile
 configFile = sys.argv[1]
 
@@ -59,3 +62,10 @@ if __name__ == '__main__':
     # run the nbaStatsPullRequest.py script
     os.system("python3 nbaStatsPullRequest.py " + configFile + " " + programName + " " + date)
 
+    # TODO: create an analysis script that runs after the nbaStatsPullRequest.py script
+    outputDir = cwd + '/' + date
+    # loop through the files in the output directory
+    for file in os.listdir(outputDir):
+        os.system("python3 nbaStatsAnalysis.py " + file) # date in this case is the output directory
+    # create a pull request to get shooting data from different spots and an analysis method for that too
+    # create a way to pull the data from the last day of games from nba.com
