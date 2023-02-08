@@ -1,7 +1,7 @@
 import os, sys, pandas as pd
 
 # initializes a class object to hold boxscore data for a specific team, a sub-class of boxScore
-class teamScore:
+class playerBoxScore:
     def __init__(self, box):
         self.player = None
         self.box = box
