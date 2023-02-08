@@ -1,7 +1,10 @@
 import os, sys
 import pandas as pd
 from classes.boxScore import boxScore
-from classes.teamScore import teamScore
+
+# get the current working directory
+# TODO: in the future, change this to something else
+cwd = os.getcwd()
 
 # read in the input data from the command line
 dataFile = sys.argv[1]
@@ -17,6 +20,11 @@ box.setBoxScore(dataFile)
 
 # TODO: how to decide what stats to output? maybe just the top for each on the ticker? Or add these to a list, shuffle them to a ticker, etc.?
 # or like a rolling ticker up and down on different parts of the page? like the top 5 players in each stat
+box.calcUsage()
+print(box.getBoxScore())
+# print the top 10 players in points per game without the index
+#miaScore = box.getTeamBoxScore('MIA')
+#print(miaScore.getBoxScore())
 
 # add the points per game column
 box.statDivision('PTS', 'GP', 'PPG')
@@ -27,15 +35,20 @@ box.statDivision('AST', 'TOV', 'AST/TO')
 # add the 3pm per game column
 box.statDivision('FG3M', 'GP', '3PM/G')
 
+# add the minutes per game column
+box.statDivision('MIN', 'GP', 'MIN/G')
+
 # sort the boxscore by points per game
 box.sortBoxScore('PPG')
 
 # only keep the columns we want
-df = box.extractBoxScoreColumns(['PLAYER_NAME', 'PPG', 'AST/TO', '3PM/G'])
+df = box.extractBoxScoreColumns(['PLAYER_NAME', 'TEAM_ABBREVIATION', 'MIN/G', 'PPG', 'AST/TO', '3PM/G', 'USG%'])
+# sort by usage rate
+df = df.sort_values(by=['3PM/G'], ascending=False)
+print(df)
 
-# print the top 10 players in points per game without the index
-miaScore = box.getTeamScore('MIA')
-print(miaScore.getBoxScore())
+# save the dataframe to a csv file
+df.to_csv(cwd+'/advancedBoxScore.csv', index=False)
 
 
 
