@@ -72,7 +72,7 @@ def read_config(configFile):
 # get the parameter file from the command line
 configFile = sys.argv[1]
 configName = sys.argv[2]
-date = sys.argv[3]
+
 # Read in configuration file:
 globalConfig = read_config(configFile)
 config = globalConfig[configName]

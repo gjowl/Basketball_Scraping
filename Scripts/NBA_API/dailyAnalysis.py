@@ -20,8 +20,10 @@ ppgDf = df.head(10)
 # find the players with the highest assist to turnover ratio
 df = df.sort_values(by=['AST/TO'], ascending=False)
 astDf = df.head(10)
+
 # find the players with the highest 3pms
 df = df.sort_values(by=['3PM'], ascending=False)
 threeDf = df.head(10)
+
 # add the dataframes to a list
 dfs = [ppgDf, astDf, threeDf]
