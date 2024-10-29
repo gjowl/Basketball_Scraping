@@ -72,6 +72,10 @@ def read_config(configFile):
 # get the parameter file from the command line
 configFile = sys.argv[1]
 configName = sys.argv[2]
+<<<<<<< HEAD:Scripts/NBA_API/nbaStatsPullRequest.py
+=======
+date = sys.argv[3]
+>>>>>>> a6f863966db0432d1bf0c2042f337524c286dd2d:Scripts/NBA_API/pullRequestCode/nbaStatsPullRequest.py
 
 # Read in configuration file:
 globalConfig = read_config(configFile)
