@@ -1,4 +1,4 @@
-import os, sys, pandas as pd, numpy as np
+import os, sys, pandas as pd, numpy as np, configparser
 import time
 import matplotlib.pyplot as plt
 from classes.boxScore import boxScore
@@ -6,12 +6,16 @@ from classes.boxScore import boxScore
 '''
 This code setups the boxscore object and calculates some advanced stats that you might be interested in.
 
-Run as: python3 graphData.py
+Run as: python3 graphData.py dailyConfig.config
 '''
 
-# read in the data file from command line
-dataFile = sys.argv[1]
-outputDir = sys.argv[2]
+# read in the config file
+configFile = sys.argv[1]
+config = configparser.ConfigParser()
+config.read(configFile)
+programName = 'graphData'
+dataDir = config[programName]['dataDir']
+outputDir = config[programName]['graphDir']
 
 # Functions
 def wait(number):
@@ -60,27 +64,37 @@ def plotScatter(_df, _xaxis, _yaxis, _dir=outputDir): # default output directory
 
     plt.clf()
 
-if __name__ == '__main__':
-    # wait for 1 minute to let the first program finish running (in case these and the data fetching script are run parallel; I should probably figure out if that's true?)
-    wait(1)
+# loop through the files in the data directory
+for datafile in os.listdir(dataDir):
+    # get the file name without the extension
+    filename = datafile.split('.')[0]
+
+    # get the file path
+    datafile = os.path.join(dataDir, datafile)
 
     # read in the data as a pandas dataframe
-    df = pd.read_csv(dataFile)
-
+    df = pd.read_csv(datafile)
+    
     # initialize the boxscore object
     box = boxScore()
 
     # set the boxscore
-    box.setBoxScore(dataFile)
+    box.setBoxScore(datafile)
 
     # define the x and y axes for the scatterplots
     y_axis = ['3PA_G', '2PA_G', 'APG', 'SPG', 'BPG', 'PPG', 'APG', 'SPG', 'BPG']
     x_axis = ['3P%', '2P%', 'AST_TO', 'FT%', 'FT%', 'MPG', 'MPG', 'MPG', 'MPG']
 
+    # define the graph output directory
+    graphDir = os.path.join(outputDir, filename)
+    # make the output directory if it doesn't exist
+    if not os.path.exists(graphDir):
+        os.makedirs(graphDir)
+
     for x, y in zip(x_axis, y_axis):
         # remove any rows with NaN values
         df_xy = df.dropna(subset=[x, y])
-        plotScatter(df_xy, x, y)
+        plotScatter(df_xy, x, y, graphDir)
 
     # name some stats that might be interesting to see preliminary graphs of:
     #  3PA vs 3P% (and/or 3PM)

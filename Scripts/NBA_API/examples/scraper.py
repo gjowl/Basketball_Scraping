@@ -1,4 +1,4 @@
-import os, datetime, sys, configparser
+import os, datetime, sys
 import requests, random
 import pandas as pd
 
@@ -62,32 +62,16 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     nba_df.columns = column_names
     return nba_df
 
-# read in the config file
-configFile = sys.argv[1]
-config = configparser.ConfigParser()
-config.read(configFile)
-programName = 'scraper'
-
-# config file options below
-mainDir = config[programName]['mainDir']
-season = config[programName]['season']
-lastNGames = config[programName]['lastNGames'].split(',')
-starter_bench = config[programName]['starter_bench']
-draft_year = config[programName]['draft_year']
-draft_pick = config[programName]['draft_pick']
-outcome = config[programName]['outcome']
-season_type = config[programName]['season_type']
-period = config[programName]['period']
-month = config[programName]['month']
-shot_clock_range = config[programName]['shot_clock_range']
-
 # set the per_mode and season from the config file
 per_mode = ["PerGame", "Per36", "Totals", "Per100Possessions"]
+season = "2022-23"
+lastNGames = ["15"]
 
 # get the date in month-day-year format using datetime
 date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # hardcoded spot for data to be saved
+mainDir = r'H:/NBA_API_DATA/RAW'
 seasonDir = os.path.join(mainDir, season)
 makeOutputDir(seasonDir)
 outputDir = os.path.join(seasonDir, date)
@@ -96,14 +80,14 @@ makeOutputDir(outputDir)
 
 # setup the parameters for the getDataframeFromWeb function
 parameters = {
-    "starter_bench": starter_bench,
-    "draft_year": draft_year,
-    "draft_pick": draft_pick,
-    "outcome": outcome,
-    "season_type": season_type,
-    "period": period,
-    "shot_clock_range": shot_clock_range,
-    "month": month 
+    "starter_bench": "",
+    "draft_year": "",
+    "draft_pick": "",
+    "outcome": "",
+    "season_type": "Regular+Season",
+    "period": "",
+    "shot_clock_range": "",
+    "month": "0"
 }
 # make it so that I get individual draft stats, separated in dataframes, for anyone in the first 4 years of their career
 
