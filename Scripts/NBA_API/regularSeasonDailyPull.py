@@ -35,6 +35,7 @@ if __name__ == '__main__':
     # install the requirements
     # run the nbaStatsPullRequest.py script
     pullRequest = f'python3 nbaStatsPullRequest.py {configFile} {programName} {date}' 
+    #pullRequest = f'python3 nbaShotDataPullRequest.py {configFile} {programName} {date}' 
     os.system(pullRequest)
 
     # TODO: create an analysis script that runs after the nbaStatsPullRequest.py script

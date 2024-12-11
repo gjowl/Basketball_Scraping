@@ -1,0 +1,450 @@
+Program started at: 2024-11-03 08:34:07.914230
+2024-11-03Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-035running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-03\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-03\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-03\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-03\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-03
+Program started at: 2024-11-04 09:31:54.145599
+2024-11-04Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-045running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-04\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-04\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-04\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-04\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-04
+Program started at: 2024-11-05 11:05:50.825678
+2024-11-05Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-055running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-05\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-05\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-05\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-05\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-05
+Program started at: 2024-11-06 10:14:52.246556
+2024-11-06Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-06
+Program started at: 2024-11-07 12:21:01.810640
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:19:14.179485
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:19:56.053393
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:22:41.478362
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:24:34.449779
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:24:36.265519
+Output directory: H:/NBA_API_DATA/RAW\2022-23\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2022-23\2024-11-07
+Program started at: 2024-11-07 14:37:24.834108
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:37:26.576695
+Output directory: H:/NBA_API_DATA/RAW\2022-23\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2022-23\2024-11-07
+Program started at: 2024-11-07 14:48:44.670908
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 14:48:46.226993
+Output directory: H:/NBA_API_DATA/RAW\2022-23\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2022-23\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2022-23\2024-11-07
+Program started at: 2024-11-07 15:27:00.478747
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:27:02.262787
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:29:14.212652
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:29:16.207320
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:31:24.494129
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:31:26.031133
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:32:56.409515
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:32:57.962962
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:33:57.483499
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:33:59.048285
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:37:27.636814
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:37:29.215053
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:39:41.356690
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:39:42.989431
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\ 15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\ 15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\ 15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\ 15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:42:12.804777
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:42:14.357012
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\ 15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\ 15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\ 15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\ 10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\ 15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-07 15:42:37.291780
+2024-11-07Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-07
+Program started at: 2024-11-07 15:42:38.798544
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-07
+Program started at: 2024-11-08 09:46:57.624026
+2024-11-08Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-08
+Program started at: 2024-11-08 09:47:03.561220
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-08running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-08\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-08\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-08\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-08
+Program started at: 2024-11-09 09:22:24.484985
+2024-11-09Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-09
+Program started at: 2024-11-09 09:22:31.120112
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-09running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-09\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-09\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-09\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-09
+Program started at: 2024-11-10 10:10:49.041416
+2024-11-10Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-10
+Program started at: 2024-11-10 10:10:54.443230
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-10running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-10\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-10\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-10\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-10
+Program started at: 2024-11-11 12:07:55.059808
+2024-11-11Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-11
+Program started at: 2024-11-11 12:08:01.847605
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-11running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-11\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-11\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-11\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-11
+Program started at: 2024-11-12 12:19:56.395447
+2024-11-12Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-12
+Program started at: 2024-11-12 12:20:03.178528
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-12running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-12\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-12\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-12\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-12
+Program started at: 2024-11-13 12:28:00.335694
+2024-11-13Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-13
+Program started at: 2024-11-13 12:28:05.713458
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-13running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-13\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-13\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-13\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-13
+Program started at: 2024-11-14 11:25:25.598577
+2024-11-14Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-14
+Program started at: 2024-11-14 11:25:30.791795
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-14running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-14\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-14\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-14\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-14
+Program started at: 2024-11-18 15:16:05.784486
+2024-11-18Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-18
+Program started at: 2024-11-18 15:16:12.732733
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-18running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-18\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-18\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-18\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-18
+Program started at: 2024-11-19 09:07:05.372074
+2024-11-19Output directory: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19running mode:: PerGame
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19\PerGame\15_games.csvrunning mode:: Per36
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19\Per36\15_games.csvrunning mode:: Totals
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19\Totals\15_games.csvrunning mode:: Per100Possessions
+D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19\Per100Possessions\15_games.csvFiles saved to: D:/github/Basketball_Scraping/Scripts/NBA_API\2024-11-19
+Program started at: 2024-11-19 09:07:12.121284
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-19running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-19\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-19\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-19\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-19
+Program started at: 2024-11-20 09:06:42.845485
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-20running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-20\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-20\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-20\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-20
+Program started at: 2024-11-21 09:57:24.230880
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-21running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-21\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-21\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-21\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-21
+Program started at: 2024-11-22 09:07:37.576327
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-22running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-22\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-22\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-22\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-22
+Program started at: 2024-11-23 11:47:24.890121
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-23running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-23\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-23\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-23\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-23
+Program started at: 2024-11-24 10:27:22.782008
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-24running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-24\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-24\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-24\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-24
+Program started at: 2024-11-25 10:29:31.010710
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-25running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-25\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-25\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-25\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-25
+Program started at: 2024-11-26 09:56:18.843142
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-26running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-26\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-26\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-26\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-26
+Program started at: 2024-11-27 10:28:06.662959
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-27running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-27
+Program started at: 2024-11-27 10:29:54.438909
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-27running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-27\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-27
+Program started at: 2024-11-28 11:02:27.103896
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-28running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\15_games.csvrunning mode:: Per36
+Program started at: 2024-11-28 11:43:57.384283
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-28running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\15_games.csvrunning mode:: Per36
+Program started at: 2024-11-28 17:27:11.074324
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-28running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-28
+Program started at: 2024-11-28 18:13:38.641561
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-28running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-28\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-28
+Program started at: 2024-11-29 10:33:14.098384
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-29running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-29
+Program started at: 2024-11-29 16:30:10.422070
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-29running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-29\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-29
+Program started at: 2024-11-30 10:38:39.057844
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-11-30running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-11-30\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-11-30\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-11-30\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-11-30
+Program started at: 2024-12-01 10:35:58.361191
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-01running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-01\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-01\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-01\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-01
+Program started at: 2024-12-02 09:35:31.604668
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-02running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-02\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-02\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-02\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-02
+Program started at: 2024-12-03 10:13:05.604240
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-03running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-03\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-03\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-03\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-03
+Program started at: 2024-12-04 10:17:14.530164
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-04running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-04\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-04\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-04\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-04
+Program started at: 2024-12-06 10:01:16.409748
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-06running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-06\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-06\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-06\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-06
+Program started at: 2024-12-07 11:42:46.798785
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-07running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-07\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-07\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-07\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-07
+Program started at: 2024-12-08 06:42:01.092135
+Output directory: H:/NBA_API_DATA/RAW\2023-24\2024-12-08running mode:: PerGame
+H:/NBA_API_DATA/RAW\2023-24\2024-12-08\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per36\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per36\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per36\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2023-24\2024-12-08\Totals\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Totals\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Totals\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2023-24\2024-12-08\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2023-24\2024-12-08
+Program started at: 2024-12-09 11:17:40.033804
+Output directory: H:/NBA_API_DATA/RAW\2024-25\2024-12-09running mode:: PerGame
+H:/NBA_API_DATA/RAW\2024-25\2024-12-09\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per36\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per36\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per36\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2024-25\2024-12-09\Totals\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Totals\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Totals\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-09\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2024-25\2024-12-09
+Program started at: 2024-12-10 11:11:13.729071
+Output directory: H:/NBA_API_DATA/RAW\2024-25\2024-12-10running mode:: PerGame
+H:/NBA_API_DATA/RAW\2024-25\2024-12-10\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per36\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per36\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per36\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2024-25\2024-12-10\Totals\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Totals\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Totals\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-10\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2024-25\2024-12-10
+Program started at: 2024-12-11 10:49:07.342370
+Output directory: H:/NBA_API_DATA/RAW\2024-25\2024-12-11running mode:: PerGame
+H:/NBA_API_DATA/RAW\2024-25\2024-12-11\PerGame\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\PerGame\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\PerGame\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\PerGame\15_games.csvrunning mode:: Per36
+H:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per36\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per36\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per36\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per36\15_games.csvrunning mode:: Totals
+H:/NBA_API_DATA/RAW\2024-25\2024-12-11\Totals\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Totals\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Totals\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Totals\15_games.csvrunning mode:: Per100Possessions
+H:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2024-12-11\Per100Possessions\15_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2024-25\2024-12-11

@@ -1,0 +1,94 @@
+To scrape data for all players, years, etc. run:
+ - python3 main.py scrape_all.config # TODO: setup this config file; should be possible to make it so that it just takes in all data without hard coding the years
+
+To scrape data from the last few days:
+ - python3 nbaStatsPullRequest.py
+
+I'm going to start using these READMEs as notes! These will summarize some of the changes I made each day and what I did.
+
+2024-10-31
+Finally back into the swing of it! Looks like I've semi-caught up to remembering what I did:
+ I set up those two scrapers, and started to write a way to analyze the code. 
+  - The first scraper (main.py) gets a set of data from the given years, puts that all into spreadsheets separated by year.
+  - The second scraper (nbaStatesPullRequest.py) gets data from the last x games
+ So I've basically gotten ways to get the data, and next I need to make sure that the daily pull request is actually working
+
+The main scraperFunction is found in the functions.py. I haven't touched it, and it still seems to be working, so I'll leave it as is for now.
+
+I have a few other scripts in here that might be handy, so be sure to look into these later:
+ - largeDataPull.py
+ - boxScoreAnalysis.py
+ - pullRequestCode/nbaShotDataPullRequest.py
+
+The one goal I need to make sure I accomplish soon is to have the daily pull request working. I think if I'm able to see the fruits of my labor every morning, I'll really be
+able to get into the swing of things. I can also tweak anything that bothers me with the pull request/how the data is represented if I notice any error after looking 
+at it in the morning. tl;dr:
+ - Getting the pull request working will keep me motivated, so do that next!
+
+Seems like pullSchedule.py might be worth looking into: Is there a reason why this didn't work?\
+ - Looking at it a bit more, I think it could partially be because the schedule says to run at 6AM everyday. BUT if my computer is off, it likely won't run
+ - I think I need to change this to be more of a pull on start of computer kinda thing, so need to figure out how to do that
+ - LOLOLOL so to add something to run at the start of your computer is to put a shortcut in the startup folder
+   - C:\Users\gjowl\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+ - hilariously, I put my regularSeasonDailyPull.py in there. It's been popping up as the first program open every day for over a year and half...and now I know why XD
+ - To fix this, I think I actually need an executable of this, so I'm going to search for how to convert it to an exe
+  - pyinstaller: https://pyinstaller.org/en/stable/
+
+So I configured the nbaStatsPullRequest_dailytest.py to work properly, so I'll see if it runs 
+
+# GLOSSARY:
+- vol = volume (ex: number of 3pt shots taken)
+
+
+2024-11-01
+I was able to get it running using task scheduler: https://www.youtube.com/watch?v=4n2fC97MNac&t=442s&ab_channel=CodingUnderPressure
+
+There was a small issue that took a second to figure out: the requests import isn't downloaded on the instance of python that is run by the task scheduler. 
+I had to install it on the command prompt using: python -m pip install requests
+
+Now that I can pull data on a daily basis, I've done what I wanted to by the end of the week.
+
+Next it's to define what I want to do by the end of next week and start getting going on slightly better organization of the data!
+
+So I think I have a few ideas:
+ - Start with simple analysis: 3pt%
+  - graph of team 3pt%
+  - get the face graph working
+  - look at the top 50ish players
+  - create something based on vol (volume)  on y-axis and % x-axis percentage on the other
+ - Calculate the p-values for all columns to see if there's any categories of data that are statistically significant
+ - Create a way to visualize all the data to get a quick picture of it:
+  - PPG, RPG, APG, SPG, BPG, 3P%, 2P%, FT%, TOV, PF, +/-, TS%, eFG%, ORB%, DRB%, TRB%, AST%, STL%, BLK%, TOV%, USG%, ORtg, DRtg
+  - Example: PPG vs. 3P%: If you're a high scorer, are you more likely to have a higher 3pt%?
+  - Highest TS%: Who are the most efficient scorers? How can you identify outliers using 3pt%?
+  - Maybe get the list of top 100: color scheme them by team, identify teams that have the most players in the top 100
+  
+  Questions:
+  - Can you get DRtg lineup data from this data?
+  - Maybe see if usage is correlated to any of the other stats?
+  - Steals per game per team correlated against DRtg? ORtg?
+  - Get the salary cap data next:
+   - I want to see if there's a way to make a model that predicts salary based on stats
+   - Make a simple way to compare salary for players between eras: not using just their simple stats (i.e. PPG) but advanced stats 
+   and find some effect on winning players within certain salary ranges over time 
+   - I think looking at salary cap in a simple way would be a really nice first page of my website
+    - Whenever it's finished, make sure to shout out Chris Vernon for the idea, reference him and the Mismatch podcast
+
+2024-11-02
+Working on getting usage for team data! I've been able to setup most of the boxscore stats that I'm most interested in for now 
+ - In terms of changing team data, I had to rename the column for MIN to MNT, as MIN is a team abbreviation for Minnesota
+
+I actually may have found something that already does what I'm doing, and will just spit the data back at me! 
+ - NBA_API: https://medium.com/@toky-axel/building-an-interactive-basketball-stats-dashboard-using-api-and-jupyter-notebook-in-python-3b2c2c191ec9
+
+If it does, then at least I know how to setup a data pipeline for the future where I accept data everyday. If this already updates, could setup something weekly to remake 
+figures and update the website.
+
+An idea for an easy stat? Shot creation ability: Take the total number of shots attempted and the total team assists. Do it for teams and individual players:
+ - Player Example: According to the shot creation stat, the Knicks have X% of their shots created by Jalen Brunson, which is the highest in the league.
+ - Team Example: Looking across the league, the outlier in terms of shot creation to a duo is the Mavericks, where the duo create > Y% of the teams shots.
+
+2024-11-05
+So I now can make scatterplots of the data, but they're not ideal yet. I want them to easily convey what's important: player names, team colors, player faces, etc.
+
+But that can be a bit farther down the line. Getting these working on auto is next. I think I'll start with the player data for now, but then work on team once I have that working.

@@ -1,4 +1,4 @@
-import os, sys, pandas as pd
+import os, sys, pandas as pd, matplotlib.pyplot as plt
 from classes.teamBoxScore import teamBoxScore
 from classes.playerBoxScore import playerBoxScore 
 
@@ -26,6 +26,14 @@ class boxScore:
     # multiplies the stats in col1 by the stats in col2 and saves the result in newColName
     def statMultiply(self, col1, col2, newColName):
         self.box[newColName] = self.box[col1] * self.box[col2].round(2)
+
+    # adds the stats in col1 and col2 and saves the result in newColName
+    def statAddition(self, col1, col2, newColName):
+        self.box[newColName] = self.box[col1] + self.box[col2]
+    
+    # subtracts the stats in col2 from the stats in col1 and saves the result in newColName
+    def statSubtraction(self, col1, col2, newColName):
+        self.box[newColName] = self.box[col1] - self.box[col2]
 
     # sorts the boxscore by the stats in colName and returns the top n players
     def sortBoxScore(self, colName):
@@ -59,6 +67,7 @@ class boxScore:
         # loop through unique TEAM_ABBREVIATION
         for team in df['TEAM_ABBREVIATION'].unique():
             teamDf = df[df['TEAM_ABBREVIATION'] == team].copy()
+            print(teamDf)
             for col in cols:
                 # get the data for the team
                 teamDf['TEAM_' + str(col)] = teamDf.loc[teamDf['TEAM_ABBREVIATION' == team, col]].sum()
