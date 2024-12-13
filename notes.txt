@@ -66,3 +66,20 @@ https://eyalshafran.github.io/team_logos.html
 
 The below is what made me realize I needed to use selenium to dynamically scrape basketball reference:
 https://vishaalagartha.github.io/projects/2020/01/15/bbref-scraper
+
+After a while...
+2024-12-12: 
+I have been able to scrape data from NBA.com using the NBA_API, and I have been able to start putting stuff up on the site using streamlit
+
+I got my colors set for now in .streamlit/config.toml:
+[theme]
+primaryColor="#f63366"
+backgroundColor="#0A1222"
+secondaryBackgroundColor="#262730"
+textColor="#F27522"
+font="monospace"
+
+Next I want to either highlight each scatter plot with a name or face, so that it's easy to know which point is who; would also love to change colors to each
+team's colors, which shouldn't be difficult, just need a set of team abbreviations and their color palettes in RGB code?
+
+For more help with streamlit: https://docs.streamlit.io/develop/api-reference
