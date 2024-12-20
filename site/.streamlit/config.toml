@@ -1,7 +1,7 @@
 [server]
 headless = true
 runOnSave = true
-fileWatcherType = "auto"
+fileWatcherType = "poll"
 
 [theme]
 primaryColor="#f63366"
