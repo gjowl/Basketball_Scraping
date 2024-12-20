@@ -73,6 +73,19 @@ st.scatter_chart(scatter_data, x='2PA_G', y='2P%', x_label='2PA_G', y_label='2P%
 # when hovering over the chart, show the player name
 #st.write(data[['2PA_G', '2P%', 'PLAYER_NAME']])
 
+# get top 10 stats
+get_top_button(data, 'PPG')
+get_top_button(data, '3PM')
+get_top_button(data, 'RPG')
+get_top_button(data, 'APG')
+get_top_button(data, 'SPG')
+get_top_button(data, 'BPG')
+
+# how to save a profile of each page, in case I can't get it to have multiple pages? Or maybe only save a week's worth of data?
+
+# BASKETBALL FULL MOONS
+# check if there are any stats that rarely happen
+
 
 
 # get the top 10 scorers from last night
@@ -83,3 +96,13 @@ st.scatter_chart(scatter_data, x='2PA_G', y='2P%', x_label='2PA_G', y_label='2P%
 #st.write(data)
 
 # change the website colors 
+
+#TODO: I want to setup this so that it's accessble while I'm abroad, giving me some daily insight into what
+# happened the night before
+# Important features: (in order of ease)
+# - Search feature for players (basically finished)
+# - Last x games top scorers, top 10 scorers, top 10 3pt shooters, top 10 rebounders, top 10 assisters
+# - basketball full moons: ex. Steph Curry went 0-7 from the field on 2024-12-19
+# - Fantasy corner: top fantasy players from the night before (maybe just using NBA fantasy points, or creating my own CAT based ranking) 
+# - I think I'll separate each page by date
+# - Game data for the night before (might be tougher)
