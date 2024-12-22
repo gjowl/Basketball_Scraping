@@ -14,7 +14,7 @@ mainDir = 'H:/NBA_API_DATA'
 config['scraper'] = {
     'mainDir': f'{mainDir}/RAW',
     'season': '2024-25',
-    'lastNGames': '1,5,10,15',
+    'lastNGames': '0,1,5,10,15,20,25,30',
     'season_type': 'Regular+Season',
     'month': '0',
     'starter_bench': '',

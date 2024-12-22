@@ -4,7 +4,9 @@ runOnSave = true
 fileWatcherType = "poll"
 
 [theme]
-primaryColor="#f63366"
+base="dark"
+#primaryColor="#f63366"
+primaryColor="#4082de"
 backgroundColor="#0A1222"
 secondaryBackgroundColor="#262730"
 textColor="#F27522"

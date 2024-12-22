@@ -1,6 +1,7 @@
 import os, sys, pandas as pd, matplotlib.pyplot as plt
 from classes.teamBoxScore import teamBoxScore
 from classes.playerBoxScore import playerBoxScore 
+from datetime import timedelta
 
 # initializes an class object to hold the data file. Contains simple functions for handling data
 class boxScore:
@@ -34,6 +35,17 @@ class boxScore:
     # subtracts the stats in col2 from the stats in col1 and saves the result in newColName
     def statSubtraction(self, col1, col2, newColName):
         self.box[newColName] = self.box[col1] - self.box[col2]
+
+    # converts minutes to a time format
+    def convertMinutes(self, col1, col2, newColName):
+        # below works but kinda slow
+        newCol = (self.box[col1] / self.box[col2]).round(2) 
+        for i in range(len(newCol)):
+            newCol[i] = str(timedelta(minutes=newCol[i]))
+        # timedelta outputs in 00:00:00.000000 format
+        # keep only characters 2-6 
+        newCol = newCol.str[2:7]
+        self.box[newColName] = newCol
 
     # sorts the boxscore by the stats in colName and returns the top n players
     def sortBoxScore(self, colName):

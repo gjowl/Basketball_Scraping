@@ -116,7 +116,10 @@ for mode in per_mode:
     for lastN in lastNGames:
         nba_df = getDataframeFromWeb(mode, lastN, season, parameters)
         # define the file name for the data
-        filename = os.path.join(output, f'{lastN}_games.csv')
+        if lastN == '0':
+            filename = os.path.join(output, f'all_games.csv')
+        else:
+            filename = os.path.join(output, f'{lastN}_games.csv')
         file.write(filename)
         # save the nba_df to a csv file
         nba_df.to_csv(filename, index=False)
