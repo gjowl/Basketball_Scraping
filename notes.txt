@@ -83,3 +83,22 @@ Next I want to either highlight each scatter plot with a name or face, so that i
 team's colors, which shouldn't be difficult, just need a set of team abbreviations and their color palettes in RGB code?
 
 For more help with streamlit: https://docs.streamlit.io/develop/api-reference
+
+2024-12-23
+~
+First off in case you never put this anywhere else: ~ is going to be the way you tribute your PhD.
+
+I've often seen it used in approximation: ~10 minutes and your table will be ready. 
+
+It looks like a protein/gene, it's subtle, you never see anyone else use it anywhere. So that's gonna be your thing.
+
+And no one will be able to say anything about it because you're a fucking doctor :D.
+~
+
+Your NBA data scraper may be a bit more handy than you thought.
+
+Initially, you were thinking that you would have to try to somehow compile the data for the "last_n_games". You didn't realize that NBA
+does it for you, taking all the data from the last n games played, not just the last n games that the player played.
+
+Kind of a dumb confusion, but a fortunate one! I had it backwards in my head for some reason :P.
+
