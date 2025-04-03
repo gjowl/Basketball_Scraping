@@ -64,7 +64,7 @@ st.write(recent_data)
 st.write(data2)
 
 ## subtract two dataframes to get the difference
-cols_to_keep = ['MPG','PPG','RPG','APG','SPG','BPG','TOV_G']
+cols_to_keep = ['MPG','PPG','RPG','APG','SPG','BPG','TOV_PG']
 diff = recent_data[cols_to_keep] - data2[cols_to_keep]
 ## add in the player names to the front of the dataframe
 diff.insert(0, 'PLAYER_NAME', recent_data['PLAYER_NAME'])

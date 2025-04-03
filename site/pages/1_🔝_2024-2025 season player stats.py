@@ -90,6 +90,7 @@ if st.button('All Data', key='all_data_button'):
 ## STATS TO GET TOP FOR
 stats = ['PPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'SPG', 'BPG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 ## TODO: get ast, rebounds, deflections, fantasy if possible
+## TODO: add up attempts for 2PM and 3PM AND FTA/2 to get total attempts; maybe pair this stat with usage in some way?
 
 ## loop through the stats
 col2 = 'MPG'
