@@ -91,12 +91,6 @@ date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # hardcoded spot for data to be saved
 outputDir = mainDir
-#for season in seasons:
-#    seasonDir = os.path.join(mainDir, season)
-#    makeOutputDir(seasonDir)
-#    outputDir = os.path.join(seasonDir, date)
-#    file.write(f'Output directory: {outputDir}')
-#    makeOutputDir(outputDir)
 
 # setup the parameters for the getDataframeFromWeb function
 parameters = {

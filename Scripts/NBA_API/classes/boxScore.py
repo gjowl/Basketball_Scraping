@@ -22,11 +22,11 @@ class boxScore:
 
     # divides the stats in col1 by the stats in col2 and saves the result in newColName to 3 significant figures
     def statDivision(self, col1, col2, newColName):
-        self.box[newColName] = (self.box[col1] / self.box[col2]).round(2) 
+        self.box[newColName] = (self.box[col1] / self.box[col2]).round(3) 
 
     # multiplies the stats in col1 by the stats in col2 and saves the result in newColName
     def statMultiply(self, col1, col2, newColName):
-        self.box[newColName] = self.box[col1] * self.box[col2].round(2)
+        self.box[newColName] = self.box[col1] * self.box[col2].round(3)
 
     # adds the stats in col1 and col2 and saves the result in newColName
     def statAddition(self, col1, col2, newColName):
@@ -39,7 +39,7 @@ class boxScore:
     # converts minutes to a time format
     def convertMinutes(self, col1, col2, newColName):
         # below works but kinda slow
-        newCol = (self.box[col1] / self.box[col2]).round(2) 
+        newCol = (self.box[col1] / self.box[col2]).round(3) 
         for i in range(len(newCol)):
             newCol[i] = str(timedelta(minutes=newCol[i]))
         # timedelta outputs in 00:00:00.000000 format

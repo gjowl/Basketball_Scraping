@@ -88,7 +88,7 @@ if st.button('All Data', key='all_data_button'):
     st.button(f'Hide')
 
 ## STATS TO GET TOP FOR
-stats = ['PPG', 'OREB_G', 'DREB_G', 'AST_TO', 'TOV_G', 'SPG', 'BPG', 'FTA_G', '3PM_G', '3PA_G', '2PM_G', '2PA_G', 'NBA_FANTASY_PTS_G'] 
+stats = ['PPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'SPG', 'BPG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 ## TODO: get ast, rebounds, deflections, fantasy if possible
 
 ## loop through the stats
