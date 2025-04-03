@@ -12,4 +12,26 @@ Output directory: /mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20running mode:: PerGa
 /mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/Per100Possessions/all_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/Per100Possessions/1_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/Per100Possessions/5_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/Per100Possessions/10_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/Per100Possessions/15_games.csvFiles saved to: /mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20
 Program started at: 2024-12-20 20:11:48.979272
 Output directory: /mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20running mode:: PerGame
-/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/all_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/1_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/5_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/10_games.csv
+/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/all_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/1_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/5_games.csv/mnt/h/NBA_API_DATA/RAW/2024-25/2024-12-20/PerGame/10_games.csvProgram started at: 2025-04-03 11:57:58.756223
+scraping mode:: PerGame
+ - scraping season:: 1996-97
+H:/NBA_API_DATA/RAW/OLD/PerGame/1996-97/all_games.csvProgram started at: 2025-04-03 11:58:22.046312
+scraping mode:: PerGame
+ - scraping season:: 1996-97
+H:/NBA_API_DATA/RAW/OLD/PerGame/1996-97/all_games.csvProgram started at: 2025-04-03 11:58:42.963434
+scraping mode:: PerGame
+ - scraping season:: 1996-97
+H:/NBA_API_DATA/RAW/OLD/PerGame/1996-97/all_games.csvProgram started at: 2025-04-03 11:58:55.808707
+scraping mode:: PerGame
+ - scraping season:: 1996-97
+H:/NBA_API_DATA/RAW/OLD/PerGame/1996-97/all_games.csv - scraping season:: 1997-98
+H:/NBA_API_DATA/RAW/OLD/PerGame/1997-98/all_games.csv - scraping season:: 1999-00
+H:/NBA_API_DATA/RAW/OLD/PerGame/1999-00/all_games.csv - scraping season:: 2000-01
+H:/NBA_API_DATA/RAW/OLD/PerGame/2000-01/all_games.csv - scraping season:: 2001-02
+H:/NBA_API_DATA/RAW/OLD/PerGame/2001-02/all_games.csv - scraping season:: 2002-03
+H:/NBA_API_DATA/RAW/OLD/PerGame/2002-03/all_games.csv - scraping season:: 2003-04
+H:/NBA_API_DATA/RAW/OLD/PerGame/2003-04/all_games.csv - scraping season:: 2004-05
+H:/NBA_API_DATA/RAW/OLD/PerGame/2004-05/all_games.csv - scraping season:: 2005-06
+H:/NBA_API_DATA/RAW/OLD/PerGame/2005-06/all_games.csv - scraping season:: 2006-07
+H:/NBA_API_DATA/RAW/OLD/PerGame/2006-07/all_games.csv - scraping season:: 2007-08
+H:/NBA_API_DATA/RAW/OLD/PerGame/2007-08/all_games.csv

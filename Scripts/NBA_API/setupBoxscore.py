@@ -52,30 +52,30 @@ for datafile in os.listdir(dataDir):
     # get per game stats
     box.statDivision('PTS', 'GP', 'PPG') # add the points per game column
     box.statDivision('REB', 'GP', 'RPG') # get the turnovers per game
-    box.statDivision('OREB', 'GP', 'OREB_G') # get the turnovers per game
-    box.statDivision('DREB', 'GP', 'DREB_G') # get the turnovers per game
-    box.statDivision('FGA', 'GP', 'FGA_G') # get the number of fg attempts per game
-    box.statDivision('FTA', 'GP', 'FTA_G') # get the number of free throw attempts per game
     box.statSubtraction('FGA', 'FG3A', '2PA') # get the number of 2 point field goals attempted per game
     box.statSubtraction('FGM', 'FG3M', '2PM') # get the number of 2 point field goals made per game
     box.statSubtraction('FG3A', 'FGA', '3PA') # get the number of 3 point field goals attempted per game
-    box.statDivision('2PM', 'GP', '2PM_G') # add the 2pt made per game column
-    box.statDivision('2PA', 'GP', '2PA_G') # add the 2pt attempts per game column
     box.statDivision('2PM', '2PA', '2P%') # add the 2pt percentage column
-    box.statDivision('FG3M', 'GP', '3PM_G') # add the 3pm per game column
-    box.statDivision('FG3A', 'GP', '3PA_G') # add the 3pa per game column
     box.statDivision('AST', 'GP', 'APG') # add the assists per game column
     box.statDivision('STL', 'GP', 'SPG') # get the steals per game column
     box.statDivision('BLK', 'GP', 'BPG') # get the blocks per game column
-    box.statDivision('TOV', 'GP', 'TOV_G') # get the turnovers per game column
-    box.statDivision('PF', 'GP', 'PF_G') # get the turnovers per game column
+    box.statDivision('OREB', 'GP', 'OREB_PG') # get the turnovers per game
+    box.statDivision('DREB', 'GP', 'DREB_PG') # get the turnovers per game
+    box.statDivision('FGA', 'GP', 'FGA_PG') # get the number of fg attempts per game
+    box.statDivision('FTA', 'GP', 'FTA_PG') # get the number of free throw attempts per game
+    box.statDivision('2PM', 'GP', '2PM_PG') # add the 2pt made per game column
+    box.statDivision('2PA', 'GP', '2PA_PG') # add the 2pt attempts per game column
+    box.statDivision('FG3M', 'GP', '3PM_PG') # add the 3pm per game column
+    box.statDivision('FG3A', 'GP', '3PA_PG') # add the 3pa per game column
+    box.statDivision('TOV', 'GP', 'TOV_PG') # get the turnovers per game column
+    box.statDivision('PF', 'GP', 'PF_PG') # get the turnovers per game column
 
     # add in minutes per game
     box.statDivision('MIN', 'GP', 'MPG') # add the minutes per game column
     box.convertMinutes('MIN', 'GP', 'clock') # add the minutes per game column
 
     # temporary until you make your own fantasy points calculation
-    box.statDivision('NBA_FANTASY_PTS', 'GP', 'NBA_FANTASY_PTS_G') # get the fantasy points per game column
+    box.statDivision('NBA_FANTASY_PTS', 'GP', 'NBA_FANTASY_PTS_PG') # get the fantasy points per game column
 
     colNames = ['PLAYER_NAME',
     'AGE',
@@ -87,23 +87,23 @@ for datafile in os.listdir(dataDir):
     'FT%',
     '3P%',
     'PPG',
-    'OREB_G',
-    'DREB_G',
     'RPG',
     'APG',
     'AST_TO',
-    'TOV_G',
     'SPG',
     'BPG',
-    'PF_G',
-    'FGA_G',
-    'FTA_G',
-    '3PA_G',
-    '3PM_G',
-    '2PA_G',
-    '2PM_G',
+    'OREB_PG',
+    'DREB_PG',
+    'TOV_PG',
+    'PF_PG',
+    'FGA_PG',
+    'FTA_PG',
+    '3PA_PG',
+    '3PM_PG',
+    '2PA_PG',
+    '2PM_PG',
     '2P%',
-    'NBA_FANTASY_PTS_G']
+    'NBA_FANTASY_PTS_PG']
 
     finalBox = box.extractBoxScoreColumns(colNames)
 

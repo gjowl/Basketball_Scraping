@@ -23,6 +23,7 @@ config['scraper'] = {
     'outcome': '',
     'shot_clock_range': '',
     'period': '',
+    'segment': '',
 }
 
 # get the date

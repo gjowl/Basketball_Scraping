@@ -74,7 +74,7 @@ if __name__ == '__main__':
     box.setBoxScore(dataFile)
 
     # define the x and y axes for the scatterplots
-    y_axis = ['3PA_G', '2PA_G', 'APG', 'SPG', 'BPG', 'PPG', 'APG', 'SPG', 'BPG']
+    y_axis = ['3PA_PG', '2PA_PG', 'APG', 'SPG', 'BPG', 'PPG', 'APG', 'SPG', 'BPG']
     x_axis = ['3P%', '2P%', 'AST_TO', 'FT%', 'FT%', 'MPG', 'MPG', 'MPG', 'MPG']
 
     for x, y in zip(x_axis, y_axis):

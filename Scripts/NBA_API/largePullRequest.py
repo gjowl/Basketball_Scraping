@@ -1,4 +1,4 @@
-import os, datetime, sys, configparser
+import os, datetime, sys, configparser, time
 import requests, random
 import pandas as pd
 
@@ -71,8 +71,8 @@ programName = 'scraper'
 
 # config file options below
 mainDir = config[programName]['mainDir']
-season = config[programName]['season']
-lastNGames = config[programName]['lastNGames'].split(',')
+seasons = config[programName]['season'].split(',') # this is a list of seasons, so it can be used to get data for multiple seasons at once
+lastNGames = config[programName]['lastNGames']
 starter_bench = config[programName]['starter_bench']
 draft_year = config[programName]['draft_year']
 draft_pick = config[programName]['draft_pick']
@@ -90,11 +90,13 @@ per_mode = ["PerGame", "Per36", "Totals", "Per100Possessions"]
 date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # hardcoded spot for data to be saved
-seasonDir = os.path.join(mainDir, season)
-makeOutputDir(seasonDir)
-outputDir = os.path.join(seasonDir, date)
-file.write(f'Output directory: {outputDir}')
-makeOutputDir(outputDir)
+outputDir = mainDir
+#for season in seasons:
+#    seasonDir = os.path.join(mainDir, season)
+#    makeOutputDir(seasonDir)
+#    outputDir = os.path.join(seasonDir, date)
+#    file.write(f'Output directory: {outputDir}')
+#    makeOutputDir(outputDir)
 
 # setup the parameters for the getDataframeFromWeb function
 parameters = {
@@ -112,19 +114,19 @@ parameters = {
 
 # retrieve data from nba.com for each per_mode
 for mode in per_mode:
-    file.write(f'running mode:: {mode}\n')
+    file.write(f'scraping mode:: {mode}\n')
     output = os.path.join(outputDir, mode)
     makeOutputDir(output) 
     # loop through the lastNGames
-    for lastN in lastNGames:
-        nba_df = getDataframeFromWeb(mode, lastN, season, parameters)
+    for season in seasons:
+        file.write(f' - scraping season:: {season}\n')
+        # scrape
+        nba_df = getDataframeFromWeb(mode, lastNGames, season, parameters)
         # define the file name for the data
-        if lastN == '0':
-            filename = os.path.join(output, f'all_games.csv')
-        else:
-            filename = os.path.join(output, f'{lastN}_games.csv')
+        filename = os.path.join(output, f'{season}.csv')
         file.write(filename)
         # save the nba_df to a csv file
         nba_df.to_csv(filename, index=False)
+        wait() # wait a random amount of time between 1 and 10 seconds to avoid getting blocked by the website
 
 file.write(f'Files saved to: {outputDir}\n')
