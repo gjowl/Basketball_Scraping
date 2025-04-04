@@ -2,6 +2,7 @@ import streamlit as st
 import os, pandas as pd
 import plotly.express as px
 
+
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
                    page_icon='',
@@ -14,8 +15,10 @@ st.title('Welcome to the top stats page!')
 #cwd = os.getcwd()
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
-contains = 'all_game' # file you want to read
+#datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
+#contains = 'all_game' # file you want to read
+datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
+contains = '2023-24_boxscore' # file you want to read
 
 # FUNCTIONS
 
@@ -35,7 +38,7 @@ def concat_col_names(_xCol, _yCol):
     return colName
 
 # sort and show the data
-def sort_and_show_data(_data, _col1, _col2, n=10):
+def sort_and_show_data(_data, _col1, _col2, _button, n=10):
     # sort the data by the stat
     top = _data.sort_values(by=_col1, ascending=False).head(n)
     top = top.reset_index(drop=True)
@@ -46,17 +49,16 @@ def sort_and_show_data(_data, _col1, _col2, n=10):
     newCol = concat_col_names(_col1, _col2)
     top[newCol] = top[_col1] / top[_col2]
     # normalize the data
-    if st.button(f'{_col1}', key=f'{_col1}_button'):
-        st.write(top)
-        # make spec for vega-lite charts
-        fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
-        fig2 = px.scatter(top, x=_col1, y=newCol, color='PLAYER_NAME', title=f'{_col1} vs {newCol}', labels={'x': _col1, 'y': newCol}, size=f'{percentile_col}')
-        c1, c2 = st.columns(2)
-        with c1:
-            st.plotly_chart(fig1, use_container_width=False)
-        with c2:
-            st.plotly_chart(fig2, use_container_width=False)
-        st.button(f'Hide')
+    with _button:
+        #st.button(f'{_col1}', key=f'{_col}_button')
+        if st.button(f'{_col1}', key=f'{_col1}_button'):
+            st.write(top)
+            # make spec for vega-lite charts
+            fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
+            c1 = st.columns(1)
+            with c1:
+                st.plotly_chart(fig1, use_container_width=False)
+            st.button(f'Hide')
 
 
 # MAIN
@@ -83,19 +85,19 @@ if data['GP'].isnull().values.any():
 data = data[data['GP'] >= num_gp]
 
 ## PAGE SETUP BELOW
-if st.button('All Data', key='all_data_button'):
-    st.write(data)
-    st.button(f'Hide')
-
 ## STATS TO GET TOP FOR
 stats = ['PPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'SPG', 'BPG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13 = st.columns([1,1,1,1,1,1,1,1,1,1,1,1,1])
+cols = [col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13]
 ## TODO: get ast, rebounds, deflections, fantasy if possible
 ## TODO: add up attempts for 2PM and 3PM AND FTA/2 to get total attempts; maybe pair this stat with usage in some way?
 
 ## loop through the stats
 col2 = 'MPG'
-for stat in stats:
-    ### make sure that the stat is not infinite/NaN
+for col, stat in zip(cols, stats):
+    #with col:
+    #    st.button(f'{stat}', key=f'{stat}_button')
+    #    ### make sure that the stat is not infinite/NaN
     if 'AST_TO' in stat:
         if data[stat].isnull().values.any():
             data[stat] = data[stat].replace([float('inf'), -float('inf')], float('nan'))
@@ -108,6 +110,9 @@ for stat in stats:
     ### calculate percentiles for the stat
     data[f'{stat}_Percentile'] = data[newCol].rank(pct=True)
     ### sort and show the data
-    sort_and_show_data(data, stat, col2, num_players)
+    sort_and_show_data(data, stat, col2, col, num_players)
     # 
 
+if st.button('All Data', key='all_data_button'):
+    st.write(data)
+    st.button(f'Hide')
