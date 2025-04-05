@@ -102,3 +102,5 @@ does it for you, taking all the data from the last n games played, not just the 
 
 Kind of a dumb confusion, but a fortunate one! I had it backwards in my head for some reason :P.
 
+2025-4-4
+To run your website: streamlit run site.py

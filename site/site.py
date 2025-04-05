@@ -6,11 +6,11 @@ import os
 # install required programs into venv: pip install -r requirements.txt
 # to run: streamlit run site.py --server.headless true
 # probably add a config to the above?
-
 # FUNCTIONS
 def get_top_button(data, col, n=10):
     output_data = data.sort_values(by=col, ascending=False).head(n)
     output_data = output_data.reset_index(drop=True)
+    output_data = output_data[['PLAYER_NAME', col]]
     show_button = st.button(f'Show Top {n} {col}')
     hide_button = st.button(f'Hide Top {n} {col}')
     # if button clicked once, show the top
@@ -24,10 +24,9 @@ def get_top_button(data, col, n=10):
 #cwd = os.getcwd()
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-12'
-
-# get the 1 game file
-datafile = os.listdir(datadir)[0]
+#datafile = os.listdir(datadir)[0] # get the 1 game file
+datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
+datafile = '2023-24_boxscore.csv'
 data = pd.read_csv(os.path.join(datadir, datafile))
 
 # SIMPLE FILTERING
@@ -39,17 +38,17 @@ game_count = data['GP'].max()
 data = data[data['GP'] >= 0.8 * game_count]
 
 # TOP 10 SCORERS
-get_top_button(data, 'PPG')
-## sort by ppg
-#top_scorers = data.sort_values(by='PPG', ascending=False).head(10)
-## reset the index
-#top_scorers = top_scorers.reset_index(drop=True)
-## create a button to show the top 10 scorers
-#show_top_scorers = st.button('Show Top 10 Scorers')
-## if the button is clicked
-#if show_top_scorers:
-#    # output the top 10 scorers
-#    st.write(top_scorers)
+#get_top_button(data, 'PPG')
+# sort by ppg
+top_scorers = data.sort_values(by='PPG', ascending=False).head(10)
+# reset the index
+top_scorers = top_scorers.reset_index(drop=True)
+# create a button to show the top 10 scorers
+show_top_scorers = st.button('Show Top 10 Scorers')
+# if the button is clicked
+if show_top_scorers:
+    # output the top 10 scorers
+    st.write(top_scorers)
 
 # create a search button
 search = st.text_input('Player Search')
@@ -64,22 +63,22 @@ if search_button:
     st.write(player_data)
 
 # make a scatterplot of the 2PA_G vs 2P%
-st.write('2PA_G vs 2P%')
+st.write('2PA_PG vs 2P%')
 #st.write(data[['2PA_G', '2P%']].corr())
-scatter_data = data[['2PA_G', '2P%', 'PLAYER_NAME']]
+scatter_data = data[['2PA_PG', '2P%', 'PLAYER_NAME']]
 # create a scatter using streamlit
-st.scatter_chart(scatter_data, x='2PA_G', y='2P%', x_label='2PA_G', y_label='2P%')
+st.scatter_chart(scatter_data, x='2PA_PG', y='2P%', x_label='2PA_PG', y_label='2P%')
 
 # when hovering over the chart, show the player name
 #st.write(data[['2PA_G', '2P%', 'PLAYER_NAME']])
 
 # get top 10 stats
-get_top_button(data, 'PPG')
-get_top_button(data, '3PM')
+#get_top_button(data, 'PPG')
 get_top_button(data, 'RPG')
 get_top_button(data, 'APG')
 get_top_button(data, 'SPG')
 get_top_button(data, 'BPG')
+get_top_button(data, '3PM_PG')
 
 # how to save a profile of each page, in case I can't get it to have multiple pages? Or maybe only save a week's worth of data?
 
