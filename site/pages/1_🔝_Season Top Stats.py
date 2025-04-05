@@ -43,13 +43,10 @@ def sort_and_show_data(_data, _col1, _col2, n=10):
     top = _data.sort_values(by=_col1, ascending=False).head(n)
     top = top.reset_index(drop=True)
     # trim to only have player name and the stat
-    percentile_col = f'{_col1}_Percentile'
+    #percentile_col = f'{_col1}_Percentile'
+    percentile_col = f'Percentile'
     top = top[['PLAYER_NAME', _col1, _col2, percentile_col]]
-    #top = top[['PLAYER_NAME', _col1, _col2]]
-    newCol = concat_col_names(_col1, _col2)
-    top[newCol] = top[_col1] / top[_col2]
     # normalize the data
-    #if st.button(f'{_col1}', key=f'{_col1}_button'):
     st.write(top)
     # make spec for vega-lite charts
     fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
@@ -57,8 +54,6 @@ def sort_and_show_data(_data, _col1, _col2, n=10):
     c1, c2 = st.columns(2)
     with c1:
         st.plotly_chart(fig1, use_container_width=False)
-    #with c2:
-    #    st.plotly_chart(fig2, use_container_width=False)
     st.button(f'Hide')
 
 
@@ -110,8 +105,48 @@ else:
 newCol = f'{option}_per_{col2}'
 data[newCol] = data[option] / data[col2]
 ### calculate percentiles for the option
-data[f'{option}_Percentile'] = data[newCol].rank(pct=True)
+data[f'Percentile'] = data[option].rank(pct=True)
 sort_and_show_data(data, option, col2, num_players)
+
+# sort data for percentiles based on stat column
+if option == 'PPG':
+    sort_col = 'FG%'
+elif option == 'OREB_PG' or option == 'DREB_PG':
+    sort_col = 'RPG'
+elif option == 'AST_TO':
+    sort_col = 'TOV_PG'
+elif option == 'TOV_PG':
+    sort_col = 'FGA_PG'
+elif option == 'SPG' or option == 'BPG':
+    sort_col = 'MPG'
+elif option == '2PM_PG' or option == '2PA_PG':
+    sort_col = '2P%'
+elif option == '3PM_PG' or option == '3PA_PG':
+    sort_col = '3P%'
+elif option == 'NBA_FANTASY_PTS_PG':
+    sort_col = 'MPG'
+elif option == 'FTA_PG':
+    sort_col = 'FT%'
+
+# plot the percentile data as a bar graph with player names
+# sort by percentile
+data = data.sort_values(by=sort_col, ascending=False)
+# calculate the average of the stat
+avg = data[option].mean()
+# get the difference from the average
+avg_sort = data[sort_col].mean()
+# plot the data
+fig2 = px.scatter(data, x=option, y=sort_col, color='PLAYER_NAME', title=f'{option} vs {sort_col}')
+# add a line at 0 for both axes
+fig2.add_hline(y=avg_sort, line_color='red', line_width=1, line_dash='dash')
+fig2.add_vline(x=avg, line_color='red', line_width=1, line_dash='dash')
+fig2.update_traces(marker=dict(size=10))
+st.plotly_chart(fig2, use_container_width=False)
+
+# keep only the top 100
+data = data.head(100)
+fig = px.bar(data, x='PLAYER_NAME', y='Percentile', color='Percentile', title=f'{option} Percentiles (sorted left to right by {sort_col})')
+st.plotly_chart(fig, use_container_width=False)
 
 
 ### loop through the stats
@@ -135,3 +170,6 @@ sort_and_show_data(data, option, col2, num_players)
 if st.button('All Data', key='all_data_button'):
     st.write(data)
     st.button(f'Hide')
+
+
+# i want to add in one of those 4 square plots for interesting stats (FTA vs BPG & RPG) etc.
