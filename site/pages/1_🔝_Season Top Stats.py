@@ -27,21 +27,6 @@ team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
 # FUNCTIONS
-# concats the column names, removing the _G and PG 
-def concat_col_names(_xCol, _yCol):
-    # check if col name has a _ in it
-    if '_' in _yCol:
-        yColName = _yCol.split('_')[0]
-    elif 'PG' in _yCol:
-        yColName = _yCol[:-2]
-    if '_' in _xCol:
-        xColName = _xCol.split('_')[0]
-        colName = f'{xColName}_{yColName}'
-    elif 'PG' in _xCol:
-        xColName = _xCol[:-1]
-        colName = f'{xColName}{yColName}'
-    return colName
-
 # changes the figure to the team colors
 def change_to_team_colors(_fig, _data, team_colors):
     # set the color for each player to be the same as their team color
