@@ -85,14 +85,35 @@ st.write(year_data_dict[file1][year_data_dict[file1]['PLAYER_NAME'] == player])
 player_df = get_player_data(year_data_dict, player)
 
 st.write(player_df)
-# TODO: separate into tabs for each of the stats
+
+# TODO: add in a st.toggle here to show different versions of data (ex. turning on/off gp threshold)
+
 name_and_year = ['PLAYER_NAME', 'YEAR']
 percent = ['FG%', '3P%', 'FT%']
 shots = ['FG%', 'FGA_PG', 'FTA_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'PF_PG']
-traditional = ['MPG', 'PTS', 'AST', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG']
+traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG']
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
 percent_df = player_df[name_and_year + percent]
+
+# list of tabs
+tab1, tab2, tab3 = st.tabs(['Percent', 'Shooting', 'Traditional'])
+with tab1:
+    st.header('Percent Stats')
+    st.write('Below are the shooting percentages for the player')
+    st.write(percent_df)
+with tab2:
+    st.header('Shooting Stats')
+    st.write('Below are the shooting stats for the player')
+    st.write(player_df[name_and_year + shots])
+with tab3:
+    st.header('Traditional Stats')
+    st.write('Below are the traditional stats for the player')
+    st.write(player_df[name_and_year + traditional])
+
 #if st.button('All Data', key='all_data_button'):
 #    st.write(output_df)
+
 #    st.button('Hide')
+
+# TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
