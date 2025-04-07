@@ -2,7 +2,6 @@ import streamlit as st
 import os, pandas as pd
 import plotly.express as px
 
-
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
                    page_icon='',
@@ -43,9 +42,7 @@ def sort_and_show_data(_data, _col1, _col2, n=10):
     top = _data.sort_values(by=_col1, ascending=False).head(n)
     top = top.reset_index(drop=True)
     # trim to only have player name and the stat
-    #percentile_col = f'{_col1}_Percentile'
     percentile_col = f'Percentile'
-    #top = top[['PLAYER_NAME', _col1, _col2, percentile_col]]
     # show the data in a bar graph with player names and the stat above the bar
     fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'Top {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
     fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
@@ -66,6 +63,7 @@ def sort_and_show_data(_data, _col1, _col2, n=10):
     st.button(f'Hide')
     return top
 
+# plot the scatter plot of the stat vs the sort column
 def plot_quadrant_scatter(_data, _col1, _col2, _top):
     # calculate the average of the stat
     avg = _data[_col1].mean()
