@@ -1,8 +1,7 @@
 import streamlit as st
 import os, pandas as pd
 import plotly.express as px
-from streamlit_searchbox import st_searchbox
-
+import matplotlib.pyplot as mp
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Comparison Stats',
@@ -45,8 +44,6 @@ def get_player_data(_year_data_dict, _player):
         # replace the index column with the year column
         output_df = output_df.reset_index(drop=True)
     return output_df
-
-
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -95,6 +92,8 @@ traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', '
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
 percent_df = player_df[name_and_year + percent]
+# remove the part after the - from year
+percent_df['YEAR'] = percent_df['YEAR'].str.split('-').str[0]
 
 # list of tabs
 tab1, tab2, tab3 = st.tabs(['Percent', 'Shooting', 'Traditional'])
@@ -102,6 +101,13 @@ with tab1:
     st.header('Percent Stats')
     st.write('Below are the shooting percentages for the player')
     st.write(percent_df)
+    for col in percent_df.columns[2:]:
+        fig = px.bar(percent_df, x='YEAR', y=col, title=f'{player} {col}')
+        # write the year exactly as it is in the dataframe
+        st.plotly_chart(fig, use_container_width=True)
+
+
+
 with tab2:
     st.header('Shooting Stats')
     st.write('Below are the shooting stats for the player')
