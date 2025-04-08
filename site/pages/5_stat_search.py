@@ -2,6 +2,7 @@ import streamlit as st
 import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
+import plotly.graph_objects as go
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Comparison Stats',
@@ -44,6 +45,13 @@ def get_player_data(_year_data_dict, _player):
         # replace the index column with the year column
         output_df = output_df.reset_index(drop=True)
     return output_df
+
+def update_yaxis(_fig, _data, _col):
+    min = _data[_col].min()
+    max = _data[_col].max()
+    min = round(min, 1) - 0.05
+    max = round(max, 1) + 0.05
+    _fig.update_yaxes(range=[min, max])
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -105,21 +113,33 @@ with tab1:
         fig = px.bar(percent_df, x='YEAR', y=col, title=f'{player} {col}')
         # write the year exactly as it is in the dataframe
         st.plotly_chart(fig, use_container_width=True)
-
-
-
+    fig_list = []
+    # plot a violin plot with the points overlaid
+    for stat in percent:
+        fig = go.Figure(data=go.Violin(y=percent_df[stat], x=percent_df['PLAYER_NAME'], box_visible=True, line_color='black', fillcolor='orange', meanline_visible=True, points='all', pointpos=0, opacity=0.6, showlegend=False, x0=stat))
+        fig.update_traces(marker=dict(size=5, color='black', line=dict(width=1, color='black')))
+        update_yaxis(fig, percent_df, stat)
+        fig_list.append(fig)
+    col1, col2, col3 = st.columns(3)
+    fig1 = fig_list[0]
+    fig2 = fig_list[1]
+    fig3 = fig_list[2]
+    with col1:
+        st.plotly_chart(fig1, use_container_width=True)
+    with col2:
+        st.plotly_chart(fig2, use_container_width=True)
+    with col3:
+        st.plotly_chart(fig3, use_container_width=True)
+# currently just hardcoding; but I think I should try to find a better way to do this
 with tab2:
     st.header('Shooting Stats')
     st.write('Below are the shooting stats for the player')
     st.write(player_df[name_and_year + shots])
+    # I think I'll do something similar here as the above
 with tab3:
     st.header('Traditional Stats')
     st.write('Below are the traditional stats for the player')
     st.write(player_df[name_and_year + traditional])
-
-#if st.button('All Data', key='all_data_button'):
-#    st.write(output_df)
-
-#    st.button('Hide')
+    # here I think having that player as a point within all players (similar to the quadrant plots) might work well
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
