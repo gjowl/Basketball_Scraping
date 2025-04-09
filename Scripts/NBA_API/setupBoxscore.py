@@ -62,6 +62,8 @@ for datafile in os.listdir(dataDir):
     box.statDivision('OREB', 'GP', 'OREB_PG') # get the turnovers per game
     box.statDivision('DREB', 'GP', 'DREB_PG') # get the turnovers per game
     box.statDivision('FGA', 'GP', 'FGA_PG') # get the number of fg attempts per game
+    box.statDivision('FGM', 'GP', 'FGM_PG') # get the number of fg made per game
+    box.statDivision('FTM', 'GP', 'FTM_PG') # get the number of free throws made per game
     box.statDivision('FTA', 'GP', 'FTA_PG') # get the number of free throw attempts per game
     box.statDivision('2PM', 'GP', '2PM_PG') # add the 2pt made per game column
     box.statDivision('2PA', 'GP', '2PA_PG') # add the 2pt attempts per game column
@@ -97,7 +99,9 @@ for datafile in os.listdir(dataDir):
     'TOV_PG',
     'PF_PG',
     'FGA_PG',
+    'FGM_PG',
     'FTA_PG',
+    'FTM_PG',
     '3PA_PG',
     '3PM_PG',
     '2PA_PG',
