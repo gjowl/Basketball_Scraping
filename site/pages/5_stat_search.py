@@ -176,10 +176,38 @@ with tab3:
     if st.button('Show Traditional Data'):
         st.write(season_df)
         st.button('Hide Traditional Data')
-    for pair in quadrant_pairs:
-        # TODO: switch the traditional to be the first tab
-        # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
-        # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
-        plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
+    # get the average for each stat, and keep the quadrant pairs that have the highest combined percentile for the two stats
+    player_ranks = pd.DataFrame()
+    for stat in traditional:
+        # calculate the average for each stat
+        avg = season_df[stat].mean()
+        # get the percentile for each stat
+        season_df[f'{stat}_Percentile'] = season_df[stat].rank(pct=True)
+        # get the percentile for the stat for the player
+        player_stat = season_df[season_df['PLAYER_NAME'] == player][stat].values[0]
+        # create a ranked list column based on the percentile of the stat
+        season_df[f'{stat}_Rank'] = season_df[stat].rank(ascending=False)
+        # add the percentile and rank to the player_ranks dataframe
+        player_ranks[stat] = [season_df[season_df['PLAYER_NAME'] == player][f'{stat}_Percentile'].values[0], season_df[season_df['PLAYER_NAME'] == player][f'{stat}_Rank'].values[0]]
+    st.write(player_ranks)
+    player_ranks = player_ranks.transpose()
+    st.write(player_ranks)
+    # rename col 0 to Percentile and col 1 to Rank
+    player_ranks.columns = ['Percentile', 'Rank']
+
+    # create a bar graph of the stat with the rank above the bar for the chosen player
+    fig = px.bar(player_ranks, x=player_ranks.index, y=player_ranks['Percentile'], title=f'{player} {stat} Percentile and Rank', labels={'x': 'Stat', 'y': 'Percentile'})
+    # add the rank above each bar
+    for i in range(len(player_ranks)):
+        fig.add_annotation(x=i, y=player_ranks['Percentile'][i], text=f'#{int(player_ranks["Rank"][i])}', showarrow=False, font=dict(size=12), yshift=10)
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+    #for pair in quadrant_pairs:
+    #    # TODO: switch the traditional to be the first tab
+    #    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
+    #    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
+    #    plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
