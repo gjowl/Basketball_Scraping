@@ -59,8 +59,11 @@ def change_to_team_colors(_fig, _data, team_colors):
         # get the team abbreviation and match it to the hexcolors file
         team = _data['TEAM_ABBREVIATION'][i]
         # get the color from the team_colors file
-        color = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
-        _fig.data[i].marker.color = color
+        color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
+        _fig.data[i].marker.color = color1
+        color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
+        # change the color of the circle outline to be the same as the team color
+        _fig.data[i].marker.line.color = color2
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -104,7 +107,8 @@ if st.button('Show Data'):
 name_and_year = ['PLAYER_NAME', 'YEAR']
 #percent = ['FG%', '2P%', '3P%', 'FT%']
 percent = ['FG%', '2P%', '3P%']
-shots = ['FGA_PG', 'FGM_PG', '2PA_PG', '2PM_PG', '3PA_PG', '3PM_PG', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
+shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
+shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
@@ -136,18 +140,44 @@ with tab1:
     st.plotly_chart(fig, use_container_width=True)
 # currently just hardcoding; but I think I should try to find a better way to do the above?
 with tab2:
-    st.header('Shooting Stats')
+    st.header(f'{player} Shooting Stats')
     if st.button('Show Shooting Data'):
         st.write('Below are the shooting stats for the player')
         st.write(shots_df)
         st.button('Hide Shooting Data')
     # get the difference between the FGA and FGM for each year 
-    fig = px.scatter(player_df, x='FGM_PG', y='FGA_PG', color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{player} Shooting Stats')
-    fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-    fig.update_layout(xaxis_title='FGM', yaxis_title='FGA')
-    # update the color of the points to be the same as the team color
-    change_to_team_colors(fig, player_df, team_colors)
-    st.plotly_chart(fig, use_container_width=True)
+    figs = []
+    # add a toggle to add a line to the plot for the average of the stat
+    show_lines = False
+    if st.toggle('Add lines by year', key='line'):
+        show_lines = True
+    for shot_pair in shot_pairs:
+        fig = px.scatter(player_df, x=shot_pair[1], y=shot_pair[0], color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{shot_pair[1]} vs {shot_pair[0]}')
+        fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
+        fig.update_layout(xaxis_title=shot_pair[1], yaxis_title=shot_pair[0])
+        if show_lines:
+            # draw a line between consecutive year points
+            fig.add_trace(go.Scatter(x=player_df[shot_pair[1]], y=player_df[shot_pair[0]], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+        # extract the legend from the figure
+        legend = fig['layout']['legend']
+        # remove the legend from the figure
+        fig.update_layout(showlegend=False)
+        # update the color of the points to be the same as the team color
+        change_to_team_colors(fig, player_df, team_colors)
+        fig.update_traces(marker=dict(size=15, line=dict(width=3)))
+        figs.append(fig)
+    c1, c2 = st.columns(2)
+    c3, c4 = st.columns(2)
+    with c1:
+        st.plotly_chart(figs[0], use_container_width=True)
+    with c2:
+        st.plotly_chart(figs[1], use_container_width=True)
+    with c3:
+        st.plotly_chart(figs[2], use_container_width=True)
+    with c4:
+        st.plotly_chart(figs[3], use_container_width=True)
+    # add a toggle to add a line to the plot for the average of the stat
+    # show the legend on the right side of the plots
     # add a way to change the color if too close
 with tab3:
     st.header('Traditional Stats')
@@ -155,5 +185,21 @@ with tab3:
     st.write(player_df[name_and_year + traditional])
     # here I think having that player as a point within all players (similar to the quadrant plots) might work well
     # add a dropdown to select the season of interest
+    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique())
+    # TODO: for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
+    # get the stats for the season
+    season_df = year_data_dict[season]
+    if st.toggle('GP Threshold'):
+        # get the players with more than 10 games played
+        # add in a slider for the number of games played
+        gp = st.slider('Number of games played', 0, 82, 10)
+        # filter the dataframe to only include players with more than 10 games played
+        season_df = season_df[season_df['GP'] > gp]
+    if st.button('Show Traditional Data'):
+        st.write(season_df)
+        st.button('Hide Traditional Data')
+    # TODO: switch the traditional to be the first tab
+    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
+    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats

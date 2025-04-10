@@ -86,14 +86,15 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top):
     for i in range(len(_top)):
         # get the player name and team abbreviation
         player = _top['PLAYER_NAME'][i]
-        print(player)
         team = _top['TEAM_ABBREVIATION'][i]
         # color the player name and team abbreviation
-        color = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
+        color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
         # find the player in the data and set the color to the team color
         player_index = _data[_data['PLAYER_NAME'] == player].index[0]
-        print(player_index)
-        fig2.data[player_index].marker.color = color
+        fig2.data[player_index].marker.color = color1
+        # change the color of the circle outline to be the same as the team color
+        color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
+        fig2.data[player_index].marker.line.color = color2
     st.plotly_chart(fig2, use_container_width=False)
 
 # MAIN
