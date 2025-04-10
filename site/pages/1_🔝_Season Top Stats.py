@@ -33,8 +33,11 @@ def change_to_team_colors(_fig, _data, team_colors):
         # get the team abbreviation and match it to the hexcolors file
         team = _data['TEAM_ABBREVIATION'][i]
         # get the color from the team_colors file
-        color = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
-        _fig.data[i].marker.color = color
+        color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
+        _fig.data[i].marker.color = color1
+        color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
+        # change the color of the circle outline to be the same as the team color
+        _fig.data[i].marker.line.color = color2
 
 # sort and show the data
 def sort_and_show_data(_data, _col1, _col2, n=10):
