@@ -92,14 +92,15 @@ if st.button('Show Data'):
 
 # TODO: add in a st.toggle here to show different versions of data (ex. turning on/off gp threshold)
 name_and_year = ['PLAYER_NAME', 'YEAR']
-percent = ['FG%', '2P%', '3P%', 'FT%']
+#percent = ['FG%', '2P%', '3P%', 'FT%']
+percent = ['FG%', '2P%', '3P%']
 shots = ['FGA_PG', 'FGM_PG', '2PA_PG', '2PM_PG', '3PA_PG', '3PM_PG', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
 percent_df = player_df[name_and_year + percent]
 # remove the part after the - from year
-percent_df['YEAR'] = percent_df['YEAR'].str.split('-').str[0]
+#percent_df['YEAR'] = percent_df['YEAR'].str.split('-').str[0]
 shots_df = player_df[name_and_year + shots]
 traditional_df = player_df[name_and_year + traditional]
 
@@ -110,37 +111,33 @@ with tab1:
     if st.button('Show Percent Data'):
         st.write('Below are the shooting percentages for the player')
         st.write(percent_df)
-    #for col in percent_df.columns[2:]:
-    #    fig = px.bar(percent_df, x='YEAR', y=col, title=f'{player} {col}')
-    #    # write the year exactly as it is in the dataframe
-    #    st.plotly_chart(fig, use_container_width=True)
+        st.button('Hide Percent Data')
     fig_list = []
-    # plot a violin plot with the points overlaid for each stat
+    # plot a box plot with the points overlaid for each stat
+    fig = go.Figure()
     for stat in percent:
-        fig = go.Figure(data=go.Violin(y=percent_df[stat], x=percent_df['PLAYER_NAME'], box_visible=True, line_color='black', fillcolor='orange', meanline_visible=True, points='all', pointpos=0, opacity=0.6, showlegend=False, x0=stat))
-        fig.update_traces(marker=dict(size=5, color='black', line=dict(width=1, color='black')))
-        update_yaxis(fig, percent_df, stat)
-        fig_list.append(fig)
-    col1, col2, col3, col4 = st.columns(4)
-    fig1 = fig_list[0]
-    fig2 = fig_list[1]
-    fig3 = fig_list[2]
-    fig4 = fig_list[3]
-    with col1:
-        st.plotly_chart(fig1, use_container_width=True)
-    with col2:
-        st.plotly_chart(fig2, use_container_width=True)
-    with col3:
-        st.plotly_chart(fig3, use_container_width=True)
-    with col4:
-        st.plotly_chart(fig4, use_container_width=True)
+        # make a array of the stat with the same size as the percent_df
+        x = [stat] * len(percent_df[stat])
+        # get the cols that match the first two chars of the stat
+        col = [col for col in shots_df.columns if col.startswith(stat[:2])]
+        print(col)
+        # create a hover label with the year and the stat value
+        hover_label = [f'{year}: {value}' for year, value in zip(percent_df['YEAR'], percent_df[stat])]
+        fig.add_trace(go.Box(y=percent_df[stat], x=x, name=stat, boxmean='sd', line_color='orange', marker_color='orange', hoverinfo='text', hovertext=hover_label, boxpoints='all', pointpos=0, opacity=0.5, showlegend=False))
+        # replace the hover label w/ the {YEAR}: {percentage} to the points
+        fig.update_traces(marker=dict(size=7, color='white', line=dict(width=3, color='white')))
+    st.plotly_chart(fig, use_container_width=True)
+    # TODO: change the color by the year?
 # currently just hardcoding; but I think I should try to find a better way to do the above?
 with tab2:
     st.header('Shooting Stats')
+    # get the difference between the FGA and FGM for each year
+    shots_df['FGA_FGM'] = shots_df['FGA_PG'] - shots_df['FGM_PG']
     # make a scatterplot of the shooting stats
-    fig = px.scatter(shots_df, x='FGA_PG', y='FGM_PG', color='YEAR', hover_name='PLAYER_NAME', title=f'{player} Shooting Stats')
-    fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-    fig.update_layout(xaxis_title='FGA PG', yaxis_title='FGM PG')
+    fig = px.scatter(shots_df, x='YEAR', y='FGA_FGM', color='YEAR', hover_name='PLAYER_NAME', title=f'{player} Shooting Stats')
+    #fig = px.scatter(shots_df, x='FGA_PG', y='FGM_PG', color='YEAR', hover_name='PLAYER_NAME', title=f'{player} Shooting Stats')
+    #fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
+    #fig.update_layout(xaxis_title='FGA PG', yaxis_title='FGM PG')
     st.plotly_chart(fig, use_container_width=True)
     # I think I'll do something similar here as the above
 with tab3:
