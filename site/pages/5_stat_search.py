@@ -53,6 +53,15 @@ def update_yaxis(_fig, _data, _col):
     max = round(max, 1) + 0.05
     _fig.update_yaxes(range=[min, max])
 
+def change_to_team_colors(_fig, _data, team_colors):
+    # set the color for each player to be the same as their team color
+    for i in range(len(_data)):
+        # get the team abbreviation and match it to the hexcolors file
+        team = _data['TEAM_ABBREVIATION'][i]
+        # get the color from the team_colors file
+        color = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
+        _fig.data[i].marker.color = color
+
 # MAIN
 ## PAGE SETUP BELOW
 ## TODO: add in the setup of the page details here
@@ -72,13 +81,14 @@ for root, dirs, files in os.walk(datadir):
         # add the df to the dictionary with the filename as the key
         year_data_dict[filename] = tmp_df
 
-year_data_dict1 = year_data_dict.copy()
-c1, c2 = st.columns(2)
-# create a search bar of all the filenames in the directory
-with c1:
-    file1 = st.selectbox('Select the year of interest', list(year_data_dict.keys()))
-with c2:
-    player = st.selectbox('Select the player to load', list(year_data_dict[file1]['PLAYER_NAME'].unique()))
+# get all the unique player names from the year_data_dict
+player_names = pd.Series()
+for key in year_data_dict.keys():
+    player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
+player_names = player_names.unique()
+
+# create a search bar for the player names
+player = st.selectbox('Select the player to load', player_names)
 # below doesn't work; need to think of an alternative
 #file2 = st.selectbox('Select the year of interest', list(year_data_dict1.keys()))
 #player2 = st.selectbox('Select the player to load', list(year_data_dict[file1]['PLAYER_NAME'].unique()))
@@ -118,32 +128,32 @@ with tab1:
     for stat in percent:
         # make a array of the stat with the same size as the percent_df
         x = [stat] * len(percent_df[stat])
-        # get the cols that match the first two chars of the stat
-        col = [col for col in shots_df.columns if col.startswith(stat[:2])]
-        print(col)
         # create a hover label with the year and the stat value
         hover_label = [f'{year}: {value}' for year, value in zip(percent_df['YEAR'], percent_df[stat])]
         fig.add_trace(go.Box(y=percent_df[stat], x=x, name=stat, boxmean='sd', line_color='orange', marker_color='orange', hoverinfo='text', hovertext=hover_label, boxpoints='all', pointpos=0, opacity=0.5, showlegend=False))
         # replace the hover label w/ the {YEAR}: {percentage} to the points
         fig.update_traces(marker=dict(size=7, color='white', line=dict(width=3, color='white')))
     st.plotly_chart(fig, use_container_width=True)
-    # TODO: change the color by the year?
 # currently just hardcoding; but I think I should try to find a better way to do the above?
 with tab2:
     st.header('Shooting Stats')
-    # get the difference between the FGA and FGM for each year
-    shots_df['FGA_FGM'] = shots_df['FGA_PG'] - shots_df['FGM_PG']
-    # make a scatterplot of the shooting stats
-    fig = px.scatter(shots_df, x='YEAR', y='FGA_FGM', color='YEAR', hover_name='PLAYER_NAME', title=f'{player} Shooting Stats')
-    #fig = px.scatter(shots_df, x='FGA_PG', y='FGM_PG', color='YEAR', hover_name='PLAYER_NAME', title=f'{player} Shooting Stats')
-    #fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-    #fig.update_layout(xaxis_title='FGA PG', yaxis_title='FGM PG')
+    if st.button('Show Shooting Data'):
+        st.write('Below are the shooting stats for the player')
+        st.write(shots_df)
+        st.button('Hide Shooting Data')
+    # get the difference between the FGA and FGM for each year 
+    fig = px.scatter(player_df, x='FGM_PG', y='FGA_PG', color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{player} Shooting Stats')
+    fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
+    fig.update_layout(xaxis_title='FGM', yaxis_title='FGA')
+    # update the color of the points to be the same as the team color
+    change_to_team_colors(fig, player_df, team_colors)
     st.plotly_chart(fig, use_container_width=True)
-    # I think I'll do something similar here as the above
+    # add a way to change the color if too close
 with tab3:
     st.header('Traditional Stats')
     st.write('Below are the traditional stats for the player')
     st.write(player_df[name_and_year + traditional])
     # here I think having that player as a point within all players (similar to the quadrant plots) might work well
+    # add a dropdown to select the season of interest
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
