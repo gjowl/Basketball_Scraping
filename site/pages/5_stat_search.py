@@ -3,6 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
+from functions import plot_quadrant_scatter, get_player_data
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Comparison Stats',
@@ -28,30 +29,6 @@ team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
 # FUNCTIONS
-# loop through the year_data_dictionary and get all the data for the player
-def get_player_data(_year_data_dict, _player):
-    output_df = pd.DataFrame()
-    for key in _year_data_dict.keys():
-        # get the data for the player
-        tmp_df = _year_data_dict[key][_year_data_dict[key]['PLAYER_NAME'] == _player]
-        # check if the dataframe is empty, if so skip it
-        if tmp_df.empty:
-            continue
-        # add the year to the dataframe
-        tmp_df['YEAR'] = key
-        output_df = pd.concat([output_df, tmp_df], axis=0)
-        # move year to the front of the dataframe
-        output_df = output_df[['YEAR'] + [col for col in output_df.columns if col != 'YEAR']]
-        # replace the index column with the year column
-        output_df = output_df.reset_index(drop=True)
-    return output_df
-
-def update_yaxis(_fig, _data, _col):
-    min = _data[_col].min()
-    max = _data[_col].max()
-    min = round(min, 1) - 0.05
-    max = round(max, 1) + 0.05
-    _fig.update_yaxes(range=[min, max])
 
 def change_to_team_colors(_fig, _data, team_colors):
     # set the color for each player to be the same as their team color
@@ -110,6 +87,7 @@ percent = ['FG%', '2P%', '3P%']
 shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
 shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
+quadrant_pairs = [['PPG', 'APG'], ['OREB_PG', 'DREB_PG'], ['APG', 'TOV_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
 percent_df = player_df[name_and_year + percent]
@@ -198,8 +176,10 @@ with tab3:
     if st.button('Show Traditional Data'):
         st.write(season_df)
         st.button('Hide Traditional Data')
-    # TODO: switch the traditional to be the first tab
-    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
-    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
+    for pair in quadrant_pairs:
+        # TODO: switch the traditional to be the first tab
+        # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
+        # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
+        plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats

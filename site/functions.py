@@ -71,3 +71,28 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
         color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
         fig2.data[player_index].marker.line.color = color2
     st.plotly_chart(fig2, use_container_width=False)
+
+# loop through the year_data_dictionary and get all the data for the player
+def get_player_data(_year_data_dict, _player):
+    output_df = pd.DataFrame()
+    for key in _year_data_dict.keys():
+        # get the data for the player
+        tmp_df = _year_data_dict[key][_year_data_dict[key]['PLAYER_NAME'] == _player]
+        # check if the dataframe is empty, if so skip it
+        if tmp_df.empty:
+            continue
+        # add the year to the dataframe
+        tmp_df['YEAR'] = key
+        output_df = pd.concat([output_df, tmp_df], axis=0)
+        # move year to the front of the dataframe
+        output_df = output_df[['YEAR'] + [col for col in output_df.columns if col != 'YEAR']]
+        # replace the index column with the year column
+        output_df = output_df.reset_index(drop=True)
+    return output_df
+
+def update_yaxis(_fig, _data, _col):
+    min = _data[_col].min()
+    max = _data[_col].max()
+    min = round(min, 1) - 0.05
+    max = round(max, 1) + 0.05
+    _fig.update_yaxes(range=[min, max])
