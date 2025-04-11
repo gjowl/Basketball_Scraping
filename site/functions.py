@@ -96,3 +96,50 @@ def update_yaxis(_fig, _data, _col):
     min = round(min, 1) - 0.05
     max = round(max, 1) + 0.05
     _fig.update_yaxes(range=[min, max])
+
+# get the player ranks for the stats
+def get_player_ranks(_data, _player, _stat_list):
+    player_ranks = pd.DataFrame()
+    for stat in _stat_list:
+        # calculate the percentile for each stat
+        _data[f'{stat}_Percentile'] = _data[stat].rank(pct=True)
+        ## get the percentile for the stat for the player
+        #player_stat = _data[_data['PLAYER_NAME'] == _player][stat].values[0]
+        # create a ranked list column based on the percentile of the stat
+        _data[f'{stat}_Rank'] = _data[stat].rank(ascending=False)
+        # add the percentile and rank to the player_ranks dataframe
+        player_ranks[stat] = [_data[_data['PLAYER_NAME'] == _player][f'{stat}_Percentile'].values[0], _data[_data['PLAYER_NAME'] == _player][f'{stat}_Rank'].values[0]]
+    # transpose the player_ranks dataframe so that the stats are the index and the percentiles and ranks are the columns
+    player_ranks = player_ranks.transpose()
+    player_ranks.columns = ['Percentile', 'Rank']
+    return player_ranks
+
+# create a bar graph of the player ranks
+def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_colors):
+    # create a bar graph of the stat with the rank above the bar for the chosen player
+    fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], title=f'{_player} Ranks', labels={'x': 'Stat', 'y': 'Percentile'})
+    # add the rank above each bar
+    for i in range(len(_player_ranks)):
+        fig.add_annotation(x=i, y=_player_ranks['Percentile'][i], text=f'#{int(_player_ranks["Rank"][i])}', showarrow=False, font=dict(size=16), yshift=10)
+    # remove the x-axis title
+    fig.update_xaxes(title='')
+    # set the x-axis label size
+    fig.update_xaxes(tickfont=dict(size=16))
+    # change the color of the bars to be the team color
+    color1 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 1'].values[0]
+    color2 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 2'].values[0]
+    fig.update_traces(marker=dict(color=color1, line=dict(width=3, color=color2)))
+    # remove the y-axis lines, title, and ticks
+    fig.update_layout(yaxis=dict(showgrid=False, zeroline=False, showticklabels=False), xaxis=dict(showgrid=False, zeroline=False, showticklabels=True))
+    fig.update_yaxes(showline=False, title='', ticks='', showticklabels=False)
+    # add a line at the 0 mark on the y-axis
+    fig.add_hline(y=0, line_color=color2, line_width=3)
+    # customize the hover label to show the stat name and the percentile
+    fig.update_traces(hovertemplate='Percentile: %{y:.3f}')
+    st.plotly_chart(fig, use_container_width=True)
+
+# set the size of the text in the x and y axes
+def set_axis_text_size(_fig, _x_size=16, _y_size=16):
+    # update the text size of the x and y axes ticks
+    _fig.update_xaxes(tickfont=dict(size=_x_size))
+    _fig.update_yaxes(tickfont=dict(size=_y_size))

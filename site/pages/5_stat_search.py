@@ -3,11 +3,11 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import plot_quadrant_scatter, get_player_data
+from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text_size
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Comparison Stats',
-                   page_icon='',
+st.set_page_config(page_title='Stat Search',
+                   page_icon='🔍',
                    layout='wide',
                    initial_sidebar_state='auto')
 
@@ -77,7 +77,8 @@ player = st.selectbox('Select the player to load', player_names)
 # get the data for the player from all years they played in the league
 player_df = get_player_data(year_data_dict, player)
 if st.button('Show Data'):
-    st.write(player_df)
+    # show all the data with no scroll bar
+    st.dataframe(player_df, use_container_width=True, hide_index=True)
     st.button('Hide Data')
 
 # TODO: add in a st.toggle here to show different versions of data (ex. turning on/off gp threshold)
@@ -97,12 +98,38 @@ shots_df = player_df[name_and_year + shots]
 traditional_df = player_df[name_and_year + traditional]
 
 # list of tabs
-tab1, tab2, tab3 = st.tabs(['Percent', 'Shooting', 'Traditional'])
+tab1, tab2, tab3 = st.tabs(['Traditional', 'Percent', 'Shooting'])
 with tab1:
+    st.header('Traditional Stats')
+    st.write('Below are the traditional stats for the player')
+    st.dataframe(traditional_df, use_container_width=True, hide_index=True)
+    # add a dropdown to select the season of interest
+    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique())
+    # get the stats for the season
+    season_df = year_data_dict[season]
+    if st.toggle('GP Threshold'):
+        # add in a slider for the number of games played
+        gp = st.slider('Number of games played', 0, 82, 10)
+        # filter the dataframe to only include players with more than 10 games played
+        season_df = season_df[season_df['GP'] > gp]
+    # get the player rankings for the player in the season
+    player_ranks = get_player_ranks(season_df, player, traditional)
+    create_player_rank_bar_graph(season_df, player_ranks, player, team_colors)
+    
+    if st.button('Show Traditional Data'):
+        st.write(season_df)
+        st.button('Hide Traditional Data')
+    # for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
+    #for pair in quadrant_pairs:
+    #    # TODO: switch the traditional to be the first tab
+    #    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
+    #    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
+    #    plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
+with tab2:
     st.header('Percent Stats')
     if st.button('Show Percent Data'):
         st.write('Below are the shooting percentages for the player')
-        st.write(percent_df)
+        st.dataframe(percent_df, use_container_width=True, hide_index=True)
         st.button('Hide Percent Data')
     fig_list = []
     # plot a box plot with the points overlaid for each stat
@@ -112,23 +139,22 @@ with tab1:
         x = [stat] * len(percent_df[stat])
         # create a hover label with the year and the stat value
         hover_label = [f'{year}: {value}' for year, value in zip(percent_df['YEAR'], percent_df[stat])]
-        fig.add_trace(go.Box(y=percent_df[stat], x=x, name=stat, boxmean='sd', line_color='orange', marker_color='orange', hoverinfo='text', hovertext=hover_label, boxpoints='all', pointpos=0, opacity=0.5, showlegend=False))
+        fig.add_trace(go.Box(y=percent_df[stat], x=x, name=stat, boxmean='sd', line_color='#F27522', marker_color='orange', hoverinfo='text', hovertext=hover_label, boxpoints='all', pointpos=0, opacity=0.5, showlegend=False))
         # replace the hover label w/ the {YEAR}: {percentage} to the points
         fig.update_traces(marker=dict(size=7, color='white', line=dict(width=3, color='white')))
+        set_axis_text_size(fig)
     st.plotly_chart(fig, use_container_width=True)
-# currently just hardcoding; but I think I should try to find a better way to do the above?
-with tab2:
+with tab3:
     st.header(f'{player} Shooting Stats')
     if st.button('Show Shooting Data'):
         st.write('Below are the shooting stats for the player')
-        st.write(shots_df)
+        st.dataframe(shots_df, use_container_width=True, hide_index=True)
         st.button('Hide Shooting Data')
-    # get the difference between the FGA and FGM for each year 
-    figs = []
     # add a toggle to add a line to the plot for the average of the stat
     show_lines = False
     if st.toggle('Add lines by year', key='line'):
         show_lines = True
+    figs = []
     for shot_pair in shot_pairs:
         fig = px.scatter(player_df, x=shot_pair[1], y=shot_pair[0], color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{shot_pair[1]} vs {shot_pair[0]}')
         fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
@@ -144,6 +170,7 @@ with tab2:
         change_to_team_colors(fig, player_df, team_colors)
         fig.update_traces(marker=dict(size=15, line=dict(width=3)))
         figs.append(fig)
+        set_axis_text_size(fig)
     c1, c2 = st.columns(2)
     c3, c4 = st.columns(2)
     with c1:
@@ -154,60 +181,6 @@ with tab2:
         st.plotly_chart(figs[2], use_container_width=True)
     with c4:
         st.plotly_chart(figs[3], use_container_width=True)
-    # add a toggle to add a line to the plot for the average of the stat
-    # show the legend on the right side of the plots
-    # add a way to change the color if too close
-with tab3:
-    st.header('Traditional Stats')
-    st.write('Below are the traditional stats for the player')
-    st.write(player_df[name_and_year + traditional])
-    # here I think having that player as a point within all players (similar to the quadrant plots) might work well
-    # add a dropdown to select the season of interest
-    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique())
-    # TODO: for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
-    # get the stats for the season
-    season_df = year_data_dict[season]
-    if st.toggle('GP Threshold'):
-        # get the players with more than 10 games played
-        # add in a slider for the number of games played
-        gp = st.slider('Number of games played', 0, 82, 10)
-        # filter the dataframe to only include players with more than 10 games played
-        season_df = season_df[season_df['GP'] > gp]
-    if st.button('Show Traditional Data'):
-        st.write(season_df)
-        st.button('Hide Traditional Data')
-    # get the average for each stat, and keep the quadrant pairs that have the highest combined percentile for the two stats
-    player_ranks = pd.DataFrame()
-    for stat in traditional:
-        # calculate the average for each stat
-        avg = season_df[stat].mean()
-        # get the percentile for each stat
-        season_df[f'{stat}_Percentile'] = season_df[stat].rank(pct=True)
-        # get the percentile for the stat for the player
-        player_stat = season_df[season_df['PLAYER_NAME'] == player][stat].values[0]
-        # create a ranked list column based on the percentile of the stat
-        season_df[f'{stat}_Rank'] = season_df[stat].rank(ascending=False)
-        # add the percentile and rank to the player_ranks dataframe
-        player_ranks[stat] = [season_df[season_df['PLAYER_NAME'] == player][f'{stat}_Percentile'].values[0], season_df[season_df['PLAYER_NAME'] == player][f'{stat}_Rank'].values[0]]
-    st.write(player_ranks)
-    player_ranks = player_ranks.transpose()
-    st.write(player_ranks)
-    # rename col 0 to Percentile and col 1 to Rank
-    player_ranks.columns = ['Percentile', 'Rank']
-
-    # create a bar graph of the stat with the rank above the bar for the chosen player
-    fig = px.bar(player_ranks, x=player_ranks.index, y=player_ranks['Percentile'], title=f'{player} {stat} Percentile and Rank', labels={'x': 'Stat', 'y': 'Percentile'})
-    # add the rank above each bar
-    for i in range(len(player_ranks)):
-        fig.add_annotation(x=i, y=player_ranks['Percentile'][i], text=f'#{int(player_ranks["Rank"][i])}', showarrow=False, font=dict(size=12), yshift=10)
-    st.plotly_chart(fig, use_container_width=True)
-
-
-
-    #for pair in quadrant_pairs:
-    #    # TODO: switch the traditional to be the first tab
-    #    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
-    #    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
-    #    plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
+    # TODO: show the legend on the right side of the plots
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
