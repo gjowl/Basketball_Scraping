@@ -89,7 +89,7 @@ percent = ['FG%', '2P%', '3P%']
 shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
 shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
-quadrant_pairs = [['PPG', 'APG'], ['OREB_PG', 'DREB_PG'], ['APG', 'TOV_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
+quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
 # keep all the shooting stats and player name and year
 percent_df = player_df[name_and_year + percent]
@@ -129,29 +129,31 @@ with tab1:
     player_ranks = player_ranks.sort_values(by='Rank', ascending=True)
     print(player_ranks)
     # check if any ranks are within the top 100
-    if player_ranks['Rank'].min() < 100:
-        # going to use specialized rankings for the player
-        # get the top rank category
-        top_rank = player_ranks['Rank'].idxmin()
-        # TODO: add an exception for turnovers
-        # TODO: could also do this here based on usage? or other advanced stats?
-        # TODO: it might be time to start pulling in the advanced stats for players
-        pairs = []
-        # check if the top rank is in the list of ranks
-        if top_rank is 'PPG' or top_rank is 'APG':
-            # use PPG vs APG, RPG vs BPG, SPG vs MPG
-            pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['SPG', 'MPG']]
-        elif top_rank is 'RPG':
-            # use RPG vs BPG, RPG vs MPG, PPG vs RPG
-            pairs = [['RPG', 'BPG'], ['RPG', 'MPG'], ['PPG', 'RPG']]
-        elif top_rank is 'SPG':
-            # use SPG vs MPG, PPG vs SPG, APG vs SPG
-            pairs = [['SPG', 'MPG'], ['PPG', 'SPG'], ['APG', 'SPG']]
-        else:
-            # going to just use generic rankings: [PPG vs APG, SPG vs MPG, RPG vs BPG]
-            pairs = [['PPG', 'APG'], ['SPG', 'MPG'], ['RPG', 'BPG']]
-        for pair in pairs:
+    if st.toggle('Show All Ranked Plots'):
+        for pair in quadrant_pairs:
             plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
+    else:
+        if player_ranks['Rank'].min() < 100:
+            # going to use specialized rankings for the player
+            # get the top rank category
+            top_rank = player_ranks['Rank'].idxmin()
+            # TODO: it might be time to start pulling in the advanced stats for players
+            pairs = []
+            # check if the top rank is in the list of ranks
+            if top_rank is 'PPG' or top_rank is 'APG':
+                # use PPG vs APG, RPG vs BPG, SPG vs MPG
+                pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['SPG', 'MPG']]
+            elif top_rank is 'RPG':
+                # use RPG vs BPG, RPG vs MPG, PPG vs RPG
+                pairs = [['RPG', 'BPG'], ['RPG', 'MPG'], ['PPG', 'RPG']]
+            elif top_rank is 'SPG':
+                # use SPG vs MPG, PPG vs SPG, APG vs SPG
+                pairs = [['SPG', 'MPG'], ['PPG', 'SPG'], ['APG', 'SPG']]
+            else:
+                # going to just use generic rankings: [PPG vs APG, SPG vs MPG, RPG vs BPG]
+                pairs = [['PPG', 'APG'], ['SPG', 'MPG'], ['RPG', 'BPG']]
+            for pair in pairs:
+                plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
     ## for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
     #for pair in quadrant_pairs:
     #    # TODO: switch the traditional to be the first tab
