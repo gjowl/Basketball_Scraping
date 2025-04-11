@@ -73,7 +73,12 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
         fig.data[player_index].marker.line.width = 3
         fig.data[player_index].marker.size = 15
         # TODO: bring the point in front of others instead of just making bigger like above
-    set_axis_text(fig) 
+    # write the average above the yaxis line
+    max_x = _data[_col1].max()
+    max_y = _data[_col2].max()
+    fig.add_annotation(x=max_x+1, y=0, text=f'Avg {_col1} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
+    fig.add_annotation(x=0, y=max_y + 2, text=f'Avg {_col2} = {avg_sort:.2f}', showarrow=False, font=dict(size=16), xshift=10)
+    set_axis_text(fig)
     st.plotly_chart(fig, use_container_width=False)
 
 # loop through the year_data_dictionary and get all the data for the player

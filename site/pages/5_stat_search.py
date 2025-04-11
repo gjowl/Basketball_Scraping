@@ -124,10 +124,8 @@ with tab1:
         season_df = season_df[cols_to_keep + rank_cols]
         st.dataframe(season_df, use_container_width=True, hide_index=True)
         st.button('Hide Ranked Data')
-    # TODO: use the ranks to create interactive plots; plots that take into account the best ranks and plots them against each other (ex. wouldn't be too important to see ppg for Draymond, but assists and rebounds/fouls/steal/blocks would be nice)
-    # get the top 6 ranks for the player
+    # get the top ranks for the player
     player_ranks = player_ranks.sort_values(by='Rank', ascending=True)
-    print(player_ranks)
     # check if any ranks are within the top 100
     if st.toggle('Show All Ranked Plots'):
         for pair in quadrant_pairs:
