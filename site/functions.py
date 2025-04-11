@@ -73,6 +73,7 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
         fig.data[player_index].marker.line.width = 3
         fig.data[player_index].marker.size = 15
         # TODO: bring the point in front of others instead of just making bigger like above
+        # bring the index point to the front
     # write the average above the yaxis line
     max_x = _data[_col1].max()
     max_y = _data[_col2].max()

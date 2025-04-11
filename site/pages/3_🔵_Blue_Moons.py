@@ -1,6 +1,12 @@
 import streamlit as st
 import os, pandas as pd
 
+# SET PAGE CONFIG
+st.set_page_config(page_title='Blue Moons!',
+                   page_icon='🔵',
+                   layout='wide',
+                   initial_sidebar_state='auto')
+
 st.title('In the works!')
 
 # rare events...what can I add here? 

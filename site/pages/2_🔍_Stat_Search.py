@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text
+from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Stat Search',
@@ -28,23 +28,9 @@ options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
-# FUNCTIONS
-
-def change_to_team_colors(_fig, _data, team_colors):
-    # set the color for each player to be the same as their team color
-    for i in range(len(_data)):
-        # get the team abbreviation and match it to the hexcolors file
-        team = _data['TEAM_ABBREVIATION'][i]
-        # get the color from the team_colors file
-        color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
-        _fig.data[i].marker.color = color1
-        color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
-        # change the color of the circle outline to be the same as the team color
-        _fig.data[i].marker.line.color = color2
-
 # MAIN
 ## PAGE SETUP BELOW
-## TODO: add in the setup of the page details here
+
 
 ## traverse directory to load data
 year_data_dict = {}
@@ -61,44 +47,38 @@ for root, dirs, files in os.walk(datadir):
         # add the df to the dictionary with the filename as the key
         year_data_dict[filename] = tmp_df
 
-# get all the unique player names from the year_data_dict
+## get all the unique player names from the year_data_dict
 player_names = pd.Series()
 for key in year_data_dict.keys():
     player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
 player_names = player_names.unique()
 
-# create a search bar for the player names
+## create a search bar for the player names
 player = st.selectbox('Select the player to load', player_names)
-# below doesn't work; need to think of an alternative
-#file2 = st.selectbox('Select the year of interest', list(year_data_dict1.keys()))
-#player2 = st.selectbox('Select the player to load', list(year_data_dict[file1]['PLAYER_NAME'].unique()))
-#player = st_searchbox(year_data_dict[file1]['PLAYER_NAME'].unique(), label='Search for a player', placeholder='Search for a player', key='player_searchbox', default_value='')
 
-# get the data for the player from all years they played in the league
+## get the data for the player from all years they played in the league
 player_df = get_player_data(year_data_dict, player)
 if st.button('Show Data'):
     # show all the data with no scroll bar
     st.dataframe(player_df, use_container_width=True, hide_index=True)
     st.button('Hide Data')
 
-# TODO: add in a st.toggle here to show different versions of data (ex. turning on/off gp threshold)
+## variables for the stats to get
 name_and_year = ['PLAYER_NAME', 'YEAR']
 cols_to_keep = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'MPG'] # keep the player name, team abbreviation, and GP
-#percent = ['FG%', '2P%', '3P%', 'FT%']
 percent = ['FG%', '2P%', '3P%']
 shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
 shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
 quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
 #advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
-# keep all the shooting stats and player name and year
+
+## get the dataframes for the player
 percent_df = player_df[name_and_year + percent]
-# remove the part after the - from year
-#percent_df['YEAR'] = percent_df['YEAR'].str.split('-').str[0]
 shots_df = player_df[name_and_year + shots]
 traditional_df = player_df[name_and_year + traditional]
 
-# list of tabs
+## TABS 
 tab1, tab2, tab3 = st.tabs(['Traditional', 'Percent', 'Shooting'])
 with tab1:
     st.header('Traditional Stats')
@@ -152,12 +132,6 @@ with tab1:
                 pairs = [['PPG', 'APG'], ['SPG', 'MPG'], ['RPG', 'BPG']]
             for pair in pairs:
                 plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
-    ## for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
-    #for pair in quadrant_pairs:
-    #    # TODO: switch the traditional to be the first tab
-    #    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
-    #    # TODO: also have a nice averaged kind of list (maybe rank?) for throughout the players career for each stat
-    #    plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
 with tab2:
     st.header('Percent Stats')
     if st.button('Show Percent Data'):

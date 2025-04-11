@@ -5,7 +5,7 @@ from functions import sort_and_show_data, plot_quadrant_scatter
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
-                   page_icon='',
+                   page_icon='🔝',
                    layout='wide',
                    initial_sidebar_state='auto')
 
