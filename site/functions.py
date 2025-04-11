@@ -125,6 +125,7 @@ def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_color
     fig.update_xaxes(title='')
     # set the x-axis label size
     fig.update_xaxes(tickfont=dict(size=16))
+    fig.update_layout(font_family="monospace")
     # change the color of the bars to be the team color
     color1 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 1'].values[0]
     color2 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 2'].values[0]
@@ -139,7 +140,9 @@ def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_color
     st.plotly_chart(fig, use_container_width=True)
 
 # set the size of the text in the x and y axes
-def set_axis_text_size(_fig, _x_size=16, _y_size=16):
+def set_axis_text(_fig, _x_size=16, _y_size=16):
     # update the text size of the x and y axes ticks
     _fig.update_xaxes(tickfont=dict(size=_x_size))
     _fig.update_yaxes(tickfont=dict(size=_y_size))
+    # change the text to monospaced font
+    _fig.update_layout(font_family="monospace")

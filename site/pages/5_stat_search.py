@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text_size
+from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Stat Search',
@@ -11,7 +11,7 @@ st.set_page_config(page_title='Stat Search',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Welcome to the stat comparison page!')
+st.title('Welcome to the stat search page!')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -83,6 +83,7 @@ if st.button('Show Data'):
 
 # TODO: add in a st.toggle here to show different versions of data (ex. turning on/off gp threshold)
 name_and_year = ['PLAYER_NAME', 'YEAR']
+cols_to_keep = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'MPG'] # keep the player name, team abbreviation, and GP
 #percent = ['FG%', '2P%', '3P%', 'FT%']
 percent = ['FG%', '2P%', '3P%']
 shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
@@ -116,9 +117,13 @@ with tab1:
     player_ranks = get_player_ranks(season_df, player, traditional)
     create_player_rank_bar_graph(season_df, player_ranks, player, team_colors)
     
-    if st.button('Show Traditional Data'):
-        st.write(season_df)
-        st.button('Hide Traditional Data')
+    if st.button('Show Ranked Data'):
+        # keep the ranked columns
+        st.write(f'Below are the ranked stats for the {season} season')
+        rank_cols = [col for col in season_df.columns if 'Rank' in col]
+        season_df = season_df[cols_to_keep + rank_cols]
+        st.dataframe(season_df, use_container_width=True, hide_index=True)
+        st.button('Hide Ranked Data')
     # for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
     #for pair in quadrant_pairs:
     #    # TODO: switch the traditional to be the first tab
@@ -142,7 +147,7 @@ with tab2:
         fig.add_trace(go.Box(y=percent_df[stat], x=x, name=stat, boxmean='sd', line_color='#F27522', marker_color='orange', hoverinfo='text', hovertext=hover_label, boxpoints='all', pointpos=0, opacity=0.5, showlegend=False))
         # replace the hover label w/ the {YEAR}: {percentage} to the points
         fig.update_traces(marker=dict(size=7, color='white', line=dict(width=3, color='white')))
-        set_axis_text_size(fig)
+        set_axis_text(fig)
     st.plotly_chart(fig, use_container_width=True)
 with tab3:
     st.header(f'{player} Shooting Stats')
@@ -170,7 +175,7 @@ with tab3:
         change_to_team_colors(fig, player_df, team_colors)
         fig.update_traces(marker=dict(size=15, line=dict(width=3)))
         figs.append(fig)
-        set_axis_text_size(fig)
+        set_axis_text(fig)
     c1, c2 = st.columns(2)
     c3, c4 = st.columns(2)
     with c1:
