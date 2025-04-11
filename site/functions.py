@@ -48,15 +48,15 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
     # get the difference from the average
     avg_sort = _data[_col2].mean()
     # plot the data
-    fig2 = px.scatter(_data, x=_col1, y=_col2, color='PLAYER_NAME', title=f'{_col1} vs {_col2}')
+    fig = px.scatter(_data, x=_col1, y=_col2, color='PLAYER_NAME', title=f'{_col1} vs {_col2}')
     # add a line at 0 for both axes
-    fig2.add_hline(y=avg_sort, line_color='red', line_width=1, line_dash='dash')
-    fig2.add_vline(x=avg, line_color='red', line_width=1, line_dash='dash')
-    fig2.update_traces(marker=dict(size=10))
+    fig.add_hline(y=avg_sort, line_color='red', line_width=1, line_dash='dash')
+    fig.add_vline(x=avg, line_color='red', line_width=1, line_dash='dash')
+    fig.update_traces(marker=dict(size=10))
     # remove the legend
-    fig2.update_layout(showlegend=False)
+    fig.update_layout(showlegend=False)
     # set all points to gray
-    fig2.update_traces(marker=dict(color='gray', line=dict(width=1, color='black')))
+    fig.update_traces(marker=dict(color='gray', line=dict(width=1, color='black')))
     # highlight the top players in the scatter plot
     for i in range(len(_top)):
         # get the player name and team abbreviation
@@ -66,11 +66,12 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
         color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
         # find the player in the data and set the color to the team color
         player_index = _data[_data['PLAYER_NAME'] == player].index[0]
-        fig2.data[player_index].marker.color = color1
+        fig.data[player_index].marker.color = color1
         # change the color of the circle outline to be the same as the team color
         color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
-        fig2.data[player_index].marker.line.color = color2
-    st.plotly_chart(fig2, use_container_width=False)
+        fig.data[player_index].marker.line.color = color2
+    set_axis_text(fig) 
+    st.plotly_chart(fig, use_container_width=False)
 
 # loop through the year_data_dictionary and get all the data for the player
 def get_player_data(_year_data_dict, _player):
@@ -144,5 +145,8 @@ def set_axis_text(_fig, _x_size=16, _y_size=16):
     # update the text size of the x and y axes ticks
     _fig.update_xaxes(tickfont=dict(size=_x_size))
     _fig.update_yaxes(tickfont=dict(size=_y_size))
+    # update the text size of the x and y axes titles
+    _fig.update_xaxes(title_font=dict(size=_x_size+2.5))# make this a formula
+    _fig.update_yaxes(title_font=dict(size=_y_size+2.5))
     # change the text to monospaced font
     _fig.update_layout(font_family="monospace")

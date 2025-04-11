@@ -124,7 +124,35 @@ with tab1:
         season_df = season_df[cols_to_keep + rank_cols]
         st.dataframe(season_df, use_container_width=True, hide_index=True)
         st.button('Hide Ranked Data')
-    # for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
+    # TODO: use the ranks to create interactive plots; plots that take into account the best ranks and plots them against each other (ex. wouldn't be too important to see ppg for Draymond, but assists and rebounds/fouls/steal/blocks would be nice)
+    # get the top 6 ranks for the player
+    player_ranks = player_ranks.sort_values(by='Rank', ascending=True)
+    print(player_ranks)
+    # check if any ranks are within the top 100
+    if player_ranks['Rank'].min() < 100:
+        # going to use specialized rankings for the player
+        # get the top rank category
+        top_rank = player_ranks['Rank'].idxmin()
+        # TODO: add an exception for turnovers
+        # TODO: could also do this here based on usage? or other advanced stats?
+        # TODO: it might be time to start pulling in the advanced stats for players
+        pairs = []
+        # check if the top rank is in the list of ranks
+        if top_rank is 'PPG' or top_rank is 'APG':
+            # use PPG vs APG, RPG vs BPG, SPG vs MPG
+            pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['SPG', 'MPG']]
+        elif top_rank is 'RPG':
+            # use RPG vs BPG, RPG vs MPG, PPG vs RPG
+            pairs = [['RPG', 'BPG'], ['RPG', 'MPG'], ['PPG', 'RPG']]
+        elif top_rank is 'SPG':
+            # use SPG vs MPG, PPG vs SPG, APG vs SPG
+            pairs = [['SPG', 'MPG'], ['PPG', 'SPG'], ['APG', 'SPG']]
+        else:
+            # going to just use generic rankings: [PPG vs APG, SPG vs MPG, RPG vs BPG]
+            pairs = [['PPG', 'APG'], ['SPG', 'MPG'], ['RPG', 'BPG']]
+        for pair in pairs:
+            plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
+    ## for that season, create a quadrant plot of the stats (need to pick which stats; PPG, APG, AST_TO, RPG)
     #for pair in quadrant_pairs:
     #    # TODO: switch the traditional to be the first tab
     #    # the nice thing with this is you'll be able to take a player and compare stats in the context of a single season (percentile, advanced, etc.)
