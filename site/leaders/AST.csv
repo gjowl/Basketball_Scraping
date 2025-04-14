@@ -1,78 +1,78 @@
-PLAYER,AST,Team,Opponent,Score,DATE,MIN,Pts,Reb,Stl,Blk,TO,W/L
-Scott Skiles,30,Orlando Magic,Denver Nuggets,155–116,12/30/90,44,22,6,2,0,4,W
-Kevin Porter,29,New Jersey Nets,Houston Rockets,126–112,02/24/78,48,14,5,2,0,0,W
-Bob Cousy*,28,Boston Celtics,Minneapolis Lakers,173–139,02/27/59,45,31,5,NA,NA,NA,W
-Guy Rodgers*,28,San Francisco Warriors,St. Louis Hawks,109–114,03/14/63,48,14,5,NA,NA,NA,L
-John Stockton*,28,Utah Jazz,San Antonio Spurs,124–102,01/15/91,39,20,3,8,0,5,W
-Geoff Huston,27,Cleveland Cavaliers,Golden State Warriors,110–106,01/27/82,46,24,1,0,0,4,W
-John Stockton*,27,Utah Jazz,New York Knicks,107–115,12/19/89,36,18,3,2,0,2,L
-John Stockton*,26,Utah Jazz,Portland Trail Blazers,123–128,04/14/88,45,17,3,2,0,2,L
-Ernie DiGregorio,25,Buffalo Braves,Portland Trail Blazers,120–119,01/01/74,48,20,9,2,0,NA,W
-Kevin Porter,25,Detroit Pistons,Boston Celtics,160–119,03/09/79,37,30,3,0,0,4,W
-Kevin Porter,25,Detroit Pistons,Phoenix Suns,105–116,04/01/79,46,13,3,2,0,4,L
-Isiah Thomas*,25,Detroit Pistons,Dallas Mavericks,124–119,02/13/85,41,23,5,2,0,5,W
-Nate McMillan,25,Seattle SuperSonics,Los Angeles Clippers,124–112,02/23/87,41,8,8,1,4,3,W
-Kevin Johnson,25,Phoenix Suns,San Antonio Spurs,107–95,04/06/94,41,16,3,0,0,4,W
-Jason Kidd*,25,Dallas Mavericks,Utah Jazz,136–133,02/08/96,49,20,4,4,0,5,W
-Rajon Rondo,25,New Orleans Pelicans,Brooklyn Nets,128–113,12/27/17,30:18:00,2,7,1,0,3,W
-Guy Rodgers*,24,Chicago Bulls,New York Knicks,110–107,12/21/66,NA,18,0,NA,NA,NA,W
-Kevin Porter,24,Washington Bullets,Detroit Pistons,119–114,03/23/80,44,12,1,0,0,0,W
-John Lucas,24,San Antonio Spurs,Denver Nuggets,157–154,04/15/84,28,0,0,2,0,2,W
-Magic Johnson*,24,Los Angeles Lakers,Phoenix Suns,118–102,05/15/84,38,6,7,5,2,4,W
-Isiah Thomas*,24,Detroit Pistons,Washington Bullets,126–128,02/07/85,50,25,10,2,1,2,L
-John Stockton*,24,Utah Jazz,Los Angeles Lakers,109–111,05/17/88,48,23,3,5,0,3,L
-John Stockton*,24,Utah Jazz,Houston Rockets,102–104,01/03/89,45,26,1,6,0,1,L
-Magic Johnson*,24,Los Angeles Lakers,Denver Nuggets,119–105,11/17/89,40,24,8,6,1,3,W
-Magic Johnson*,24,Los Angeles Lakers,Phoenix Suns,118–121,01/09/90,45,24,6,2,2,4,L
-Ramon Sessions,24,Milwaukee Bucks,Chicago Bulls,135–151,04/14/08,44:27:00,20,8,1,1,2,L
-Rajon Rondo,24,Boston Celtics,New York Knicks,105–101,10/29/10,45:20:00,10,10,1,0,7,W
-Russell Westbrook,24,Oklahoma City Thunder,San Antonio Spurs,147–154,01/10/19,49:35:00,24,13,2,0,3,L
-Russell Westbrook,24,Washington Wizards,Indiana Pacers,154–141,05/03/21,38:38:00,14,21,1,1,6,W
-Jerry West*,23,Los Angeles Lakers,Philadelphia 76ers,143–133,02/01/67,NA,24,6,NA,NA,NA,W
-Kevin Porter,23,Detroit Pistons,Houston Rockets,131–119,12/27/78,41,20,3,1,0,0,W
-Kevin Porter,23,Detroit Pistons,Los Angeles Lakers,113–124,03/30/79,43,15,3,1,0,3,L
-Nate Archibald*,23,Boston Celtics,Denver Nuggets,145–144,02/05/82,38,15,4,0,0,1,W
-Magic Johnson*,23,Los Angeles Lakers,Seattle SuperSonics,128–112,02/21/84,36,9,5,2,0,3,W
-Magic Johnson*,23,Los Angeles Lakers,Portland Trail Blazers,130–126,05/03/85,41,13,7,1,0,6,W
-Magic Johnson*,23,Los Angeles Lakers,Dallas Mavericks,114–107,04/20/88,42,8,10,0,1,8,W
-Fat Lever,23,Denver Nuggets,Golden State Warriors,139–121,04/21/89,42,15,13,5,0,1,W
-John Stockton*,23,Utah Jazz,Los Angeles Lakers,107–104,04/12/90,44,15,4,3,0,3,W
-John Stockton*,23,Utah Jazz,Los Angeles Clippers,105–95,12/08/90,41,27,3,4,0,1,W
-John Stockton*,23,Utah Jazz,Golden State Warriors,135–108,11/29/91,36,21,2,2,1,4,W
-John Stockton*,23,Utah Jazz,Minnesota Timberwolves,120–106,04/17/92,36,9,2,5,0,4,W
-Mookie Blaylock,23,Atlanta Hawks,Utah Jazz,139–118,03/06/93,37,11,0,4,0,2,W
-John Stockton*,23,Utah Jazz,Portland Trail Blazers,110–102,04/25/96,41,11,2,0,0,1,W
-Nick Van Exel,23,Los Angeles Lakers,Vancouver Grizzlies,95–82,01/05/97,43:32:00,8,8,1,0,2,W
-Jamaal Tinsley,23,Indiana Pacers,Washington Wizards,110–103,11/22/01,45:02:00,19,11,1,1,5,W
-Steve Nash*,23,Phoenix Suns,Los Angeles Lakers,113–100,04/29/07,39:05:00,17,1,2,1,3,W
-Rajon Rondo,23,Boston Celtics,San Antonio Spurs,105–103,01/05/11,43:30:00,12,10,6,1,5,W
-Tyrese Haliburton,23,Indiana Pacers,New York Knicks,140–126,12/30/23,35:43:00,22,5,2,1,2,W
-Oscar Robertson*,22,Cincinnati Royals,Syracuse Nationals,139–132,10/29/61,NA,26,11,NA,NA,NA,W
-Oscar Robertson*,22,Cincinnati Royals,New York Knicks,149–145,03/05/66,53,44,8,NA,NA,NA,W
-Art Williams,22,San Diego Rockets,Phoenix Suns,136–126,12/28/68,42,8,9,NA,NA,NA,W
-Art Williams,22,San Diego Rockets,San Francisco Warriors,141–123,02/14/70,27,8,6,NA,NA,NA,W
-Kevin Porter,22,Washington Bullets,Atlanta Hawks,118–112,03/05/75,46,14,2,0,0,0,W
-Kevin Porter,22,Detroit Pistons,San Antonio Spurs,126–130,12/23/78,45,10,1,2,0,0,L
-Phil Ford,22,Kansas City Kings,Milwaukee Bucks,133–117,02/21/79,44,5,5,5,0,6,W
-Kevin Porter,22,Detroit Pistons,Chicago Bulls,117–124,02/27/79,44,32,5,4,0,4,L
-John Lucas,22,Golden State Warriors,Denver Nuggets,130–137,02/27/81,36,13,5,1,2,4,L
-Allen Leavell,22,Houston Rockets,New Jersey Nets,114–111,01/25/83,41,24,7,1,0,5,W
-Magic Johnson*,22,Los Angeles Lakers,Cleveland Cavaliers,127–114,11/17/83,37,23,9,3,1,2,W
-Ennis Whatley,22,Chicago Bulls,New York Knicks,111–113,01/14/84,41,8,5,4,0,3,L
-Ennis Whatley,22,Chicago Bulls,Atlanta Hawks,102–98,03/03/84,37,10,2,2,0,4,W
-John Stockton*,22,Utah Jazz,Los Angeles Lakers,107–101,01/08/87,43,11,5,1,0,2,W
-Doc Rivers,22,Atlanta Hawks,Boston Celtics,118–109,05/16/88,38,14,4,3,0,1,W
-John Stockton*,22,Utah Jazz,Cleveland Cavaliers,110–113,12/11/89,44,14,2,4,0,4,L
-Magic Johnson*,22,Los Angeles Lakers,Portland Trail Blazers,123–125,11/06/90,49,24,6,3,0,5,L
-John Stockton*,22,Utah Jazz,Philadelphia 76ers,112–98,12/18/92,32,17,2,2,0,1,W
-Sherman Douglas,22,Boston Celtics,Philadelphia 76ers,135–112,04/03/94,46,27,8,3,0,4,W
-Tim Hardaway*,22,Golden State Warriors,Orlando Magic,128–131,12/16/94,45,15,1,5,0,4,L
-Robert Pack,22,New Jersey Nets,Dallas Mavericks,114–91,11/23/96,39:13:00,17,2,5,0,4,W
-Mark Jackson,22,Denver Nuggets,New Jersey Nets,132–123,01/20/97,39:35:00,21,7,0,0,2,W
-George McCloud,22,Denver Nuggets,Chicago Bulls,109–104,03/26/01,49:21:00,5,4,0,0,5,W
-Andre Miller,22,Cleveland Cavaliers,Philadelphia 76ers,91–94,12/15/01,43:43:00,14,4,9,0,4,L
-Steve Nash*,22,Phoenix Suns,New York Knicks,133–140,01/02/06,55:28:00,28,5,1,0,4,L
-Chris Duhon,22,New York Knicks,Golden State Warriors,138–125,11/29/08,45:15:00,12,4,1,0,3,W
-Russell Westbrook,22,Oklahoma City Thunder,Phoenix Suns,114–101,12/17/16,34:01:00,26,11,2,1,5,W
-Trae Young,22,Atlanta Hawks,Cleveland Cavaliers,135–124,11/27/24,37,20,4,0,0,5,W
-Nikola Jokic,22,Denver Nuggets,Phoenix Suns,149–141,03/07/25,44:55:00,31,21,3,0,4,W
+Player,AST,Team,MP,PTS,REB,STL,BLK,TO,Score,Opponent,Date,Result
+Scott Skiles,30,Orlando Magic,44,22,6,2,0,4,155–116,Denver Nuggets,12/30/90,W
+Kevin Porter,29,New Jersey Nets,48,14,5,2,0,0,126–112,Houston Rockets,02/24/78,W
+Bob Cousy*,28,Boston Celtics,45,31,5,NA,NA,NA,173–139,Minneapolis Lakers,02/27/59,W
+Guy Rodgers*,28,San Francisco Warriors,48,14,5,NA,NA,NA,109–114,St. Louis Hawks,03/14/63,L
+John Stockton*,28,Utah Jazz,39,20,3,8,0,5,124–102,San Antonio Spurs,01/15/91,W
+Geoff Huston,27,Cleveland Cavaliers,46,24,1,0,0,4,110–106,Golden State Warriors,01/27/82,W
+John Stockton*,27,Utah Jazz,36,18,3,2,0,2,107–115,New York Knicks,12/19/89,L
+John Stockton*,26,Utah Jazz,45,17,3,2,0,2,123–128,Portland Trail Blazers,04/14/88,L
+Ernie DiGregorio,25,Buffalo Braves,48,20,9,2,0,NA,120–119,Portland Trail Blazers,01/01/74,W
+Kevin Porter,25,Detroit Pistons,37,30,3,0,0,4,160–119,Boston Celtics,03/09/79,W
+Kevin Porter,25,Detroit Pistons,46,13,3,2,0,4,105–116,Phoenix Suns,04/01/79,L
+Isiah Thomas*,25,Detroit Pistons,41,23,5,2,0,5,124–119,Dallas Mavericks,02/13/85,W
+Nate McMillan,25,Seattle SuperSonics,41,8,8,1,4,3,124–112,Los Angeles Clippers,02/23/87,W
+Kevin Johnson,25,Phoenix Suns,41,16,3,0,0,4,107–95,San Antonio Spurs,04/06/94,W
+Jason Kidd*,25,Dallas Mavericks,49,20,4,4,0,5,136–133,Utah Jazz,02/08/96,W
+Rajon Rondo,25,New Orleans Pelicans,30:18:00,2,7,1,0,3,128–113,Brooklyn Nets,12/27/17,W
+Guy Rodgers*,24,Chicago Bulls,NA,18,0,NA,NA,NA,110–107,New York Knicks,12/21/66,W
+Kevin Porter,24,Washington Bullets,44,12,1,0,0,0,119–114,Detroit Pistons,03/23/80,W
+John Lucas,24,San Antonio Spurs,28,0,0,2,0,2,157–154,Denver Nuggets,04/15/84,W
+Magic Johnson*,24,Los Angeles Lakers,38,6,7,5,2,4,118–102,Phoenix Suns,05/15/84,W
+Isiah Thomas*,24,Detroit Pistons,50,25,10,2,1,2,126–128,Washington Bullets,02/07/85,L
+John Stockton*,24,Utah Jazz,48,23,3,5,0,3,109–111,Los Angeles Lakers,05/17/88,L
+John Stockton*,24,Utah Jazz,45,26,1,6,0,1,102–104,Houston Rockets,01/03/89,L
+Magic Johnson*,24,Los Angeles Lakers,40,24,8,6,1,3,119–105,Denver Nuggets,11/17/89,W
+Magic Johnson*,24,Los Angeles Lakers,45,24,6,2,2,4,118–121,Phoenix Suns,01/09/90,L
+Ramon Sessions,24,Milwaukee Bucks,44:27:00,20,8,1,1,2,135–151,Chicago Bulls,04/14/08,L
+Rajon Rondo,24,Boston Celtics,45:20:00,10,10,1,0,7,105–101,New York Knicks,10/29/10,W
+Russell Westbrook,24,Oklahoma City Thunder,49:35:00,24,13,2,0,3,147–154,San Antonio Spurs,01/10/19,L
+Russell Westbrook,24,Washington Wizards,38:38:00,14,21,1,1,6,154–141,Indiana Pacers,05/03/21,W
+Jerry West*,23,Los Angeles Lakers,NA,24,6,NA,NA,NA,143–133,Philadelphia 76ers,02/01/67,W
+Kevin Porter,23,Detroit Pistons,41,20,3,1,0,0,131–119,Houston Rockets,12/27/78,W
+Kevin Porter,23,Detroit Pistons,43,15,3,1,0,3,113–124,Los Angeles Lakers,03/30/79,L
+Nate Archibald*,23,Boston Celtics,38,15,4,0,0,1,145–144,Denver Nuggets,02/05/82,W
+Magic Johnson*,23,Los Angeles Lakers,36,9,5,2,0,3,128–112,Seattle SuperSonics,02/21/84,W
+Magic Johnson*,23,Los Angeles Lakers,41,13,7,1,0,6,130–126,Portland Trail Blazers,05/03/85,W
+Magic Johnson*,23,Los Angeles Lakers,42,8,10,0,1,8,114–107,Dallas Mavericks,04/20/88,W
+Fat Lever,23,Denver Nuggets,42,15,13,5,0,1,139–121,Golden State Warriors,04/21/89,W
+John Stockton*,23,Utah Jazz,44,15,4,3,0,3,107–104,Los Angeles Lakers,04/12/90,W
+John Stockton*,23,Utah Jazz,41,27,3,4,0,1,105–95,Los Angeles Clippers,12/08/90,W
+John Stockton*,23,Utah Jazz,36,21,2,2,1,4,135–108,Golden State Warriors,11/29/91,W
+John Stockton*,23,Utah Jazz,36,9,2,5,0,4,120–106,Minnesota Timberwolves,04/17/92,W
+Mookie Blaylock,23,Atlanta Hawks,37,11,0,4,0,2,139–118,Utah Jazz,03/06/93,W
+John Stockton*,23,Utah Jazz,41,11,2,0,0,1,110–102,Portland Trail Blazers,04/25/96,W
+Nick Van Exel,23,Los Angeles Lakers,43:32:00,8,8,1,0,2,95–82,Vancouver Grizzlies,01/05/97,W
+Jamaal Tinsley,23,Indiana Pacers,45:02:00,19,11,1,1,5,110–103,Washington Wizards,11/22/01,W
+Steve Nash*,23,Phoenix Suns,39:05:00,17,1,2,1,3,113–100,Los Angeles Lakers,04/29/07,W
+Rajon Rondo,23,Boston Celtics,43:30:00,12,10,6,1,5,105–103,San Antonio Spurs,01/05/11,W
+Tyrese Haliburton,23,Indiana Pacers,35:43:00,22,5,2,1,2,140–126,New York Knicks,12/30/23,W
+Oscar Robertson*,22,Cincinnati Royals,NA,26,11,NA,NA,NA,139–132,Syracuse Nationals,10/29/61,W
+Oscar Robertson*,22,Cincinnati Royals,53,44,8,NA,NA,NA,149–145,New York Knicks,03/05/66,W
+Art Williams,22,San Diego Rockets,42,8,9,NA,NA,NA,136–126,Phoenix Suns,12/28/68,W
+Art Williams,22,San Diego Rockets,27,8,6,NA,NA,NA,141–123,San Francisco Warriors,02/14/70,W
+Kevin Porter,22,Washington Bullets,46,14,2,0,0,0,118–112,Atlanta Hawks,03/05/75,W
+Kevin Porter,22,Detroit Pistons,45,10,1,2,0,0,126–130,San Antonio Spurs,12/23/78,L
+Phil Ford,22,Kansas City Kings,44,5,5,5,0,6,133–117,Milwaukee Bucks,02/21/79,W
+Kevin Porter,22,Detroit Pistons,44,32,5,4,0,4,117–124,Chicago Bulls,02/27/79,L
+John Lucas,22,Golden State Warriors,36,13,5,1,2,4,130–137,Denver Nuggets,02/27/81,L
+Allen Leavell,22,Houston Rockets,41,24,7,1,0,5,114–111,New Jersey Nets,01/25/83,W
+Magic Johnson*,22,Los Angeles Lakers,37,23,9,3,1,2,127–114,Cleveland Cavaliers,11/17/83,W
+Ennis Whatley,22,Chicago Bulls,41,8,5,4,0,3,111–113,New York Knicks,01/14/84,L
+Ennis Whatley,22,Chicago Bulls,37,10,2,2,0,4,102–98,Atlanta Hawks,03/03/84,W
+John Stockton*,22,Utah Jazz,43,11,5,1,0,2,107–101,Los Angeles Lakers,01/08/87,W
+Doc Rivers,22,Atlanta Hawks,38,14,4,3,0,1,118–109,Boston Celtics,05/16/88,W
+John Stockton*,22,Utah Jazz,44,14,2,4,0,4,110–113,Cleveland Cavaliers,12/11/89,L
+Magic Johnson*,22,Los Angeles Lakers,49,24,6,3,0,5,123–125,Portland Trail Blazers,11/06/90,L
+John Stockton*,22,Utah Jazz,32,17,2,2,0,1,112–98,Philadelphia 76ers,12/18/92,W
+Sherman Douglas,22,Boston Celtics,46,27,8,3,0,4,135–112,Philadelphia 76ers,04/03/94,W
+Tim Hardaway*,22,Golden State Warriors,45,15,1,5,0,4,128–131,Orlando Magic,12/16/94,L
+Robert Pack,22,New Jersey Nets,39:13:00,17,2,5,0,4,114–91,Dallas Mavericks,11/23/96,W
+Mark Jackson,22,Denver Nuggets,39:35:00,21,7,0,0,2,132–123,New Jersey Nets,01/20/97,W
+George McCloud,22,Denver Nuggets,49:21:00,5,4,0,0,5,109–104,Chicago Bulls,03/26/01,W
+Andre Miller,22,Cleveland Cavaliers,43:43:00,14,4,9,0,4,91–94,Philadelphia 76ers,12/15/01,L
+Steve Nash*,22,Phoenix Suns,55:28:00,28,5,1,0,4,133–140,New York Knicks,01/02/06,L
+Chris Duhon,22,New York Knicks,45:15:00,12,4,1,0,3,138–125,Golden State Warriors,11/29/08,W
+Russell Westbrook,22,Oklahoma City Thunder,34:01:00,26,11,2,1,5,114–101,Phoenix Suns,12/17/16,W
+Trae Young,22,Atlanta Hawks,37,20,4,0,0,5,135–124,Cleveland Cavaliers,11/27/24,W
+Nikola Jokic,22,Denver Nuggets,44:55:00,31,21,3,0,4,149–141,Phoenix Suns,03/07/25,W
