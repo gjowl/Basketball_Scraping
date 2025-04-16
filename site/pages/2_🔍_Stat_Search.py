@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axes
+from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axis
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Stat Search',
@@ -62,12 +62,15 @@ if st.button('Show Data'):
     # show all the data with no scroll bar
     st.dataframe(player_df, use_container_width=True, hide_index=True)
     st.button('Hide Data')
+# change the YEAR column to be SEASON, keep the split by _
+player_df['SEASON'] = player_df['YEAR'].str.split('-').str[0]
 
 ## variables for the stats to get
 name_and_year = ['PLAYER_NAME', 'YEAR']
 cols_to_keep = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'MPG'] # keep the player name, team abbreviation, and GP
 percent = ['FG%', '2P%', '3P%']
-shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
+#shots = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
+shots_types = [['FG%', 'FGA_PG', 'FGM_PG'], ['2P%', '2PA_PG', '2PM_PG'], ['3P%', '3PA_PG', '3PM_PG'], ['FT%', 'FTA_PG', 'FTM_PG']] # make into quadrant plots
 shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
 quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
@@ -75,7 +78,7 @@ quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG',
 
 ## get the dataframes for the player
 percent_df = player_df[name_and_year + percent]
-shots_df = player_df[name_and_year + shots]
+#shots_df = player_df[name_and_year + shots]
 traditional_df = player_df[name_and_year + traditional]
 
 ## TABS 
@@ -152,44 +155,52 @@ with tab2:
         set_axis_text(fig)
     st.plotly_chart(fig, use_container_width=True)
 with tab3:
-    st.header(f'{player} Shooting Stats')
+    st.header(f'{player} Shooting Stats Trajectory by Year')
     if st.button('Show Shooting Data'):
         st.write('Below are the shooting stats for the player')
-        st.dataframe(shots_df, use_container_width=True, hide_index=True)
+        st.dataframe(player_df, use_container_width=True, hide_index=True)
         st.button('Hide Shooting Data')
     # add a toggle to add a line to the plot for the average of the stat
     show_lines = False
     if st.toggle('Add lines by year', key='line'):
         show_lines = True
-    figs = []
-    for shot_pair in shot_pairs:
-        x_axis, y_axis = shot_pair[1], shot_pair[0]
-        fig = px.scatter(player_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
-        fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-        fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
-        if show_lines:
-            # draw a line between consecutive year points
-            fig.add_trace(go.Scatter(x=player_df[x_axis], y=player_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
-        # extract the legend from the figure
-        legend = fig['layout']['legend']
-        # remove the legend from the figure
-        fig.update_layout(showlegend=False)
-        # update the color of the points to be the same as the team color
-        change_to_team_colors(fig, player_df, team_colors)
-        fig.update_traces(marker=dict(size=15, line=dict(width=3)))
-        adjust_axes(fig, player_df, x_axis, y_axis)
-        figs.append(fig)
-        set_axis_text(fig)
-    c1, c2 = st.columns(2)
-    c3, c4 = st.columns(2)
-    with c1:
-        st.plotly_chart(figs[0], use_container_width=True)
-    with c2:
-        st.plotly_chart(figs[1], use_container_width=True)
-    with c3:
-        st.plotly_chart(figs[2], use_container_width=True)
-    with c4:
-        st.plotly_chart(figs[3], use_container_width=True)
+    n = 0
+    for shots in shots_types:
+        figs = []
+        for shot in shots:
+            x_axis, y_axis = 'SEASON', shot
+            fig = px.scatter(player_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
+            fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
+            fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
+            if show_lines:
+                # draw a line between consecutive year points
+                fig.add_trace(go.Scatter(x=player_df[x_axis], y=player_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+            # extract the legend from the figure
+            legend = fig['layout']['legend']
+            # remove the legend from the figure
+            fig.update_layout(showlegend=False)
+            # update the color of the points to be the same as the team color
+            change_to_team_colors(fig, player_df, team_colors)
+            fig.update_traces(marker=dict(size=15, line=dict(width=3)))
+            min_y, max_y = adjust_axis(fig, player_df, y_axis)
+            fig.update_yaxes(range=[min_y, max_y])
+            # add the average of the stat to the plot (should get these instead for the year data?)
+            avg = player_df[y_axis].mean()
+            fig.add_hline(y=avg, line_color='red', line_width=1, line_dash='dash')
+            # add the average to above the x-axis line
+            fig.add_annotation(x=player_df[x_axis].max(), y=max_y, text=f'Avg {y_axis} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
+            figs.append(fig)
+            set_axis_text(fig)
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.plotly_chart(figs[0], key=n, use_container_width=True)
+            n+=1
+        with c2:
+            st.plotly_chart(figs[1], key=n, use_container_width=True)
+            n+=1
+        with c3:
+            st.plotly_chart(figs[2], key=n, use_container_width=True)
+            n+=1
     # TODO: show the legend on the right side of the plots
 
 # TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
