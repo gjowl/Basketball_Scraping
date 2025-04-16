@@ -10,7 +10,7 @@ team_colors = pd.read_csv(colors)
 
 data_dir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 # make a new directory to save the data to
-output_dir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/colored_data'
+output_dir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/with_colors'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
