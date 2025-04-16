@@ -19,7 +19,7 @@ st.title('Welcome to the stat search page!')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/with_colors'
+datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
@@ -164,10 +164,6 @@ with tab3:
     figs = []
     for shot_pair in shot_pairs:
         x_axis, y_axis = shot_pair[1], shot_pair[0]
-        # make a scatter_chart
-        st.scatter_chart(shots_df, x=x_axis, y=y_axis, x_label=x_axis, y_label=y_axis)
-        # change the color of the points to be the team color
-        #st.scatter_chart(shots_df, x=x_axis, y=y_axis, x_label=x_axis, y_label=y_axis, color='TEAM_ABBREVIATION')
         fig = px.scatter(player_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
         fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
         fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
