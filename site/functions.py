@@ -100,12 +100,19 @@ def get_player_data(_year_data_dict, _player):
         output_df = output_df.reset_index(drop=True)
     return output_df
 
-def update_yaxis(_fig, _data, _col):
-    min = _data[_col].min()
-    max = _data[_col].max()
-    min = round(min, 1) - 0.05
-    max = round(max, 1) + 0.05
-    _fig.update_yaxes(range=[min, max])
+# adjusts the axes values to be within the range of the data
+def adjust_axes(_fig, _data, _xcol, _ycol):
+    min_x, max_x = _data[_xcol].min(), _data[_xcol].max()
+    min_y, max_y = _data[_ycol].min(), _data[_ycol].max()
+    min_x, max_x =  min_x-(min_x*0.1), max_x+(max_x*0.1)
+    min_y, max_y =  min_y-(min_y*0.1), max_y+(max_y*0.1)
+    # TODO: if you can, remove the y-axis tick at if the min is the same for x and y
+    if min_y <= 1:
+        min_y = 0
+    if min_x <= 1:
+        min_x = 0
+    _fig.update_yaxes(range=[min_y, max_y])
+    _fig.update_xaxes(range=[min_x, max_x])
 
 # get the player ranks for the stats
 def get_player_ranks(_data, _player, _stat_list):

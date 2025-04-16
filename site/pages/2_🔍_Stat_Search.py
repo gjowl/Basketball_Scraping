@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text
+from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axes
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Stat Search',
@@ -19,7 +19,7 @@ st.title('Welcome to the stat search page!')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
+datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/with_colors'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
@@ -163,12 +163,17 @@ with tab3:
         show_lines = True
     figs = []
     for shot_pair in shot_pairs:
-        fig = px.scatter(player_df, x=shot_pair[1], y=shot_pair[0], color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{shot_pair[1]} vs {shot_pair[0]}')
+        x_axis, y_axis = shot_pair[1], shot_pair[0]
+        # make a scatter_chart
+        st.scatter_chart(shots_df, x=x_axis, y=y_axis, x_label=x_axis, y_label=y_axis)
+        # change the color of the points to be the team color
+        #st.scatter_chart(shots_df, x=x_axis, y=y_axis, x_label=x_axis, y_label=y_axis, color='TEAM_ABBREVIATION')
+        fig = px.scatter(player_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
         fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-        fig.update_layout(xaxis_title=shot_pair[1], yaxis_title=shot_pair[0])
+        fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
         if show_lines:
             # draw a line between consecutive year points
-            fig.add_trace(go.Scatter(x=player_df[shot_pair[1]], y=player_df[shot_pair[0]], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+            fig.add_trace(go.Scatter(x=player_df[x_axis], y=player_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
         # extract the legend from the figure
         legend = fig['layout']['legend']
         # remove the legend from the figure
@@ -176,6 +181,7 @@ with tab3:
         # update the color of the points to be the same as the team color
         change_to_team_colors(fig, player_df, team_colors)
         fig.update_traces(marker=dict(size=15, line=dict(width=3)))
+        adjust_axes(fig, player_df, x_axis, y_axis)
         figs.append(fig)
         set_axis_text(fig)
     c1, c2 = st.columns(2)

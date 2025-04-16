@@ -17,7 +17,7 @@ st.title('Welcome to the top stats page!')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
+datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/with_colors'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
