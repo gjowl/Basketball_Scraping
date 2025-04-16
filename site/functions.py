@@ -21,17 +21,20 @@ def sort_and_show_data(_data, _col1, _col2, team_colors, n=10):
     top = top.reset_index(drop=True)
     # trim to only have player name and the stat
     percentile_col = f'Percentile'
-    # show the data in a bar graph with player names and the stat above the bar
-    fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'Top {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
-    fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
-    # fit the figure to the screen
-    fig.update_layout(yaxis=dict(range=[0, top[_col1].max() * 1.1]), xaxis=dict(tickmode='linear', tick0=0, dtick=1))
-    # remove the legend
-    fig.update_layout(showlegend=False)
-    # make spec for vega-lite charts
-    fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
-    change_to_team_colors(fig1, top, team_colors)
-    change_to_team_colors(fig, top, team_colors)
+    st.write(top)
+
+    # show the data in a bar graph with player names and the stat above the bar, sort bar by col1
+    st.bar_chart(top, x='PLAYER_NAME', y=_col1, x_label='Player Name', y_label=_col1)
+    # change the color of the bars to be the team color
+    #fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
+    ## fit the figure to the screen
+    #fig.update_layout(yaxis=dict(range=[0, top[_col1].max() * 1.1]), xaxis=dict(tickmode='linear', tick0=0, dtick=1))
+    ## remove the legend
+    #fig.update_layout(showlegend=False)
+    ## make spec for vega-lite charts
+    #fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
+    #change_to_team_colors(fig1, top, team_colors)
+    #change_to_team_colors(fig, top, team_colors)
     #fig2 = px.scatter(top, x=_col1, y=newCol, color='PLAYER_NAME', title=f'{_col1} vs {newCol}', labels={'x': _col1, 'y': newCol}, size=f'{percentile_col}')
     c1, c2 = st.columns(2)
     with c1:
