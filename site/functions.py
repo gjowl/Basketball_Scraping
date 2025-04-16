@@ -101,6 +101,14 @@ def get_player_data(_year_data_dict, _player):
     return output_df
 
 # adjusts the axes values to be within the range of the data
+def adjust_axis(_fig, _data, _col):
+    min_col, max_col = _data[_col].min(), _data[_col].max()
+    min_col, max_col =  min_col-(min_col*0.1), max_col+(max_col*0.1)
+    if min_col <= 1:
+        min_col = 0
+    return min_col, max_col
+
+# adjusts the axes values to be within the range of the data
 def adjust_axes(_fig, _data, _xcol, _ycol):
     min_x, max_x = _data[_xcol].min(), _data[_xcol].max()
     min_y, max_y = _data[_ycol].min(), _data[_ycol].max()
