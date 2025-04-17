@@ -48,25 +48,85 @@ for root, dirs, files in os.walk(datadir):
         year_data_dict[filename] = tmp_df
 
 ## get all the unique player names from the year_data_dict
-player_names = pd.Series()
+player_names = pd.DataFrame()
 for key in year_data_dict.keys():
-    player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
-player_names = player_names.unique()
-
-
-all_data = pd.DataFrame()
-fig = go.Figure()
-# loop through the year_data_dict
-for key in year_data_dict.keys():
-    # get the data for the player from all years they played in the league
+    # add the year column to the dataframe
     year_df = year_data_dict[key]
-    # add a year column to the dataframe
     year_df['YEAR'] = key
-    # scatterplot the data
-    # keep the top 100 players by 3PM_PG
-    year_df = year_df.sort_values(by='3PM_PG', ascending=False).head(20)
-    fig.add_trace(go.Scatter(x=year_df['YEAR'], y=year_df['3PA_PG'], mode='markers', name=key, hovertemplate='%{text}', text=year_df['PLAYER_NAME']))
-    # change to the color 1 for each point
-    fig.update_traces(marker=dict(size=10, color=year_df['Color 1']), selector=dict(mode='markers'))
-# TODO: draw a line between the points of the same player
+    player_names = pd.concat([player_names, year_df], ignore_index=True)
+    
+# check if the player name is duplicated, if so remove the duplicates
+player_names_no_dups = player_names['PLAYER_NAME'].drop_duplicates(keep=False)
+st.write(len(player_names_no_dups), ' players that only have 1 year of data in the league')
+# if the player is in the list, remove them from the dataframe
+#player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_no_dups)]
+player_names = player_names[~player_names['PLAYER_NAME'].isin(player_names_no_dups)]
+# reset the index of the dataframe
+player_names = player_names.reset_index(drop=True)
+# count the number of instances of the player names in the dataframe
+player_names_count = player_names['PLAYER_NAME'].value_counts()
+# keep the players that have more than 5 instance in the dataframe
+
+# initial filtering
+player_names['SEASON'] = player_names['YEAR'].str.split('-').str[0]
+# add an input slider for the number of years to filter by
+count = st.slider('Select the number of years to filter by', 1, 10, 5) 
+# remove the players that have less than 10 years of data
+player_names_count = player_names_count[player_names_count > 10]
+player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_count.index)]
+st.write(len(player_names), ' players that have more than 5 years of data in the league')
+# do some initial filtering
+games_played = st.slider('Select the number of games played to filter by', 1, 82, 20) # 82 is the max number of games played in a season
+player_names = player_names[player_names['GP'] > games_played]
+# TODO: might be interesting to do some kind of density plot of GP
+# make a search bar for the stats to plot
+stat = st.selectbox('Select the stat to plot', player_names.columns[3:]) # from the GP column and on
+
+# add a slider for the number of players to plot per year
+num_players = st.slider('Select the number of players to plot per year', 1, 100, 50)
+
+# keep only the players with the top 100 of the stat for each year
+player_names = player_names.sort_values(by=stat, ascending=False).groupby('YEAR').head(num_players)
+
+# sort the players by year
+player_names = player_names.sort_values(by='SEASON')
+# plot the stat against YEAR
+# 3pt stats
+threes = ['3PM_PG', '3PA_PG', '3P%']
+twos = ['2PM_PG', '2PA_PG', '2P%']
+fgs = ['FGM_PG', 'FGA_PG', 'FG%']
+fts = ['FTM_PG', 'FTA_PG', 'FT%']
+general = ['APG', 'RPG', 'DREB_PG', 'OREB_PG', 'TOV_PG', 'SPG', 'BPG', 'PF_PG']
+# add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
+# if the stat is in threes, add a slider for the number of 3PA to filter by
+if stat in threes:
+    attempts = st.slider('Select the minimum number of 3PA_PG to filter by', 1, 10, 2) # 82 is the max number of games played in a season
+    player_names = player_names[player_names['3PA_PG'] > attempts]
+    # make sure the 3PA is more than 
+if stat in twos:
+    attempts = st.slider('Select the minimum number of 2PA_PG to filter by', 1, 10, 2) # 82 is the max number of games played in a season
+    player_names = player_names[player_names['2PA_PG'] > attempts]
+if stat in general:
+    # get the max of the stat rounded down
+    max_stat = int(player_names[stat].max())
+    attempts = st.slider(f'Select the minimum number of {stat} to filter by', 1, max_stat, 2) # 82 is the max number of games played in a season
+    player_names = player_names[player_names[stat] > attempts]
+fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', hover_data=['3PM_PG'], title=f'{stat} vs YEAR')
 st.plotly_chart(fig, use_container_width=True)
+# if you were to make this kind of like an interactive walkthrough; populating the page for each person being added would be helpful
+
+# I think making this an interactive page is for the best!
+# Let people pick the stat they want to see against year
+# make it so that you can make up to 3 (?) simultaneously
+
+traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG']
+
+#    # trace a line between all values that have the same PLAYER_NAME
+#
+#    # another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions
+## TODO: draw a line between the points of the same player
+## Some fun player comparison examples that you NEED to be able to do for this website to work out:
+## - Nash vs Steph
+## - MKG vs Haywood Highsmith
+## - Matas vs Tatum (from his first year with the type of game he has (percentages and usage and advanced might agree?); let's see if he adds the mid-range and passing next!)
+#st.plotly_chart(fig, use_container_width=True)

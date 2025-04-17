@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objects as go
 
 def change_to_team_colors(_fig, _data, team_colors):
     # set the color for each player to be the same as their team color
@@ -174,3 +175,30 @@ def set_axis_text(_fig, _x_size=16, _y_size=16):
     _fig.update_yaxes(title_font=dict(size=_y_size+2.5))
     # change the text to monospaced font
     _fig.update_layout(font_family="monospace")
+
+def make_year_scatterplot(_df, _col, _team_colors, _show_lines):
+    x_axis = 'SEASON'
+    y_axis = _col 
+    fig = px.scatter(_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
+    fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
+    fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
+    if _show_lines:
+        # draw a line between consecutive year points
+        fig.add_trace(go.Scatter(x=_df[x_axis], y=_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+    # extract the legend from the figure
+    legend = fig['layout']['legend']
+    # remove the legend from the figure
+    fig.update_layout(showlegend=False)
+    # update the color of the points to be the same as the team color
+    change_to_team_colors(fig, _df, _team_colors)
+    fig.update_traces(marker=dict(size=15, line=dict(width=3)))
+    min_y, max_y = adjust_axis(fig, _df, y_axis)
+    fig.update_yaxes(range=[min_y, max_y])
+    # add the average of the stat to the plot (should get these instead for the year data?)
+    avg = _df[y_axis].mean()
+    fig.add_hline(y=avg, line_color='red', line_width=1, line_dash='dash')
+    # add the average to above the x-axis line
+    fig.add_annotation(x=_df[x_axis].max(), y=max_y, text=f'Avg {y_axis} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
+    set_axis_text(fig)
+    return fig
+        
