@@ -15,6 +15,7 @@ leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
 
 # Page Setup
 
+# TODO: add in a blurb about the data being from Wikipedia with a link to the pages
 
 
 

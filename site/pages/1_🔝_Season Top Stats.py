@@ -32,6 +32,7 @@ option_df = pd.read_csv(options)
 # MAIN
 ## PAGE SETUP BELOW
 ## TODO: add in the setup of the page details here
+## TODO: fix the blurb at the top of the page
 
 
 

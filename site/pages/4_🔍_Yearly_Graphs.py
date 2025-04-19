@@ -30,6 +30,7 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+# TODO: clean this code up
 
 
 ## traverse directory to load data
@@ -58,6 +59,8 @@ for key in year_data_dict.keys():
 # check if the player name is duplicated, if so remove the duplicates
 player_names_no_dups = player_names['PLAYER_NAME'].drop_duplicates(keep=False)
 st.write(len(player_names_no_dups), ' players that only have 1 year of data in the league')
+# TODO: add in more of these during the trimming/filtering? Maybe add in other places too?
+
 # if the player is in the list, remove them from the dataframe
 #player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_no_dups)]
 player_names = player_names[~player_names['PLAYER_NAME'].isin(player_names_no_dups)]

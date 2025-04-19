@@ -29,6 +29,8 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+# TODO: add in a blurb about what this page does
+st.write('This page allows you to compare the stats of two players over the years they have played in the league.')
 
 
 

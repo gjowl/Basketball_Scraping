@@ -30,7 +30,8 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
-
+## TODO: clean this code up
+## TODO: add a blurb about the page and what it does
 
 ## traverse directory to load data
 year_data_dict = {}
