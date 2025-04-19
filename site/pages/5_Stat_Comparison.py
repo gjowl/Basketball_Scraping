@@ -99,14 +99,19 @@ else:
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
     # choose a stat to compare
     stat = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat')
+    # make the hover template for the player name
+    hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str)
+    hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str)
 
     # make a scatterplot of the 3P% vs year for both players on the same graph
     fig = px.scatter(player_data, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME')
     fig.add_trace(go.Scatter(x=player_data['SEASON'], y=player_data[stat], mode='lines', name=player_name, line=dict(color='blue', width=2)))
 
     # add the second player_data_2
-    fig.add_trace(go.Scatter(x=player_data_2['SEASON'], y=player_data_2[stat], mode='markers', name=player_name_2))
+    fig.add_trace(go.Scatter(x=player_data_2['SEASON'], y=player_data_2[stat], mode='markers', name=player_name_2, hovertemplate=hover_template_2, marker=dict(color='red', size=10, line=dict(width=2, color='DarkSlateGrey'))))
     fig.add_trace(go.Scatter(x=player_data_2['SEASON'], y=player_data_2[stat], mode='lines', name=player_name_2, line=dict(color='red', width=2)))
+
+    # add a hover name for the second player
     # add the first player_data
     fig.update_traces(marker=dict(size=12,
                             line=dict(width=2,
