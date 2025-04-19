@@ -129,4 +129,5 @@ traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', '
 ## - Nash vs Steph
 ## - MKG vs Haywood Highsmith
 ## - Matas vs Tatum (from his first year with the type of game he has (percentages and usage and advanced might agree?); let's see if he adds the mid-range and passing next!)
+## - Daniel Gafford vs Gary Payton II
 #st.plotly_chart(fig, use_container_width=True)
