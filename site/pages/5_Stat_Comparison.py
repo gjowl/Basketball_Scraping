@@ -76,7 +76,8 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 c1, c2 = st.columns(2)
 with c1:
     st.write('Choose a player')
-    player_name = st.selectbox('Player Name', player_names_count.index.tolist(), key='player_name')
+    # set the default to Stephen Curry
+    player_name = st.selectbox('Player Name', player_names_count.index.tolist(), index=player_names_count.index.tolist().index('Stephen Curry'),key='player_name')
 with c2:
     st.write('Choose a player to compare')
     player_name_2 = st.selectbox('Player Name', player_names_count.index.tolist(), key='player_name_2')
@@ -95,6 +96,7 @@ else:
     #fig = make_year_scatterplot(player_data, '3P%', team_colors, True)
     # TODO: add in recommended stats to compare
     # TODO: allow for more than just 1 stat
+    # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
     # choose a stat to compare
     stat = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat')
 
