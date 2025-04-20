@@ -30,6 +30,12 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+'''
+ - Select a player from the dropdown
+ - Tabs for Traditional, Shooting, and Non-Shooting stats
+ - Graphs and rankings for the player
+ - Button to show player data
+'''
 ## TODO: clean this code up
 ## TODO: add a blurb about the page and what it does
 

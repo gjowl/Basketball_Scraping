@@ -57,6 +57,13 @@ def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
 
 # MAIN
 ## PAGE SETUP BELOW
+'''
+ - Select the player 1
+ - Select the player 2
+ - Select the 3 stats to plot
+ - Choose to plot by years in league or season
+ - Plots
+'''
 st.write('This page allows you to compare the stats of two players over the years they have played in the league.')
 
 

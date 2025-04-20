@@ -29,6 +29,13 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+'''
+ - Select the number of years
+ - Select the number of games played
+ - Select the maximum number of players to plot
+ - Select the stat to plot
+ - Plots
+'''
 # TODO: might it be interesting to only look at specific teams?
 # TODO: clean this code up
 

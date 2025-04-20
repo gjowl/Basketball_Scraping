@@ -31,11 +31,15 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+'''
+ - Select the number of players to show 
+ - Select the number of games played
+ - Select the stat to plot
+ - Plots
+'''
 ## TODO: add in the setup of the page details here
 ## TODO: fix the blurb at the top of the page
-
-
-# TODO: add in a season
+## TODO: add in a season picker
 
 
 
@@ -112,4 +116,5 @@ if st.button('All Data', key='all_data_button'):
 
 # General TODO:
 # - add in the ability to select a year and then filter by that year (if possible?)
-# - finally need to get advanced stats this week, work those in, and then mess w/ colors
+# - finally need to get advanced stats this week and work those in
+# - mess w/ the color scheme, make sure it's nice
