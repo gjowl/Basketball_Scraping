@@ -27,11 +27,37 @@ options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
+# Functions
+def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
+    pname_1, pname_2= _playerdf_1['PLAYER_NAME'].values[0], _playerdf_2['PLAYER_NAME'].values[0]
+    # make the hover template for the player name
+    if _yaxis != 'GP':
+        hover_template_1 = pname_1 + '<br>' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str) + '<br>GP: ' + _playerdf_1['GP'].astype(str)
+        hover_template_2 = pname_2 + '<br>' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str) + '<br>GP: ' + _playerdf_2['GP'].astype(str)
+    else:
+        hover_template_1 = pname_1 + '<br>' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str)
+        hover_template_2 = pname_2 + '<br>' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str)
+    
+    # make a scatterplot of the 3P% vs year for both players on the same graph
+    fig = px.scatter(_playerdf_1, x=_xaxis, y=_yaxis, color='PLAYER_NAME', hover_name='PLAYER_NAME')
+    # add in the hover template for the first player
+    fig.add_trace(go.Scatter(x=_playerdf_1[_xaxis], y=_playerdf_1[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template_1, marker=dict(color='blue', size=10, line=dict(width=2, color='DarkSlateGrey'))))
+    fig.add_trace(go.Scatter(x=_playerdf_1[_xaxis], y=_playerdf_1[_yaxis], mode='lines', name=player_name, line=dict(color='blue', width=2)))
+
+    # add the second player to the graph
+    fig.add_trace(go.Scatter(x=_playerdf_2[_xaxis], y=_playerdf_2[_yaxis], mode='markers', name=player_name_2, hovertemplate=hover_template_2, marker=dict(color='red', size=10, line=dict(width=2, color='DarkSlateGrey'))))
+    fig.add_trace(go.Scatter(x=_playerdf_2[_xaxis], y=_playerdf_2[_yaxis], mode='lines', name=player_name_2, line=dict(color='red', width=2)))
+
+    fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
+    # remove the legend
+    fig.update_layout(showlegend=False)
+    fig.update_layout(title=f'{_yaxis} vs Year', xaxis_title='Year', yaxis_title=_yaxis)
+    st.plotly_chart(fig, key=f'compare_player_scatterplot_{n}', use_container_width=True)
+
 # MAIN
 ## PAGE SETUP BELOW
 # TODO: add in a blurb about what this page does
 st.write('This page allows you to compare the stats of two players over the years they have played in the league.')
-
 
 
 
@@ -97,40 +123,36 @@ else:
     st.write('Plotting the data against each other')
     #fig = make_year_scatterplot(player_data, '3P%', team_colors, True)
     # TODO: add in recommended stats to compare
-    # TODO: allow for more than just 1 stat
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
     # TODO: is there a way to compare Westbrook's late and early stage career? Could be interesting to see clearly hwo he's the same and has changed
     # choose a stat to compare
-    stat = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat')
-    x_axis = 'SEASON'
-    y_axis = stat
-    # make the hover template for the player name
-    if stat != 'GP':
-        hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str) + '<br> GP: ' + player_data['GP'].astype(str)
-        hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str) + '<br> GP: ' + player_data_2['GP'].astype(str)
-    else:
-        hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str)
-        hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str)
+    stat_1 = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('FG%'))
+    stat_2 = st.selectbox('Stat to compare', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
+    stat_3 = st.selectbox('Stat to compare', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('PPG'))
+    stats = [stat_1, stat_2, stat_3]
+
+    # variables
     if st.toggle('Compare by years in league', key='compare_years'):
-        x_axis = 'YEARS_IN_LEAGUE'
+        xaxis = 'YEARS_IN_LEAGUE'
         # get the years in league for each player
         player_data['YEARS_IN_LEAGUE'] = player_data['SEASON'].astype(int) - player_data['SEASON'].astype(int).min()
         player_data_2['YEARS_IN_LEAGUE'] = player_data_2['SEASON'].astype(int) - player_data_2['SEASON'].astype(int).min()
-    # make a scatterplot of the 3P% vs year for both players on the same graph
-    fig = px.scatter(player_data, x=x_axis, y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME')
-    fig.add_trace(go.Scatter(x=player_data[x_axis], y=player_data[stat], mode='lines', name=player_name, line=dict(color='blue', width=2)))
-
-    # add the second player_data_2
-    fig.add_trace(go.Scatter(x=player_data_2[x_axis], y=player_data_2[stat], mode='markers', name=player_name_2, hovertemplate=hover_template_2, marker=dict(color='red', size=10, line=dict(width=2, color='DarkSlateGrey'))))
-    fig.add_trace(go.Scatter(x=player_data_2[x_axis], y=player_data_2[stat], mode='lines', name=player_name_2, line=dict(color='red', width=2)))
-
-    # add a hover name for the second player
-    # add the first player_data
-    fig.update_traces(marker=dict(size=12,
-                            line=dict(width=2,
-                                      color='DarkSlateGrey')))
-    # remove the legend
-    fig.update_layout(showlegend=False)
-
-    fig.update_layout(title=f'{stat} vs Year', xaxis_title='Year', yaxis_title=stat)
-    st.plotly_chart(fig)
+        cols = ['PLAYER_NAME', 'YEARS_IN_LEAGUE', 'GP', stat_1, stat_2, stat_3]
+    else:
+        xaxis = 'SEASON'
+        cols = ['PLAYER_NAME', 'SEASON', 'GP', stat_1, stat_2, stat_3]
+    st.write('The stats are:', stat_1, stat_2, stat_3)
+    # keep the first 3 columns and the stat columns
+    player_data, player_data_2 = player_data[cols], player_data_2[cols]
+    c1, c2 = st.columns(2)
+    with c1:
+        st.write('Player 1')
+        st.dataframe(player_data, use_container_width=True, hide_index=True)
+    with c2:
+        st.write('Player 2')
+        st.dataframe(player_data_2, use_container_width=True, hide_index=True)
+    yaxis = stat_1
+    n = 0
+    for stat in stats:
+        compare_player_scatterplot(player_data, player_data_2, xaxis, stat_1, n)
+        n+=1
