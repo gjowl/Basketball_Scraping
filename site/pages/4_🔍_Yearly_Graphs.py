@@ -3,15 +3,14 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axes
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Stat Search',
-                   page_icon='🔍',
+st.set_page_config(page_title='Yearly Plots',
+                   page_icon='',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Stat Search')
+st.title('Yearly Plots')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -30,6 +29,7 @@ option_df = pd.read_csv(options)
 
 # MAIN
 ## PAGE SETUP BELOW
+# TODO: might it be interesting to only look at specific teams?
 # TODO: clean this code up
 
 
@@ -82,12 +82,13 @@ player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_count.
 games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 20) # 82 is the max number of games played in a season
 player_names = player_names[player_names['GP'] > games_played]
 # TODO: might be interesting to do some kind of density plot of GP
-# make a search bar for the stats to plot
-stat = st.selectbox('**Select the stat to plot**', player_names.columns[3:]) # from the GP column and on
 
 # add a slider for the number of players to plot per year
-num_players = st.slider('*Select the number of players to plot per year*', 1, 100, 50)
+# TODO: might not need this?
+num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 100, 50)
 st.divider()
+# make a search bar for the stats to plot
+stat = st.selectbox('**Select the stat to plot**', player_names.columns[3:]) # from the GP column and on
 # keep only the players with the top 100 of the stat for each year
 player_names = player_names.sort_values(by=stat, ascending=False).groupby('YEAR').head(num_players)
 
@@ -103,18 +104,20 @@ general = ['APG', 'RPG', 'DREB_PG', 'OREB_PG', 'TOV_PG', 'SPG', 'BPG', 'PF_PG']
 # add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
 # if the stat is in threes, add a slider for the number of 3PA to filter by
 if stat in threes:
-    attempts = st.slider('Select the minimum number of 3PA_PG to filter by', 1, 10, 2) # 82 is the max number of games played in a season
+    attempts = st.slider('*Select the minimum number of 3PA_PG to filter by*', 1, 10, 2) # 82 is the max number of games played in a season
     player_names = player_names[player_names['3PA_PG'] > attempts]
     # make sure the 3PA is more than 
 if stat in twos:
-    attempts = st.slider('Select the minimum number of 2PA_PG to filter by', 1, 10, 2) # 82 is the max number of games played in a season
+    attempts = st.slider('*Select the minimum number of 2PA_PG to filter by*', 1, 10, 2) # 82 is the max number of games played in a season
     player_names = player_names[player_names['2PA_PG'] > attempts]
 if stat in general:
     # get the max of the stat rounded down
     max_stat = int(player_names[stat].max())
-    attempts = st.slider(f'Select the minimum number of {stat} to filter by', 1, max_stat, 2) # 82 is the max number of games played in a season
+    attempts = st.slider(f'*Select the minimum number of **{stat}** to filter by*', 1, max_stat, 2) # 82 is the max number of games played in a season
     player_names = player_names[player_names[stat] > attempts]
 fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', hover_data=['3PM_PG'], title=f'{stat} vs YEAR')
+fig.update_layout(showlegend=False)
+# TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
 st.plotly_chart(fig, use_container_width=True)
 # if you were to make this kind of like an interactive walkthrough; populating the page for each person being added would be helpful
 
@@ -128,9 +131,5 @@ traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', '
 #
 #    # another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions
 ## TODO: draw a line between the points of the same player
-## Some fun player comparison examples that you NEED to be able to do for this website to work out:
-## - Nash vs Steph
-## - MKG vs Haywood Highsmith
-## - Matas vs Tatum (from his first year with the type of game he has (percentages and usage and advanced might agree?); let's see if he adds the mid-range and passing next!)
-## - Daniel Gafford vs Gary Payton II
+
 #st.plotly_chart(fig, use_container_width=True)

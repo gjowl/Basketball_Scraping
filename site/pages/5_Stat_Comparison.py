@@ -121,13 +121,13 @@ st.divider()
 # TODO: choose what to do if the same player is chosen
 if player_name == player_name_2:
     st.write('Same player chosen, please choose a different player')
+    # TODO: is there a way to compare Westbrook's late and early stage career? Could be interesting to see clearly hwo he's the same and has changed
 else:
     # plot the data against each other on the same plot
     st.write('*Choose up to 3 stats to compare*')
     #fig = make_year_scatterplot(player_data, '3P%', team_colors, True)
     # TODO: add in recommended stats to compare
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
-    # TODO: is there a way to compare Westbrook's late and early stage career? Could be interesting to see clearly hwo he's the same and has changed
     # choose a stat to compare
     stat_1 = st.selectbox('*Stat 1*', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('PPG'))
     stat_2 = st.selectbox('*Stat 2*', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
@@ -165,3 +165,10 @@ else:
             st.write('Player 2')
             st.dataframe(player_data_2, use_container_width=True, hide_index=True)
         st.button('Hide player data', key='hide_player_data')
+
+## Some fun player comparison examples that you NEED to be able to do for this website to work out:
+## - Nash vs Steph
+## - MKG vs Haywood Highsmith
+## - Matas vs Tatum (from his first year with the type of game he has (percentages and usage and advanced might agree?); let's see if he adds the mid-range and passing next!)
+## - Daniel Gafford vs Gary Payton II
+# TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats

@@ -35,14 +35,14 @@ option_df = pd.read_csv(options)
 ## TODO: fix the blurb at the top of the page
 
 
-
+# TODO: add in a season
 
 
 
 
 ## add in sliders for the number of players and games played
-num_players = st.slider('Number of players to show:', 1, 30, 10)
-num_gp = st.slider('Minimum number of games played:', 1, 82, 25)
+num_players = st.slider('*Number of players to show*', 1, 30, 10)
+num_gp = st.slider('*Minimum number of games played*', 1, 82, 25)
 
 ## add in a text box to search for a player
 st.write(f'Below you can click to view data for the top {num_players} players over the last {num_gp} games played in various statistical categories.')
@@ -86,8 +86,6 @@ if data['GP'].isnull().values.any():
 ## keep only the nubmer of games played
 data = data[data['GP'] >= num_gp]
 
-## TODO: add up attempts for 2PM and 3PM AND FTA/2 to get total attempts; maybe pair this stat with usage in some way?
-
 ## add a button to show the top players
 st.write(f'{option} for the last {num_gp} games played shown below.')
 
@@ -111,3 +109,7 @@ st.plotly_chart(fig, use_container_width=False)
 if st.button('All Data', key='all_data_button'):
     st.write(data)
     st.button(f'Hide')
+
+# General TODO:
+# - add in the ability to select a year and then filter by that year (if possible?)
+# - finally need to get advanced stats this week, work those in, and then mess w/ colors

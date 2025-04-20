@@ -6,12 +6,12 @@ import plotly.graph_objects as go
 from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axis, make_year_scatterplot
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Stat Search',
+st.set_page_config(page_title='Player Search',
                    page_icon='🔍',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Welcome to the stat search page!')
+st.title('Player Search')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -136,6 +136,7 @@ with tab1:
                 plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
 with tab2:
     st.header(f'{player} Shooting Stats Trajectory by Year')
+    # TODO: show the boxscore data for the player
     if st.button('Show Shooting Data'):
         st.write('Below are the shooting stats for the player')
         st.dataframe(player_df, use_container_width=True, hide_index=True)
@@ -162,6 +163,7 @@ with tab2:
             n+=1
 with tab3:
     st.header('Non-Shooting Stats Trajectory by Year')
+    # TODO: show the boxscore data for the player
     if st.button('Show Non-Shooting Data', key='nonshooting'):
         st.write('Below are the non-shooting stats for the player')
         st.dataframe(player_df, use_container_width=True, hide_index=True)
@@ -195,4 +197,3 @@ if st.button(f'Show All {player} Data'):
 # their most important stats and their overall impact on the game? Would some sort of impact on the game metric be interesting? How would I define that just using stats?
 # I think I have to start with the most impactful players: Steph is an outlier in 3pt shooting all time. But whenever it started (so he has a large difference in 3PAs to how quickly it gets closer)
 # could look at something like that? As if the player is a trendsetter if they are an outlier in a stat and the rest of the league (or at least a certain number of players follows suit?)
-# TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
