@@ -99,19 +99,30 @@ else:
     # TODO: add in recommended stats to compare
     # TODO: allow for more than just 1 stat
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
+    # TODO: is there a way to compare Westbrook's late and early stage career? Could be interesting to see clearly hwo he's the same and has changed
     # choose a stat to compare
     stat = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat')
+    x_axis = 'SEASON'
+    y_axis = stat
     # make the hover template for the player name
-    hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str)
-    hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str)
-
+    if stat != 'GP':
+        hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str) + '<br> GP: ' + player_data['GP'].astype(str)
+        hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str) + '<br> GP: ' + player_data_2['GP'].astype(str)
+    else:
+        hover_template_1 = player_name + '<br>' + player_data['SEASON'] + '<br>' + stat + ': ' + player_data[stat].astype(str)
+        hover_template_2 = player_name_2 + '<br>' + player_data_2['SEASON'] + '<br>' + stat + ': ' + player_data_2[stat].astype(str)
+    if st.toggle('Compare by years in league', key='compare_years'):
+        x_axis = 'YEARS_IN_LEAGUE'
+        # get the years in league for each player
+        player_data['YEARS_IN_LEAGUE'] = player_data['SEASON'].astype(int) - player_data['SEASON'].astype(int).min()
+        player_data_2['YEARS_IN_LEAGUE'] = player_data_2['SEASON'].astype(int) - player_data_2['SEASON'].astype(int).min()
     # make a scatterplot of the 3P% vs year for both players on the same graph
-    fig = px.scatter(player_data, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME')
-    fig.add_trace(go.Scatter(x=player_data['SEASON'], y=player_data[stat], mode='lines', name=player_name, line=dict(color='blue', width=2)))
+    fig = px.scatter(player_data, x=x_axis, y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME')
+    fig.add_trace(go.Scatter(x=player_data[x_axis], y=player_data[stat], mode='lines', name=player_name, line=dict(color='blue', width=2)))
 
     # add the second player_data_2
-    fig.add_trace(go.Scatter(x=player_data_2['SEASON'], y=player_data_2[stat], mode='markers', name=player_name_2, hovertemplate=hover_template_2, marker=dict(color='red', size=10, line=dict(width=2, color='DarkSlateGrey'))))
-    fig.add_trace(go.Scatter(x=player_data_2['SEASON'], y=player_data_2[stat], mode='lines', name=player_name_2, line=dict(color='red', width=2)))
+    fig.add_trace(go.Scatter(x=player_data_2[x_axis], y=player_data_2[stat], mode='markers', name=player_name_2, hovertemplate=hover_template_2, marker=dict(color='red', size=10, line=dict(width=2, color='DarkSlateGrey'))))
+    fig.add_trace(go.Scatter(x=player_data_2[x_axis], y=player_data_2[stat], mode='lines', name=player_name_2, line=dict(color='red', width=2)))
 
     # add a hover name for the second player
     # add the first player_data
