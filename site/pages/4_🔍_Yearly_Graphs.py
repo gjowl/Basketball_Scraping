@@ -11,7 +11,7 @@ st.set_page_config(page_title='Stat Search',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Welcome to the stat search page!')
+st.title('Stat Search')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -58,7 +58,7 @@ for key in year_data_dict.keys():
     
 # check if the player name is duplicated, if so remove the duplicates
 player_names_no_dups = player_names['PLAYER_NAME'].drop_duplicates(keep=False)
-st.write(len(player_names_no_dups), ' players that only have 1 year of data in the league')
+#st.write(len(player_names_no_dups), ' players that only have 1 year of data in the league')
 # TODO: add in more of these during the trimming/filtering? Maybe add in other places too?
 
 # if the player is in the list, remove them from the dataframe
@@ -73,21 +73,21 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 # initial filtering
 player_names['SEASON'] = player_names['YEAR'].str.split('-').str[0]
 # add an input slider for the number of years to filter by
-count = st.slider('Select the number of years to filter by', 1, 10, 5) 
+count = st.slider('*Select the number of years to filter by*', 1, 10, 5) 
 # remove the players that have less than 10 years of data
 player_names_count = player_names_count[player_names_count > 10]
 player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_count.index)]
-st.write(len(player_names), ' players that have more than 5 years of data in the league')
+#st.write(len(player_names), ' players that have more than 5 years of data in the league')
 # do some initial filtering
-games_played = st.slider('Select the number of games played to filter by', 1, 82, 20) # 82 is the max number of games played in a season
+games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 20) # 82 is the max number of games played in a season
 player_names = player_names[player_names['GP'] > games_played]
 # TODO: might be interesting to do some kind of density plot of GP
 # make a search bar for the stats to plot
-stat = st.selectbox('Select the stat to plot', player_names.columns[3:]) # from the GP column and on
+stat = st.selectbox('**Select the stat to plot**', player_names.columns[3:]) # from the GP column and on
 
 # add a slider for the number of players to plot per year
-num_players = st.slider('Select the number of players to plot per year', 1, 100, 50)
-
+num_players = st.slider('*Select the number of players to plot per year*', 1, 100, 50)
+st.divider()
 # keep only the players with the top 100 of the stat for each year
 player_names = player_names.sort_values(by=stat, ascending=False).groupby('YEAR').head(num_players)
 

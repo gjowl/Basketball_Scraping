@@ -55,14 +55,11 @@ for key in year_data_dict.keys():
 player_names = player_names.unique()
 
 ## create a search bar for the player names
-player = st.selectbox('Select the player to load', player_names)
+player = st.selectbox('*Select the player to load*', player_names)
 
 ## get the data for the player from all years they played in the league
 player_df = get_player_data(year_data_dict, player)
-if st.button('Show Data'):
-    # show all the data with no scroll bar
-    st.dataframe(player_df, use_container_width=True, hide_index=True)
-    st.button('Hide Data')
+
 # change the YEAR column to be SEASON, keep the split by _
 player_df['SEASON'] = player_df['YEAR'].str.split('-').str[0]
 
@@ -84,17 +81,16 @@ percent_df = player_df[name_and_year + percent]
 traditional_df = player_df[name_and_year + traditional]
 
 ## TABS 
-tab1, tab2, tab3 = st.tabs(['Traditional', 'Shooting', 'Non-Shooting']) # add in advanced as well
+tab1, tab2, tab3 = st.tabs(['**Traditional**', '**Shooting**', '**Non-Shooting**']) # add in advanced as well
 n = 0
 with tab1:
-    st.header('Traditional Stats')
-    st.write('Below are the traditional stats for the player')
+    st.header('Traditional Boxscore Stats')
     st.dataframe(traditional_df, use_container_width=True, hide_index=True)
     # add a dropdown to select the season of interest
     season = st.selectbox('Select the season of interest', player_df['YEAR'].unique())
     # get the stats for the season
     season_df = year_data_dict[season]
-    if st.toggle('GP Threshold'):
+    if st.toggle('**GP Threshold**'):
         # add in a slider for the number of games played
         gp = st.slider('Number of games played', 0, 82, 10)
         # filter the dataframe to only include players with more than 10 games played
@@ -113,7 +109,7 @@ with tab1:
     # get the top ranks for the player
     player_ranks = player_ranks.sort_values(by='Rank', ascending=True)
     # check if any ranks are within the top 100
-    if st.toggle('Show All Ranked Plots'):
+    if st.toggle('**Show All Ranked Plots**'):
         for pair in quadrant_pairs:
             plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
     else:
@@ -146,7 +142,7 @@ with tab2:
         st.button('Hide Shooting Data')
     # add a toggle to add a line to the plot for the average of the stat
     show_lines = False
-    if st.toggle('Add lines by year', key='line'):
+    if st.toggle('**Add lines by year**', key='lines_by_year'):
         show_lines = True
     for shots in shots_types:
         figs = []
@@ -166,10 +162,10 @@ with tab2:
             n+=1
 with tab3:
     st.header('Non-Shooting Stats Trajectory by Year')
-    if st.button('Show Non-Shooting Data'):
+    if st.button('Show Non-Shooting Data', key='nonshooting'):
         st.write('Below are the non-shooting stats for the player')
         st.dataframe(player_df, use_container_width=True, hide_index=True)
-        st.button('Hide Non-Shooting Data')
+        st.button('Hide Non-Shooting Data', key='hide_nonshooting')
     show_lines = False
     if st.toggle('Add lines by year', key='line-nonshooting'):
         show_lines = True
@@ -191,6 +187,10 @@ with tab3:
             n+=1
         # TODO: show the legend on the right side of the plots
 
+if st.button(f'Show All {player} Data'):
+    # show all the data with no scroll bar
+    st.dataframe(player_df, use_container_width=True, hide_index=True)
+    st.button('Hide Data', key=f'hide_{player}_data')
 # an interesting alternate idea (or maybe concurrent) is to basically make the website a scrolling timeline of the player: Kind of like the spotify wrapped, but a timeline of the player with 
 # their most important stats and their overall impact on the game? Would some sort of impact on the game metric be interesting? How would I define that just using stats?
 # I think I have to start with the most impactful players: Steph is an outlier in 3pt shooting all time. But whenever it started (so he has a large difference in 3PAs to how quickly it gets closer)

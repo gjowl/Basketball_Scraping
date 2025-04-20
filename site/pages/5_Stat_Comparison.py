@@ -3,14 +3,15 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
+from functions import set_axis_text
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Stat Comparison',
+st.set_page_config(page_title='Player Stat Comparison',
                    page_icon='🔍',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Welcome to the stat comparison page!')
+st.title('Player Comparison Page')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -32,11 +33,11 @@ def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
     pname_1, pname_2= _playerdf_1['PLAYER_NAME'].values[0], _playerdf_2['PLAYER_NAME'].values[0]
     # make the hover template for the player name
     if _yaxis != 'GP':
-        hover_template_1 = pname_1 + '<br>' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str) + '<br>GP: ' + _playerdf_1['GP'].astype(str)
-        hover_template_2 = pname_2 + '<br>' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str) + '<br>GP: ' + _playerdf_2['GP'].astype(str)
+        hover_template_1 = pname_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str) + '<br>GP: ' + _playerdf_1['GP'].astype(str)
+        hover_template_2 = pname_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str) + '<br>GP: ' + _playerdf_2['GP'].astype(str)
     else:
-        hover_template_1 = pname_1 + '<br>' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str)
-        hover_template_2 = pname_2 + '<br>' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str)
+        hover_template_1 = pname_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str)
+        hover_template_2 = pname_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str)
     
     # make a scatterplot of the 3P% vs year for both players on the same graph
     fig = px.scatter(_playerdf_1, x=_xaxis, y=_yaxis, color='PLAYER_NAME', hover_name='PLAYER_NAME')
@@ -51,14 +52,12 @@ def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
     fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
     # remove the legend
     fig.update_layout(showlegend=False)
-    fig.update_layout(title=f'{_yaxis} vs Year', xaxis_title='Year', yaxis_title=_yaxis)
+    fig.update_layout(title=f'{_yaxis} per {_xaxis}', xaxis_title=_xaxis, yaxis_title=_yaxis)
     st.plotly_chart(fig, key=f'compare_player_scatterplot_{n}', use_container_width=True)
 
 # MAIN
 ## PAGE SETUP BELOW
-# TODO: add in a blurb about what this page does
 st.write('This page allows you to compare the stats of two players over the years they have played in the league.')
-
 
 
 
@@ -103,16 +102,20 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 # choose a player from the list of players
 c1, c2 = st.columns(2)
 with c1:
-    st.write('Choose a player')
+    st.write('**Choose a player**')
     # set the default to Stephen Curry
-    player_name = st.selectbox('Player Name', player_names_count.index.tolist(), index=player_names_count.index.tolist().index('Stephen Curry'),key='player_name')
+    player_name = st.selectbox('Player 1', player_names_count.index.tolist(), index=player_names_count.index.tolist().index('Stephen Curry'),key='player_name')
 with c2:
-    st.write('Choose a player to compare')
-    player_name_2 = st.selectbox('Player Name', player_names_count.index.tolist(), key='player_name_2')
+    st.write('**Choose a player to compare**')
+    # set the default to Steve Nash
+    player_name_2 = st.selectbox('Player 2', player_names_count.index.tolist(), key='player_name_2', index=player_names_count.index.tolist().index('Steve Nash'))
 
 # get the data for the selected player
 player_data = player_names[player_names['PLAYER_NAME'] == player_name].reset_index(drop=True)
 player_data_2 = player_names[player_names['PLAYER_NAME'] == player_name_2].reset_index(drop=True)
+
+# 
+st.divider()
 
 # if the same player is chosen, show the selectbox again for years
 # TODO: choose what to do if the same player is chosen
@@ -120,19 +123,19 @@ if player_name == player_name_2:
     st.write('Same player chosen, please choose a different player')
 else:
     # plot the data against each other on the same plot
-    st.write('Plotting the data against each other')
+    st.write('*Choose up to 3 stats to compare*')
     #fig = make_year_scatterplot(player_data, '3P%', team_colors, True)
     # TODO: add in recommended stats to compare
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
     # TODO: is there a way to compare Westbrook's late and early stage career? Could be interesting to see clearly hwo he's the same and has changed
     # choose a stat to compare
-    stat_1 = st.selectbox('Stat to compare', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('FG%'))
-    stat_2 = st.selectbox('Stat to compare', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
-    stat_3 = st.selectbox('Stat to compare', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('PPG'))
+    stat_1 = st.selectbox('*Stat 1*', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('PPG'))
+    stat_2 = st.selectbox('*Stat 2*', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
+    stat_3 = st.selectbox('*Stat 3*', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('FG%'))
     stats = [stat_1, stat_2, stat_3]
 
     # variables
-    if st.toggle('Compare by years in league', key='compare_years'):
+    if st.toggle('**Compare by years in league**', key='compare_years', value=True):
         xaxis = 'YEARS_IN_LEAGUE'
         # get the years in league for each player
         player_data['YEARS_IN_LEAGUE'] = player_data['SEASON'].astype(int) - player_data['SEASON'].astype(int).min()
@@ -141,18 +144,24 @@ else:
     else:
         xaxis = 'SEASON'
         cols = ['PLAYER_NAME', 'SEASON', 'GP', stat_1, stat_2, stat_3]
-    st.write('The stats are:', stat_1, stat_2, stat_3)
+
+    st.write('By default data are plotted by season, but you can also choose to plot by years in the league by switching the toggle above.')
     # keep the first 3 columns and the stat columns
     player_data, player_data_2 = player_data[cols], player_data_2[cols]
-    c1, c2 = st.columns(2)
-    with c1:
-        st.write('Player 1')
-        st.dataframe(player_data, use_container_width=True, hide_index=True)
-    with c2:
-        st.write('Player 2')
-        st.dataframe(player_data_2, use_container_width=True, hide_index=True)
-    yaxis = stat_1
+    
+    # plot the data
     n = 0
     for stat in stats:
-        compare_player_scatterplot(player_data, player_data_2, xaxis, stat_1, n)
+        compare_player_scatterplot(player_data, player_data_2, xaxis, stat, n)
         n+=1
+
+    # add a button to show the player data
+    if st.button('Show player data', key='show_player_data'):
+        c1, c2 = st.columns(2)
+        with c1:
+            st.write('Player 1')
+            st.dataframe(player_data, use_container_width=True, hide_index=True)
+        with c2:
+            st.write('Player 2')
+            st.dataframe(player_data_2, use_container_width=True, hide_index=True)
+        st.button('Hide player data', key='hide_player_data')
