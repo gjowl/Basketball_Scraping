@@ -38,21 +38,27 @@ option_df = pd.read_csv(options)
 '''
 ## TODO: clean this code up
 ## TODO: add a blurb about the page and what it does
+# TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
 
+# FUNCTIONS
 ## traverse directory to load data
-year_data_dict = {}
-for root, dirs, files in os.walk(datadir):
-    for file in files:
-        # look if the name of the file is what you want
-        # read in the file
-        tmp_df = pd.read_csv(os.path.join(root, file))
-        # get the filename and remove the extension, separate by _
-        filename = file.split('_')[0]
-        # check if ~ is in the filename, if so don't add it to the dictionary
-        if '~' in filename:
-            continue
-        # add the df to the dictionary with the filename as the key
-        year_data_dict[filename] = tmp_df
+def create_year_data_dict(datadir):
+    year_data_dict = {}
+    for root, dirs, files in os.walk(datadir):
+        for file in files:
+            # look if the name of the file is what you want
+            # read in the file
+            tmp_df = pd.read_csv(os.path.join(root, file))
+            # get the filename and remove the extension, separate by _
+            filename = file.split('_')[0]
+            # check if ~ is in the filename, if so don't add it to the dictionary
+            if '~' in filename:
+                continue
+            # add the df to the dictionary with the filename as the key
+            year_data_dict[filename] = tmp_df
+    return year_data_dict
+
+year_data_dict = create_year_data_dict(datadir)
 
 ## get all the unique player names from the year_data_dict
 player_names = pd.Series()
@@ -79,7 +85,7 @@ shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], 
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG'] # unsure yet
 traditional_groups = [['MPG', 'PPG', 'APG'], ['RPG', 'SPG', 'BPG'], ['AST_TO', 'TOV_PG', 'PF_PG']] # unsure yet
 quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
-#advanced = ['AST_TO', 'NBA_FANTASY_PTS_PG', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'STL%', 'BLK%']
+advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
 
 ## get the dataframes for the player
 percent_df = player_df[name_and_year + percent]
@@ -87,7 +93,7 @@ percent_df = player_df[name_and_year + percent]
 traditional_df = player_df[name_and_year + traditional]
 
 ## TABS 
-tab1, tab2, tab3 = st.tabs(['**Traditional**', '**Shooting**', '**Non-Shooting**']) # add in advanced as well
+tab1, tab2, tab3, tab4 = st.tabs(['**Traditional**', '**Shooting**', '**Non-Shooting**', '**Advanced**']) # add in advanced as well
 n = 0
 with tab1:
     st.header('Traditional Boxscore Stats')
@@ -194,6 +200,22 @@ with tab3:
             st.plotly_chart(figs[2], key=n, use_container_width=True)
             n+=1
         # TODO: show the legend on the right side of the plots
+with tab4:
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/ADVANCED'
+    advanced_data_dict = create_year_data_dict(datadir)
+    ## get the data for the player from all years they played in the league
+    player_df = get_player_data(advanced_data_dict, player)
+
+    # change the YEAR column to be SEASON, keep the split by _
+    player_df['SEASON'] = player_df['YEAR'].str.split('-').str[0]
+
+    # read in the advanced stats data
+    stats = ['W%', 'TS%', 'USG%', 'AST%', 'OREB%', 'DREB%', 'REB%', 'POSS_PG', 'EFG%']
+    for stat in stats:
+        fig = make_year_scatterplot(player_df, stat, team_colors, show_lines)
+        st.plotly_chart(fig, use_container_width=True)
+    ranks = ['OFF_RATING_RANK', 'DEF_RATING_RANK', 'AST%_RANK', 'AST_TO_RATIO_RANK', 'AST_PCT_RANK', 'STL_PCT_RANK', 'BLK_PCT_RANK', 'OREB%_RANK', 'DREB%_RANK', 'REB%_RANK', 'TS%_RANK', 'USG%_RANK', 'EFG%_RANK']
+
 
 if st.button(f'Show All {player} Data'):
     # show all the data with no scroll bar
