@@ -4,6 +4,18 @@ import plotly.express as px
 
 st.title('last n games')
 
+# hide this page
+st.markdown(
+    """
+    <style>
+    .stApp {
+        display: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # VARIABLES
 
 # FUNCTIONS
