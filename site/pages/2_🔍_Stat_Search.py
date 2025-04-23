@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import change_to_team_colors, plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, set_axis_text, adjust_axis, make_year_scatterplot
+from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, make_year_scatterplot, create_year_data_dict
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Search',
@@ -28,54 +28,7 @@ options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
-# MAIN
-## PAGE SETUP BELOW
-'''
- - Select a player from the dropdown
- - Tabs for Traditional, Shooting, and Non-Shooting stats
- - Graphs and rankings for the player
- - Button to show player data
-'''
-## TODO: clean this code up
-## TODO: add a blurb about the page and what it does
-# TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
-
-# FUNCTIONS
-## traverse directory to load data
-def create_year_data_dict(datadir):
-    year_data_dict = {}
-    for root, dirs, files in os.walk(datadir):
-        for file in files:
-            # look if the name of the file is what you want
-            # read in the file
-            tmp_df = pd.read_csv(os.path.join(root, file))
-            # get the filename and remove the extension, separate by _
-            filename = file.split('_')[0]
-            # check if ~ is in the filename, if so don't add it to the dictionary
-            if '~' in filename:
-                continue
-            # add the df to the dictionary with the filename as the key
-            year_data_dict[filename] = tmp_df
-    return year_data_dict
-
-year_data_dict = create_year_data_dict(datadir)
-
-## get all the unique player names from the year_data_dict
-player_names = pd.Series()
-for key in year_data_dict.keys():
-    player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
-player_names = player_names.unique()
-
-## create a search bar for the player names
-player = st.selectbox('*Select the player to load*', player_names)
-
-## get the data for the player from all years they played in the league
-player_df = get_player_data(year_data_dict, player)
-
-# change the YEAR column to be SEASON, keep the split by _
-player_df['SEASON'] = player_df['YEAR'].str.split('-').str[0]
-
-## variables for the stats to get
+## VARIABLES FOR THE STATS TO GET
 name_and_year = ['PLAYER_NAME', 'YEAR']
 cols_to_keep = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'MPG'] # keep the player name, team abbreviation, and GP
 percent = ['FG%', '2P%', '3P%']
@@ -86,6 +39,29 @@ traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', '
 traditional_groups = [['MPG', 'PPG', 'APG'], ['RPG', 'SPG', 'BPG'], ['AST_TO', 'TOV_PG', 'PF_PG']] # unsure yet
 quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
 advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
+
+# MAIN
+## PAGE SETUP BELOW
+## SELECT A PLAYER FROM THE DROPDOWN
+## TABS SEPARATED STATS AND GRAPHS
+## BUTTON TO SHOW PLAYER DATA
+
+## TODO: clean this code up
+## TODO: add a blurb about the page and what it does
+# TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
+
+# LOAD IN THE DATA
+year_data_dict = create_year_data_dict(datadir)
+## get all the unique player names from the year_data_dict
+player_names = pd.Series()
+for key in year_data_dict.keys():
+    player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
+player_names = player_names.unique()
+
+## SELECT A PLAYER FROM THE DROPDOWN
+player = st.selectbox('*Select the player to load*', player_names)
+## get the data for the player from all years they played in the league
+player_df = get_player_data(year_data_dict, player)
 
 ## get the dataframes for the player
 percent_df = player_df[name_and_year + percent]

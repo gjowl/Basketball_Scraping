@@ -35,11 +35,6 @@ for root, dirs, files in os.walk(datadir):
             datafile = os.path.join(root, file)
             data = pd.read_csv(datafile)
 
-# General TODO:
-# - add in the ability to select a year and then filter by that year (if possible?)
-# - finally need to get advanced stats this week and work those in
-# - mess w/ the color scheme, make sure it's nice
-
 # MAIN
 ## PAGE SETUP BELOW
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
@@ -49,6 +44,7 @@ for root, dirs, files in os.walk(datadir):
 ## TODO: add in the setup of the page details here
 ## TODO: fix the blurb at the top of the page
 ## TODO: add in a season picker
+## TODO: make this page cleaner and more readable, its a bit messy right now
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 num_players = st.slider('*Number of players to show*', 1, 30, 10)
