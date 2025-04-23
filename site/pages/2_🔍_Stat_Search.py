@@ -201,7 +201,7 @@ with tab3:
             n+=1
         # TODO: show the legend on the right side of the plots
 with tab4:
-    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD/ADVANCED'
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
     advanced_data_dict = create_year_data_dict(datadir)
     ## get the data for the player from all years they played in the league
     player_df = get_player_data(advanced_data_dict, player)

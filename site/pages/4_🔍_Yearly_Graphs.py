@@ -17,9 +17,7 @@ st.title('Yearly Plots')
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
-#contains = 'all_game' # file you want to read
 datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
-contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 
@@ -38,7 +36,8 @@ option_df = pd.read_csv(options)
 '''
 # TODO: might it be interesting to only look at specific teams?
 # TODO: clean this code up
-
+if st.toggle('**Advanced**'):
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
 
 ## traverse directory to load data
 year_data_dict = {}
@@ -108,6 +107,7 @@ twos = ['2PM_PG', '2PA_PG', '2P%']
 fgs = ['FGM_PG', 'FGA_PG', 'FG%']
 fts = ['FTM_PG', 'FTA_PG', 'FT%']
 general = ['APG', 'RPG', 'DREB_PG', 'OREB_PG', 'TOV_PG', 'SPG', 'BPG', 'PF_PG']
+advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
 # add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
 # if the stat is in threes, add a slider for the number of 3PA to filter by
 if stat in threes:
@@ -122,7 +122,7 @@ if stat in general:
     max_stat = int(player_names[stat].max())
     attempts = st.slider(f'*Select the minimum number of **{stat}** to filter by*', 1, max_stat, 2) # 82 is the max number of games played in a season
     player_names = player_names[player_names[stat] > attempts]
-fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', hover_data=['3PM_PG'], title=f'{stat} vs YEAR')
+fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
 fig.update_layout(showlegend=False)
 # TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
 st.plotly_chart(fig, use_container_width=True)
