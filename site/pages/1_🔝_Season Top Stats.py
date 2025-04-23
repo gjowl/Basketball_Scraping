@@ -40,9 +40,8 @@ option_df = pd.read_csv(options)
 ## TODO: add in the setup of the page details here
 ## TODO: fix the blurb at the top of the page
 ## TODO: add in a season picker
-
-
-
+## STATS TO GET
+stats = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 
 ## add in sliders for the number of players and games played
 num_players = st.slider('*Number of players to show*', 1, 30, 10)
@@ -61,8 +60,7 @@ for root, dirs, files in os.walk(datadir):
             datafile = os.path.join(root, file)
             data = pd.read_csv(datafile)
 
-## STATS TO GET
-stats = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+
 ## SELECTION BOX TO CHOOSE A STAT TO VIEW
 option = st.selectbox(
     'Select a stat to view the stats',

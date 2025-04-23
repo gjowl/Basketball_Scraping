@@ -4,7 +4,7 @@ https://www.lineups.com/nba/team-stats
 http://www.hoopsstats.com/basketball/fantasy/nba/home
     - data site that uses data from lineups.com
 https://www.nba.com/stats/
-    - Has most of the advanced stats
+    - Has most of the stats
     - terms of use don't permit use for a website
 https://www.landofbasketball.com/
     - index of all time leaders information

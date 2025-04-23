@@ -43,7 +43,7 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     # url that is used to access the specified data: on nba.com/stats/, go to the webpage of interest, 
     # right click, inspect element (Q), go to network, search for league, then copy the url
     player_info_url = 'https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick='+draft_pick+'&DraftYear='+draft_year+'&GameScope=\
-    &GameSegment=&Height=&LastNGames='+lastNGames+'&LeagueID=00&Location=&MeasureType='+measureType+'Base&Month='+month+'&OpponentTeamID=0&Outcome='+outcome+'&PORound=0&PaceAdjust=N&PerMode='+per_mode+'&Period='+period+'\
+    &GameSegment=&Height=&LastNGames='+lastNGames+'&LeagueID=00&Location=&MeasureType='+measureType+'&Month='+month+'&OpponentTeamID=0&Outcome='+outcome+'&PORound=0&PaceAdjust=N&PerMode='+per_mode+'&Period='+period+'\
     0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season='+season+'&SeasonSegment='+segment+'&SeasonType='+season_type+'&ShotClockRange=\
     &StarterBench='+starter_bench+'&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
     # There are a bunch more urls that can be used to get more data; for example, the below url can be used to get the shot locations of each player
@@ -83,6 +83,7 @@ period = config[programName]['period']
 month = config[programName]['month']
 shot_clock_range = config[programName]['shot_clock_range']
 segment = config[programName]['segment']
+measureType = config[programName]['measureType']
 
 # set the per_mode and season from the config file
 per_mode = ["PerGame", "Per36", "Totals", "Per100Possessions"]
@@ -103,7 +104,8 @@ parameters = {
     "period": period,
     "shot_clock_range": shot_clock_range,
     "month": month,
-    "segment": segment
+    "segment": segment,
+    'measureType': measureType,
 }
 # make it so that I get individual draft stats, separated in dataframes, for anyone in the first 4 years of their career
 
