@@ -23,6 +23,11 @@ datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
+advanced = False
+
+if st.toggle('**Advanced**'):
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    advanced = True
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
@@ -65,9 +70,6 @@ def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
  - Plots
 '''
 st.write('This page allows you to compare the stats of two players over the years they have played in the league.')
-
-
-
 
 # stolen from yearly; could maybe make a function?
 ## traverse directory to load data
@@ -136,9 +138,14 @@ else:
     # TODO: add in recommended stats to compare
     # TODO: decide if I should get some averages for each player? Or average overall for all players throughout the years both players played?
     # choose a stat to compare
-    stat_1 = st.selectbox('*Stat 1*', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('PPG'))
-    stat_2 = st.selectbox('*Stat 2*', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
-    stat_3 = st.selectbox('*Stat 3*', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('FG%'))
+    if advanced == False:
+        stat_1 = st.selectbox('*Stat 1*', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('PPG'))
+        stat_2 = st.selectbox('*Stat 2*', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('3P%'))
+        stat_3 = st.selectbox('*Stat 3*', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('FG%'))
+    else:
+        stat_1 = st.selectbox('*Stat 1*', player_data.columns.tolist()[3:], key='stat_1', index=player_data.columns.tolist()[3:].index('TS%'))
+        stat_2 = st.selectbox('*Stat 2*', player_data_2.columns.tolist()[3:], key='stat_2', index=player_data_2.columns.tolist()[3:].index('USG%'))
+        stat_3 = st.selectbox('*Stat 3*', player_data_2.columns.tolist()[3:], key='stat_3', index=player_data_2.columns.tolist()[3:].index('AST%'))
     stats = [stat_1, stat_2, stat_3]
 
     # variables
