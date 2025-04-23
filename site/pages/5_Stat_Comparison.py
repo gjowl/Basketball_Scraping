@@ -119,6 +119,8 @@ with c2:
     # set the default to Steve Nash
     player_name_2 = st.selectbox('Player 2', player_names_count.index.tolist(), key='player_name_2', index=player_names_count.index.tolist().index('Steve Nash'))
 
+# TODO: is it possible to add a list of recommended players to compare? Like a list of players that are similar to the player chosen
+
 # get the data for the selected player
 player_data = player_names[player_names['PLAYER_NAME'] == player_name].reset_index(drop=True)
 player_data_2 = player_names[player_names['PLAYER_NAME'] == player_name_2].reset_index(drop=True)
