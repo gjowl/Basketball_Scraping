@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
+import os
 
 def change_to_team_colors(_fig, _data, team_colors):
     # set the color for each player to be the same as their team color
@@ -202,3 +203,22 @@ def make_year_scatterplot(_df, _col, _team_colors, _show_lines):
     set_axis_text(fig)
     return fig
         
+## traverse directory to load data
+def create_year_data_dict(datadir):
+    year_data_dict = {}
+    for root, dirs, files in os.walk(datadir):
+        for file in files:
+            # look if the name of the file is what you want
+            # read in the file
+            tmp_df = pd.read_csv(os.path.join(root, file))
+            # get the filename and remove the extension, separate by _
+            filename = file.split('_')[0]
+            # check if ~ is in the filename, if so don't add it to the dictionary
+            if '~' in filename:
+                continue
+            # change the YEAR column to be SEASON, keep the split by _
+            tmp_df['YEAR'] = filename
+            tmp_df['SEASON'] = tmp_df['YEAR'].str.split('-').str[0]
+            # add the df to the dictionary with the filename as the key
+            year_data_dict[filename] = tmp_df
+    return year_data_dict
