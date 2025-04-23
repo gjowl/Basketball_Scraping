@@ -34,11 +34,11 @@ def compare_player_scatterplot(_playerdf_1, _playerdf_2, _xaxis, _yaxis, n=0):
     player_name_1, player_name_2 = _playerdf_1['PLAYER_NAME'].values[0], _playerdf_2['PLAYER_NAME'].values[0]
     # make the hover template for the player name
     if _yaxis != 'GP':
-        hover_template_1 = pname_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str) + '<br>GP: ' + _playerdf_1['GP'].astype(str)
-        hover_template_2 = pname_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str) + '<br>GP: ' + _playerdf_2['GP'].astype(str)
+        hover_template_1 = player_name_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str) + '<br>GP: ' + _playerdf_1['GP'].astype(str)
+        hover_template_2 = player_name_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str) + '<br>GP: ' + _playerdf_2['GP'].astype(str)
     else:
-        hover_template_1 = pname_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str)
-        hover_template_2 = pname_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str)
+        hover_template_1 = player_name_1 + f'<br>{_xaxis}: ' + _playerdf_1[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_1[_yaxis].astype(str)
+        hover_template_2 = player_name_2 + f'<br>{_xaxis}: ' + _playerdf_2[_xaxis].astype(str) + '<br>' + _yaxis + ': ' + _playerdf_2[_yaxis].astype(str)
     # make a scatterplot of the 3P% vs year for both players on the same graph
     fig = px.scatter(_playerdf_1, x=_xaxis, y=_yaxis, color='PLAYER_NAME', hover_name='PLAYER_NAME')
     # add in the hover template for the first player
