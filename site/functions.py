@@ -79,9 +79,10 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
     # write the average above the yaxis line
     max_x = _data[_col1].max()
     max_y = _data[_col2].max()
-    fig.add_annotation(x=max_x+1, y=0, text=f'Avg {_col1} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
-    fig.add_annotation(x=0, y=max_y + 2, text=f'Avg {_col2} = {avg_sort:.2f}', showarrow=False, font=dict(size=16), xshift=10)
     set_axis_text(fig)
+    adjust_axes(fig, _data, _col1, _col2)
+    fig.add_annotation(x=max_x, y=0, text=f'Avg {_col1} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
+    fig.add_annotation(x=max_x, y=max_y, text=f'Avg {_col2} = {avg_sort:.2f}', showarrow=False, font=dict(size=16), xshift=10)
     st.plotly_chart(fig, use_container_width=False)
 
 # loop through the year_data_dictionary and get all the data for the player
@@ -184,14 +185,14 @@ def make_year_scatterplot(_df, _col, _team_colors):
     fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
     fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
     # draw a line between consecutive year points
-    fig.add_trace(go.Scatter(x=_df[x_axis], y=_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+    fig.add_trace(go.Scatter(x=_df[x_axis], y=_df[y_axis], mode='lines', line=dict(color='lightgrey', width=3), showlegend=False))
     # extract the legend from the figure
     legend = fig['layout']['legend']
     # remove the legend from the figure
     fig.update_layout(showlegend=False)
     # update the color of the points to be the same as the team color
     change_to_team_colors(fig, _df, _team_colors)
-    fig.update_traces(marker=dict(size=15, line=dict(width=3)))
+    fig.update_traces(marker=dict(size=18, line=dict(width=3)))
     min_y, max_y = adjust_axis(fig, _df, y_axis)
     fig.update_yaxes(range=[min_y, max_y])
     # add the average of the stat to the plot (should get these instead for the year data?)

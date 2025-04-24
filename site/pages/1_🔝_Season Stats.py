@@ -1,7 +1,7 @@
 import streamlit as st
 import os, pandas as pd
 import plotly.express as px
-from functions import sort_and_show_data, plot_quadrant_scatter
+from functions import sort_and_show_data, plot_quadrant_scatter, create_year_data_dict
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
@@ -9,7 +9,7 @@ st.set_page_config(page_title='Top Stats',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Welcome to the top stats page!')
+st.title('Welcome to the Seasonal Stats page!')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -27,13 +27,15 @@ stats = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
-## TRAVERSE DIRECTORY TO LOAD DATA
-for root, dirs, files in os.walk(datadir):
-    for file in files:
-        # look if the name of the file is what you want
-        if contains in file:
-            datafile = os.path.join(root, file)
-            data = pd.read_csv(datafile)
+## TOGGLE FOR TRADITIONAL/ADVANCED STATS
+if st.toggle('**Advanced**'):
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    stats = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
+
+year_data_dict = create_year_data_dict(datadir)
+season = st.selectbox('**Select a Season**', year_data_dict.keys())
+data = year_data_dict[season]
+max_gp = data['GP'].max()
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -43,14 +45,13 @@ for root, dirs, files in os.walk(datadir):
 ## PLOTS
 ## TODO: add in the setup of the page details here
 ## TODO: fix the blurb at the top of the page
-## TODO: add in a season picker
 ## TODO: make this page cleaner and more readable, its a bit messy right now
 ## TODO: add in a section with the oldest players and the number of years they've played for the
 ## TODO: a draft class section? to compare players of the same class
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 num_players = st.slider('*Number of players to show*', 1, 30, 10)
-num_gp = st.slider('*Minimum number of games played*', 1, 82, 25)
+num_gp = st.slider('*Minimum number of games played*', 1, max_gp, 25)
 
 ## PICK A PLAYER TO VIEW
 st.write(f'Below you can click to view data for the top {num_players} players over the last {num_gp} games played in various statistical categories.')
@@ -58,11 +59,13 @@ st.write(f'All data sourced from https://www.nba.com/stats/leaders')
 st.divider()
 
 ## SELECT THE STAT TO PLOT
-option = st.selectbox(
-    'Select a stat to view the stats',
-    stats,
-    index=0
-)
+cols = data.columns.tolist()
+stats = [col for col in stats if col in cols]
+option = st.selectbox('Select a stat to plot', stats, index=None, placeholder='Season...')
+if option is None:
+    st.warning('Please select a stat to plot')
+    st.stop()
+
 ### FILTERING/DATA PREPROCESSING
 col2 = 'MPG'
 if 'AST_TO' in option:
@@ -96,10 +99,10 @@ data.reset_index(drop=True, inplace=True)
 # plot the quadrant graph with the stat vs the sort_col
 plot_quadrant_scatter(data, option, sort_col, top_players, team_colors)
 
-# keep only the top 100
-data = data.head(100)
-fig = px.bar(data, x='PLAYER_NAME', y='Percentile', color='Percentile', title=f'{option} Percentiles (sorted left to right by {sort_col})')
-st.plotly_chart(fig, use_container_width=False)
+## keep only the top 100
+#data = data.head(100)
+#fig = px.bar(data, x='PLAYER_NAME', y='Percentile', color='Percentile', title=f'{option} Percentiles (sorted left to right by {sort_col})')
+#st.plotly_chart(fig, use_container_width=False)
 
 if st.button('All Data', key='all_data_button'):
     st.write(data)

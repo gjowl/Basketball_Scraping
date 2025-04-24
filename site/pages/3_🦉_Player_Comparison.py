@@ -6,8 +6,8 @@ import plotly.graph_objects as go
 from functions import create_year_data_dict
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Player Stat Comparison',
-                   page_icon='🔍',
+st.set_page_config(page_title='Player Comparison',
+                   page_icon='🦉',
                    layout='wide',
                    initial_sidebar_state='auto')
 
@@ -90,7 +90,7 @@ st.write('This page allows you to compare the stats of two players over the year
 st.divider()
 
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-st.write('**Toggle the below to use traditional/advanced stats**')
+st.write('**Toggle below to switch between traditional/advanced stats**')
 if st.toggle('**Advanced Stats**'):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
     advanced = True

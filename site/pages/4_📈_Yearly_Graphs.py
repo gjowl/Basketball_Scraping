@@ -36,7 +36,7 @@ option_df = pd.read_csv(options)
 
 # MAIN
 # TODO: might it be interesting to only look at specific teams?
-# TODO: clean this code up
+# TODO: figure out what might be interesting here, or may have to bail on it for now
 ## PAGE SETUP BELOW
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
 ## SELECT THE NUMBER OF YEARS
@@ -44,6 +44,11 @@ option_df = pd.read_csv(options)
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 ## SELECT THE STAT TO PLOT
 ## PLOTS
+
+# if you were to make this kind of like an interactive walkthrough; populating the page for each person being added would be helpful
+# I think making this an interactive page is for the best!
+# Let people pick the stat they want to see against year
+# make it so that you can make up to 3 (?) simultaneously
 
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
 if st.toggle('**Advanced**'):
@@ -62,22 +67,16 @@ for key in year_data_dict.keys():
     
 # check if the player name is duplicated, if so remove the duplicates
 player_names_no_dups = player_names['PLAYER_NAME'].drop_duplicates(keep=False)
-#st.write(len(player_names_no_dups), ' players that only have 1 year of data in the league')
-# TODO: add in more of these during the trimming/filtering? Maybe add in other places too?
 
 # if the player is in the list, remove them from the dataframe
-#player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_no_dups)]
 player_names = player_names[~player_names['PLAYER_NAME'].isin(player_names_no_dups)]
-# reset the index of the dataframe
 player_names = player_names.reset_index(drop=True)
 # count the number of instances of the player names in the dataframe
 player_names_count = player_names['PLAYER_NAME'].value_counts()
-# keep the players that have more than 5 instance in the dataframe
 
 ## SELECT THE NUMBER OF YEARS
 # add an input slider for the number of years to filter by
 count = st.slider('*Select the number of years to filter by*', 1, 10, 5) 
-# remove the players that have less than 10 years of data
 player_names_count = player_names_count[player_names_count > 10]
 player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_count.index)]
 #st.write(len(player_names), ' players that have more than 5 years of data in the league')
@@ -97,39 +96,33 @@ st.divider()
 stat = st.selectbox('**Select the stat to plot**', player_names.columns[3:]) # from the GP column and on
 # keep only the players with the top 100 of the stat for each year
 player_names = player_names.sort_values(by=stat, ascending=False).groupby('YEAR').head(num_players)
-
 # sort the players by year
 player_names = player_names.sort_values(by='SEASON')
 
 # add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
-# if the stat is in threes, add a slider for the number of 3PA to filter by
 if stat in threes:
-    attempts = st.slider('*Select the minimum number of 3PA_PG to filter by*', 1, 10, 2) # 82 is the max number of games played in a season
+    attempts = st.slider('*Select the minimum number of 3PA_PG to filter by*', 1, 10, 2) 
     player_names = player_names[player_names['3PA_PG'] > attempts]
-    # make sure the 3PA is more than 
 if stat in twos:
-    attempts = st.slider('*Select the minimum number of 2PA_PG to filter by*', 1, 10, 2) # 82 is the max number of games played in a season
+    attempts = st.slider('*Select the minimum number of 2PA_PG to filter by*', 1, 10, 2) 
     player_names = player_names[player_names['2PA_PG'] > attempts]
 if stat in general:
-    # get the max of the stat rounded down
     max_stat = int(player_names[stat].max())
-    attempts = st.slider(f'*Select the minimum number of **{stat}** to filter by*', 1, max_stat, 2) # 82 is the max number of games played in a season
+    attempts = st.slider(f'*Select the minimum number of **{stat}** to filter by*', 1, max_stat, 2)
     player_names = player_names[player_names[stat] > attempts]
-fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
-fig.update_layout(showlegend=False)
-# TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
-st.plotly_chart(fig, use_container_width=True)
-# if you were to make this kind of like an interactive walkthrough; populating the page for each person being added would be helpful
+# make boxplots for each year
+#fig = px.box(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
+#fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
+#fig.update_layout(showlegend=False)
+#st.plotly_chart(fig, use_container_width=True)
 
-# I think making this an interactive page is for the best!
-# Let people pick the stat they want to see against year
-# make it so that you can make up to 3 (?) simultaneously
+#fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
+#fig.update_layout(showlegend=False)
+## TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
+#st.plotly_chart(fig, use_container_width=True)
 
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG']
 
 #    # trace a line between all values that have the same PLAYER_NAME
-#
 #    # another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions
 ## TODO: draw a line between the points of the same player
-
-#st.plotly_chart(fig, use_container_width=True)
