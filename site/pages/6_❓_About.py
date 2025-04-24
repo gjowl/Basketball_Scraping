@@ -10,3 +10,5 @@ st.write(
 )
 
 # Add in social at the bottom
+# TODO: could have a story on each page of my love for basketball?
+# TODO: add in thoughts that you feel are important to this project here

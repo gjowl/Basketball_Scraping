@@ -177,15 +177,14 @@ def set_axis_text(_fig, _x_size=16, _y_size=16):
     # change the text to monospaced font
     _fig.update_layout(font_family="monospace")
 
-def make_year_scatterplot(_df, _col, _team_colors, _show_lines):
+def make_year_scatterplot(_df, _col, _team_colors):
     x_axis = 'SEASON'
     y_axis = _col 
     fig = px.scatter(_df, x=x_axis, y=y_axis, color='YEAR', hover_name='TEAM_ABBREVIATION', title=f'{x_axis} vs {y_axis}')
     fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
     fig.update_layout(xaxis_title=x_axis, yaxis_title=y_axis)
-    if _show_lines:
-        # draw a line between consecutive year points
-        fig.add_trace(go.Scatter(x=_df[x_axis], y=_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
+    # draw a line between consecutive year points
+    fig.add_trace(go.Scatter(x=_df[x_axis], y=_df[y_axis], mode='lines', line=dict(color='gray', width=2), showlegend=False))
     # extract the legend from the figure
     legend = fig['layout']['legend']
     # remove the legend from the figure

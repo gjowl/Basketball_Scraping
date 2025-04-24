@@ -49,6 +49,7 @@ advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
 ## TODO: clean this code up
 ## TODO: add a blurb about the page and what it does
 # TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
+#TODO: fix the line color and just always show lines
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -59,7 +60,8 @@ for key in year_data_dict.keys():
 player_names = player_names.unique()
 
 ## SELECT A PLAYER FROM THE DROPDOWN
-player = st.selectbox('*Select the player to load*', player_names)
+# set the index as Mo Williams
+player = st.selectbox('*Select the player to load*', player_names, index=player_names.tolist().index('Mo Williams'))
 ## get the data for the player from all years they played in the league
 player_df = get_player_data(year_data_dict, player)
 
@@ -70,6 +72,8 @@ traditional_df = player_df[name_and_year + traditional]
 
 ## TABS 
 tab1, tab2, tab3, tab4 = st.tabs(['**Traditional**', '**Shooting**', '**Non-Shooting**', '**Advanced**']) # add in advanced as well
+#for tab in tabs:
+
 n = 0
 with tab1:
     st.header('Traditional Boxscore Stats')
@@ -102,10 +106,8 @@ with tab1:
             plot_quadrant_scatter(season_df, pair[0], pair[1], player_df, team_colors)
     else:
         if player_ranks['Rank'].min() < 100:
-            # going to use specialized rankings for the player
             # get the top rank category
             top_rank = player_ranks['Rank'].idxmin()
-            # TODO: it might be time to start pulling in the advanced stats for players
             pairs = []
             # check if the top rank is in the list of ranks
             if top_rank is 'PPG' or top_rank is 'APG':
@@ -130,25 +132,17 @@ with tab2:
         st.dataframe(player_df, use_container_width=True, hide_index=True)
         st.button('Hide Shooting Data')
     # add a toggle to add a line to the plot for the average of the stat
-    show_lines = False
-    if st.toggle('**Add lines by year**', key='lines_by_year'):
-        show_lines = True
     for shots in shots_types:
         figs = []
         for shot in shots:
-            fig = make_year_scatterplot(player_df, shot, team_colors, show_lines)
+            fig = make_year_scatterplot(player_df, shot, team_colors)
             figs.append(fig)
             n+=1
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.plotly_chart(figs[0], key=n, use_container_width=True)
-            n+=1
-        with c2:
-            st.plotly_chart(figs[1], key=n, use_container_width=True)
-            n+=1
-        with c3:
-            st.plotly_chart(figs[2], key=n, use_container_width=True)
-            n+=1
+        cols = st.columns(3)
+        for fig, col in zip(figs, cols):
+            with col:
+                st.plotly_chart(fig, key=n, use_container_width=True)
+                n+=1
 with tab3:
     st.header('Non-Shooting Stats Trajectory by Year')
     # TODO: show the boxscore data for the player
@@ -156,25 +150,17 @@ with tab3:
         st.write('Below are the non-shooting stats for the player')
         st.dataframe(player_df, use_container_width=True, hide_index=True)
         st.button('Hide Non-Shooting Data', key='hide_nonshooting')
-    show_lines = False
-    if st.toggle('Add lines by year', key='line-nonshooting'):
-        show_lines = True
     for group in traditional_groups:
         figs = []
         for stat in group:
-            fig = make_year_scatterplot(player_df, stat, team_colors, show_lines)
+            fig = make_year_scatterplot(player_df, stat, team_colors)
             figs.append(fig)
             n+=1
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.plotly_chart(figs[0], key=n, use_container_width=True)
-            n+=1
-        with c2:
-            st.plotly_chart(figs[1], key=n, use_container_width=True)
-            n+=1
-        with c3:
-            st.plotly_chart(figs[2], key=n, use_container_width=True)
-            n+=1
+        cols = st.columns(3)
+        for fig, col in zip(figs, cols):
+            with col:
+                st.plotly_chart(fig, key=n, use_container_width=True)
+                n+=1
         # TODO: show the legend on the right side of the plots
 with tab4:
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'

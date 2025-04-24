@@ -45,6 +45,8 @@ for root, dirs, files in os.walk(datadir):
 ## TODO: fix the blurb at the top of the page
 ## TODO: add in a season picker
 ## TODO: make this page cleaner and more readable, its a bit messy right now
+## TODO: add in a section with the oldest players and the number of years they've played for the
+## TODO: a draft class section? to compare players of the same class
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 num_players = st.slider('*Number of players to show*', 1, 30, 10)
@@ -61,7 +63,7 @@ option = st.selectbox(
     stats,
     index=0
 )
-### SIMPLE FILTERING/DATA PREPROCESSING
+### FILTERING/DATA PREPROCESSING
 col2 = 'MPG'
 if 'AST_TO' in option:
     if data[option].isnull().values.any():
@@ -88,7 +90,6 @@ st.divider()
 sort_col = option_df[option_df['OPTION'] == option]['SORT'].values[0]
 
 # plot the percentile data as a bar graph with player names
-# sort by percentile
 data = data.sort_values(by=sort_col, ascending=False)
 data.reset_index(drop=True, inplace=True)
 
