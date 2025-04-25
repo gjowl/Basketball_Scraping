@@ -52,10 +52,11 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     #&GameSegment=&Height=&LastNGames=0&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N\
     #&Rank=N&Season=2022-23&SeasonSegment=&SeasonType=Pre Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight='
     try:
+        file.write(f' - scraping url:: {player_info_url}\n')
         response = requests.get(url=player_info_url, headers=headers).json()
     # in case there is an error, print the url that caused the error
     except ValueError:
-        print('Error: ' + player_info_url)
+        file.write(f'Error: {player_info_url}')
     # get column names and data for each player from the response
     column_names, data = response['resultSets'][0]['headers'], response['resultSets'][0]['rowSet']
     # convert the player_info to a dataframe
