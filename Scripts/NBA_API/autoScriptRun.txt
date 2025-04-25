@@ -1096,3 +1096,44 @@ H:/NBA_API_DATA/RAW\2024-25\2025-04-24\PerGame\all_games.csvH:/NBA_API_DATA/RAW\
 H:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\all_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\15_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\20_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\25_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per36\30_games.csvrunning mode:: Totals
 H:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\all_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\15_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\20_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\25_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Totals\30_games.csvrunning mode:: Per100Possessions
 H:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\all_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\1_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\5_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\10_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\15_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\20_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\25_games.csvH:/NBA_API_DATA/RAW\2024-25\2025-04-24\Per100Possessions\30_games.csvFiles saved to: H:/NBA_API_DATA/RAW\2024-25\2025-04-24
+Program started at: 2025-04-24 20:04:14.860600
+Program started at: 2025-04-24 20:06:52.181552
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+H:/NBA_API_DATA/RAW/OLD/ADVANCED\PerGame\1998-99.csvFiles saved to: H:/NBA_API_DATA/RAW/OLD/ADVANCED
+Program started at: 2025-04-24 20:06:19.542651
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+H:/NBA_API_DATA/RAW/OLD/ADVANCED\PerGame\1998-99.csvscraping mode:: Per36
+ - scraping season:: 1998-99
+H:/NBA_API_DATA/RAW/OLD/ADVANCED\Per36\1998-99.csvscraping mode:: Totals
+ - scraping season:: 1998-99
+H:/NBA_API_DATA/RAW/OLD/ADVANCED\Totals\1998-99.csvscraping mode:: Per100Possessions
+ - scraping season:: 1998-99
+H:/NBA_API_DATA/RAW/OLD/ADVANCED\Per100Possessions\1998-99.csvFiles saved to: H:/NBA_API_DATA/RAW/OLD/ADVANCED
+Program started at: 2025-04-24 20:10:48.006690
+Program started at: 2025-04-24 20:14:25.278160
+Program started at: 2025-04-24 20:15:16.765543
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+Program started at: 2025-04-24 20:22:27.922068
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+Program started at: 2025-04-24 20:27:35.492351
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+ - scraping url:: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+Error: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=Program started at: 2025-04-24 20:30:27.547660
+scraping mode:: PerGame
+ - scraping season:: 1998-99
+ - scraping url:: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/RAW/OLD\PerGame\1998-99.csvscraping mode:: Per36
+ - scraping season:: 1998-99
+ - scraping url:: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Per36&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/RAW/OLD\Per36\1998-99.csvscraping mode:: Totals
+ - scraping season:: 1998-99
+ - scraping url:: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/RAW/OLD\Totals\1998-99.csvscraping mode:: Per100Possessions
+ - scraping season:: 1998-99
+ - scraping url:: https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Per100Possessions&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998-99&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/RAW/OLD\Per100Possessions\1998-99.csvFiles saved to: H:/NBA_API_DATA/RAW/OLD

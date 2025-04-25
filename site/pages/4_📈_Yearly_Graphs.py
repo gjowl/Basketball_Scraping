@@ -37,6 +37,7 @@ option_df = pd.read_csv(options)
 # MAIN
 # TODO: might it be interesting to only look at specific teams?
 # TODO: figure out what might be interesting here, or may have to bail on it for now
+# TODO: st.multiselect, st.pills may be a good tool to use for the comparing stats
 ## PAGE SETUP BELOW
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
 ## SELECT THE NUMBER OF YEARS
@@ -44,6 +45,7 @@ option_df = pd.read_csv(options)
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 ## SELECT THE STAT TO PLOT
 ## PLOTS
+# st.progress, st.spinner, st.status might be good tools for loading times
 
 # if you were to make this kind of like an interactive walkthrough; populating the page for each person being added would be helpful
 # I think making this an interactive page is for the best!
