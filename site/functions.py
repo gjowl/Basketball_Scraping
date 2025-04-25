@@ -143,9 +143,9 @@ def get_player_ranks(_data, _player, _stat_list):
     return player_ranks
 
 # create a bar graph of the player ranks
-def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_colors):
+def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_colors, _n):
     # create a bar graph of the stat with the rank above the bar for the chosen player
-    fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], title=f'{_player} Ranks', labels={'x': 'Stat', 'y': 'Percentile'})
+    fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
     # add the rank above each bar
     for i in range(len(_player_ranks)):
         fig.add_annotation(x=i, y=_player_ranks['Percentile'][i], text=f'#{int(_player_ranks["Rank"][i])}', showarrow=False, font=dict(size=16), yshift=10)
@@ -165,7 +165,7 @@ def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _team_color
     fig.add_hline(y=0, line_color=color2, line_width=3)
     # customize the hover label to show the stat name and the percentile
     fig.update_traces(hovertemplate='Percentile: %{y:.3f}')
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{_n}')
 
 # set the size of the text in the x and y axes
 def set_axis_text(_fig, _x_size=16, _y_size=16):
