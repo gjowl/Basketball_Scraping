@@ -6,12 +6,12 @@ import plotly.graph_objects as go
 from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, make_year_scatterplot, create_year_data_dict
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Player Search',
+st.set_page_config(page_title='Ranking Search',
                    page_icon='🔍',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Player Search')
+st.title('🔍 Player Search')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -32,13 +32,6 @@ option_df = pd.read_csv(options)
 ## VARIABLES FOR THE STATS TO GET
 name_and_year = ['PLAYER_NAME', 'YEAR']
 cols_to_keep = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'MPG'] # keep the player name, team abbreviation, and GP
-percent = ['FG%', '2P%', '3P%']
-shots_types = [['FG%', 'FGA_PG', 'FGM_PG'], ['2P%', '2PA_PG', '2PM_PG'], ['3P%', '3PA_PG', '3PM_PG'], ['FT%', 'FTA_PG', 'FTM_PG']] # make into quadrant plots
-shot_pairs = [['FGA_PG', 'FGM_PG'], ['2PA_PG', '2PM_PG'], ['3PA_PG', '3PM_PG'], ['FTA_PG', 'FTM_PG']]
-
-traditional_groups = [['MPG', 'PPG', 'APG'], ['RPG', 'SPG', 'BPG'], ['AST_TO', 'TOV_PG', 'PF_PG']] # unsure yet
-quadrant_pairs = [['PPG', 'APG'], ['APG', 'TOV_PG'], ['RPG', 'BPG'], ['OREB_PG', 'DREB_PG'], ['SPG', 'PF_PG']] # make into quadrant plots
-
 shooting = ['FG%', 'FGA_PG', 'FGM_PG', '2P%', '2PA_PG', '2PM_PG', '3P%', '3PA_PG', '3PM_PG', 'FT%', 'FTA_PG', 'FTM_PG'] # make into quadrant plots
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'TOV_PG', 'PF_PG']
 advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
@@ -47,24 +40,22 @@ check_gp = False
 gp = 0
 
 # FUNCTIONS
-def seasonal_ranks(_season_df, _player, _cols, _gp, _n=0):
+def seasonal_ranks(_season_df, _player, _cols, _title, _gp, _n=0):
     if _gp > 0:
         # filter the dataframe to only include players with more than 10 games played
-        _season_df = _season_df[_season_df['GP'] > _gp]
+        _season_df = _season_df[_season_df['GP'] >= _gp]
     # get the player rankings for the player in the season
     player_ranks = get_player_ranks(_season_df, _player, _cols)
-    create_player_rank_bar_graph(_season_df, player_ranks, player, team_colors, _n)
+    create_player_rank_bar_graph(_season_df, player_ranks, player, _title, team_colors, _n)
 
 # MAIN
 ## PAGE SETUP BELOW
 ## SELECT A PLAYER FROM THE DROPDOWN
 ## TABS SEPARATED STATS AND GRAPHS
 ## BUTTON TO SHOW PLAYER DATA
-
+# TODO: add an option to just get the player that has the nth ranking of x stat
 ## TODO: clean this code up
-## TODO: add a blurb about the page and what it does
 # TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
-# TODO: fix the line color and just always show lines
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -84,69 +75,45 @@ if player is None:
 
 ## get the data for the player from all years they played in the league
 player_df = get_player_data(year_data_dict, player)
-
-if st.toggle('**GP Threshold**'):
-    # add in a slider for the number of games played
-    gp = st.slider('Number of games played', 0, 82, 65)
-    check_gp = True
-
-## TABS 
-tabs = st.tabs(['**Rankings**', '**Shooting**', '**Advanced**']) # add in advanced as well
-
 plot_number = 0
-for tab in tabs:
-    with tab:
-        season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
-        for cols in rank_cols:
-            # check if it's the advanced tab
-            if 'TS%' in cols:
-                season_df = advanced_data_dict[season]
-                seasonal_ranks(season_df, player, cols, gp, plot_number)
-            else:
-                season_df = year_data_dict[season]
-                seasonal_ranks(season_df, player, cols, gp, plot_number)
-            plot_number += 1
+titles = ['Traditional', 'Shooting', 'Advanced']
+# differentiate here: seasonal or career
+if st.toggle('**Compare by season**', key='compare_season', value=True):
+    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
+    season_df = year_data_dict[season]
+    player_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+    player_gp = player_df['GP'].max()
+    if st.toggle('**GP Threshold**'):
+        # add in a slider for the number of games played
+        gp = st.slider('Number of games played', 0, 82, player_gp)
+        check_gp = True
+        if gp > player_gp:
+            st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+            st.stop()
+    ## TABS 
+    for cols, title in zip(rank_cols,titles):
+        # check if it's the advanced tab
+        if 'TS%' in cols:
+            season_df = advanced_data_dict[season]
+            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
+        else:
+            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
+        plot_number += 1
+else:
+    st.write('Currently working on implementing this feature!')
+    #player_df['YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
+    #st.dataframe(player_df, use_container_width=True, hide_index=True)
+    #for cols in rank_cols:
+    #    # check if it's the advanced tab
+    #    if 'TS%' in cols:
+    #        seasonal_ranks(advanced_data_dict, player, cols, gp, plot_number)
+    #    else:
+    #        seasonal_ranks(year_data_dict, player, cols, gp, plot_number)
+    #    plot_number += 1
+
     # TODO: add in a blurb here about the rankings and what they mean
     # probably something about how they are ranked top x in the league for top 3 stats
     # could make it pseudo dynamic. For example: Lebron is probably gonna have years where he is top 3 in PPG, APG, RPG. And thne maybe top 10-50 in others that could also be mentioned 
-#with tab2:
-#    st.header(f'{player} Shooting Stats Trajectory by Year')
-#    # TODO: show the boxscore data for the player
-#    if st.button('Show Shooting Data'):
-#        st.write('Below are the shooting stats for the player')
-#        st.dataframe(player_df, use_container_width=True, hide_index=True)
-#        st.button('Hide Shooting Data')
-#    # add a toggle to add a line to the plot for the average of the stat
-#    for shots in shots_types:
-#        figs = []
-#        for shot in shots:
-#            fig = make_year_scatterplot(player_df, shot, team_colors)
-#            figs.append(fig)
-#            n+=1
-#        cols = st.columns(3)
-#        for fig, col in zip(figs, cols):
-#            with col:
-#                st.plotly_chart(fig, key=n, use_container_width=True)
-#                n+=1
-#with tab3:
-#    st.header('Traditional Stats Trajectory by Year')
-#    # TODO: show the boxscore data for the player
-#    if st.button('Show Non-Shooting Data', key='nonshooting'):
-#        st.write('Below are the non-shooting stats for the player')
-#        st.dataframe(player_df, use_container_width=True, hide_index=True)
-#        st.button('Hide Non-Shooting Data', key='hide_nonshooting')
-#    for group in traditional_groups:
-#        figs = []
-#        for stat in group:
-#            fig = make_year_scatterplot(player_df, stat, team_colors)
-#            figs.append(fig)
-#            n+=1
-#        cols = st.columns(3)
-#        for fig, col in zip(figs, cols):
-#            with col:
-#                st.plotly_chart(fig, key=n, use_container_width=True)
-#                n+=1
-#        # TODO: show the legend on the right side of the plots
 #with tab4:
 #    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
 #    advanced_data_dict = create_year_data_dict(datadir)
