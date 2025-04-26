@@ -6,6 +6,8 @@ st.set_page_config(page_title='Home',
                    initial_sidebar_state='auto')
 st.sidebar.success('Select a page to get started!')
 
+# 
+st.header('Welcome to my NBA Stats Website!')
 
 # TODO: think of what to add to a home page
 # add some details and such in here
