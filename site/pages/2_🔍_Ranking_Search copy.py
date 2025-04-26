@@ -53,7 +53,7 @@ def get_player_ranks(_data, _stat_list):
     for stat in _stat_list:
         if player_ranks.empty:
             # add the player name and year to the dataframe
-            player_ranks = _data[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'SEASON']].copy()
+            player_ranks = _data[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'SEASON', 'YEAR']].copy()
         # calculate the percentile for each stat
         _data[f'{stat}_Percentile'] = _data[stat].rank(pct=True)
         ## get the percentile for the stat for the player
@@ -100,7 +100,7 @@ for key in year_data_dict.keys():
 st.dataframe(all_ranks, use_container_width=True, hide_index=True)
 
 ## TABS START HERE
-
+tabs = st.tabs(['Player Search', 'Stat Search', 'Year Search'])
 
 ## SELECT A PLAYER FROM THE DROPDOWN
 player = st.selectbox('*Select a player to load data and graphs*', player_names, index=None, placeholder='Player Name...')
@@ -110,27 +110,32 @@ if player is None:
 # TODO: add a list of recommended players to the dropdown
 
 ## get the data for the player from all years they played in the league
-player_df = get_player_data(year_data_dict, player)
+player_df = all_ranks[all_ranks['PLAYER_NAME'] == player].reset_index(drop=True)
 plot_number = 0
 titles = ['Traditional', 'Shooting', 'Advanced']
 # differentiate here: seasonal or career
 if st.toggle('**Compare by season**', key='compare_season', value=True):
     season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
-    season_df = year_data_dict[season]
-    player_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+    #season_df = year_data_dict[season]
+    #player_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+    season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
     player_gp = player_df['GP'].max()
     if gp > player_gp:
         st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
         st.stop()
-    ## TABS 
-    for cols, title in zip(rank_cols,titles):
-        # check if it's the advanced tab
-        if 'TS%' in cols:
-            season_df = advanced_data_dict[season]
-            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
-        else:
-            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
-        plot_number += 1
+    st.dataframe(season_df, use_container_width=True, hide_index=True)
+    # need to convert this here to only ranks for the player
+    # separate by _ into index and stat
+    ranks = season_df.columns[season_df.columns.str.contains('_Rank')].tolist() 
+    percentiles = season_df.columns[season_df.columns.str.contains('_Percentile')].tolist()
+    player_ranks = pd.DataFrame()
+    for stat in rank_cols[0]:
+        player_ranks[stat] = [season_df[f'{stat}_Percentile'].values[0], season_df[f'{stat}_Rank'].values[0]]
+    player_ranks = player_ranks.T
+    player_ranks.columns = ['Percentile', 'Rank']
+    st.dataframe(player_ranks, use_container_width=True, hide_index=True)
+    create_player_rank_bar_graph(season_df, player_ranks, player, titles[0], team_colors, plot_number) 
+    plot_number += 1
 else:
     st.write('Currently working on implementing this feature!')
     #player_df['YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
