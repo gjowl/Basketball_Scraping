@@ -11,7 +11,7 @@ st.set_page_config(page_title='Player Comparison',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Player Comparison Page')
+st.title('🦉 Player Comparison')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -101,6 +101,7 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
 ## SELECT STATS TO PLOT
 ## PLOTS
+# TODO: add selectedd to each othercompared to each other
 
 ## PAGE BLURB
 # TODO: add a bit more a blurb here for the page

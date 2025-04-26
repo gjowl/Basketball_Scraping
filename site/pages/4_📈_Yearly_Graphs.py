@@ -6,12 +6,12 @@ import plotly.graph_objects as go
 from functions import create_year_data_dict
 
 # SET PAGE CONFIG
-st.set_page_config(page_title='Yearly Plots',
-                   page_icon='',
+st.set_page_config(page_title='Yearly Graphs',
+                   page_icon='📈',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Yearly Plots')
+st.title('📈 Yearly Graphs')
 
 # VARIABLES 
 #cwd = os.getcwd()
@@ -118,10 +118,14 @@ if stat in general:
 #fig.update_layout(showlegend=False)
 #st.plotly_chart(fig, use_container_width=True)
 
-#fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
-#fig.update_layout(showlegend=False)
+fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
+# separate the points out of a straight line
+fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
+if st.toggle('**Show Lines**', key='show_lines', value=False):
+    fig.update_traces(mode='markers+lines')
+fig.update_layout(showlegend=False)
 ## TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
-#st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
 
 traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG']
 

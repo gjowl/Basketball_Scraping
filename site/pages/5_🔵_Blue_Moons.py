@@ -17,12 +17,6 @@ leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
 
 # TODO: add in a blurb about the data being from Wikipedia with a link to the pages
 # TODO: need to work on the analysis here. If no time, at least something simple
-
-
-
-
-
-
 # get the list of csv files in the directory
 csv_files = [f for f in os.listdir(leaders_dir) if f.endswith('.csv')]
 
@@ -44,28 +38,28 @@ if st.toggle("Show Simplified DataFrames", key="show_df", value=True):
     for tab, csv in zip(tabs,csv_names):
         with tab:
             cols = ['Player', csv, 'Date']
-            # check if the csv is 'REB' and if so, add the 'Result' column
-            if csv != 'REB':
-                cols.append('Result')
-            # if the csv is '3PM', add the '3PA' column next to it
-            if csv == '3PM':
-                cols.insert(2, '3PA')
-                # graph the 3PM vs 3PA as an altair chart with wins and losses as a bar graph below
-                points = (alt.Chart(dfs[csv])
-                    .mark_circle(size=60, opacity=0.5, color='blue')
-                    .encode(x='3PA', y='3PM', tooltip=['Player', '3PM', '3PA', 'Date', 'Result'])
-                    .properties(width=600, height=400)
-                )
-                bars = (alt.Chart(dfs[csv])
-                    .mark_bar(opacity=0.5)
-                    .encode(x='Result', y='count(Result)')
-                    .properties(width=600, height=200)
-                )
-                chart = alt.vconcat(points, bars, spacing=5).resolve_scale(y='independent')
-                chart = chart.configure_axisX(tickCount=10).configure_axisY(tickCount=11)
-                # change the scale of the x axis to be 0-20 and the y axis to be 0-20
-                
-                st.altair_chart(chart, use_container_width=True)
+            ## check if the csv is 'REB' and if so, add the 'Result' column
+            #if csv != 'REB':
+            #    cols.append('Result')
+            ## if the csv is '3PM', add the '3PA' column next to it
+            #if csv == '3PM':
+            #    cols.insert(2, '3PA')
+            #    # graph the 3PM vs 3PA as an altair chart with wins and losses as a bar graph below
+            #    points = (alt.Chart(dfs[csv])
+            #        .mark_circle(size=60, opacity=0.5, color='blue')
+            #        .encode(x='3PA', y='3PM', tooltip=['Player', '3PM', '3PA', 'Date', 'Result'])
+            #        .properties(width=600, height=400)
+            #    )
+            #    bars = (alt.Chart(dfs[csv])
+            #        .mark_bar(opacity=0.5)
+            #        .encode(x='Result', y='count(Result)')
+            #        .properties(width=600, height=200)
+            #    )
+            #    chart = alt.vconcat(points, bars, spacing=5).resolve_scale(y='independent')
+            #    chart = chart.configure_axisX(tickCount=10).configure_axisY(tickCount=11)
+            #    # change the scale of the x axis to be 0-20 and the y axis to be 0-20
+            #    
+            #    st.altair_chart(chart, use_container_width=True)
             df = dfs[csv][cols]
             st.dataframe(df, use_container_width=True, hide_index=True)
 else:
