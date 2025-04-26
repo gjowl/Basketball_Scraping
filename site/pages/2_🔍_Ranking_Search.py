@@ -37,17 +37,54 @@ traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'TOV_PG', 'PF_PG']
 advanced = ['AST_TO', 'TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
 rank_cols = [traditional, shooting, advanced]
 check_gp = False
-gp = 0
+gp, plot_number = 0, 0
 
 # FUNCTIONS
-def seasonal_ranks(_season_df, _player, _cols, _title, _gp, _n=0):
-    if _gp > 0:
-        # filter the dataframe to only include players with more than 10 games played
-        _season_df = _season_df[_season_df['GP'] >= _gp]
-    # get the player rankings for the player in the season
-    player_ranks = get_player_ranks(_season_df, _player, _cols)
-    create_player_rank_bar_graph(_season_df, player_ranks, player, _title, team_colors, _n)
+def get_ranks(_data, _stat_list):
+    player_ranks = pd.DataFrame()
+    for stat in _stat_list:
+        if player_ranks.empty:
+            # add the player name and year to the dataframe
+            player_ranks = _data[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'SEASON', 'YEAR']].copy()
+        # calculate the percentile for each stat
+        _data[f'{stat}_Percentile'] = _data[stat].rank(pct=True)
+        # create a ranked list column based on the percentile of the stat
+        _data[f'{stat}_Rank'] = _data[stat].rank(ascending=False)
+        player_ranks = pd.concat([player_ranks, _data[[f'{stat}_Percentile', f'{stat}_Rank']]], axis=1)
+    return player_ranks
 
+def get_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
+    all_ranks = []
+    for ranks in _rank_cols:
+        # get the player rankings for the season
+        tmp_df = pd.DataFrame()
+        for key in _year_data_dict.keys():
+            season_df = _year_data_dict[key]
+            # remove data for players with less than games played
+            if 'TS%' in ranks:
+                season_df = _advanced_data_dict[key]
+            if _check_gp:
+                season_df = season_df[season_df['GP'] >= _gp]
+                # get the player rankings for the season
+                player_ranks = get_ranks(season_df, ranks)
+                tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+            else:
+                player_ranks = get_ranks(season_df, ranks)
+                tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+        all_ranks.append(tmp_df)
+    return all_ranks
+
+def transform_ranks_for_plotting(season_df):
+    # separate by _ into index and stat
+    ranks, percentiles = season_df.columns[season_df.columns.str.contains('_Rank')].tolist(), season_df.columns[season_df.columns.str.contains('_Percentile')].tolist() 
+    # separate ranks by _
+    ranks, percentiles = [rank.split('_Rank')[0] for rank in ranks], [percentile.split('_Percentile')[0] for percentile in percentiles]
+    player_ranks = pd.DataFrame()
+    for stat in ranks:
+        player_ranks[stat] = [df[f'{stat}_Percentile'].values[0], df[f'{stat}_Rank'].values[0]]
+    player_ranks = player_ranks.T
+    player_ranks.columns = ['Percentile', 'Rank']
+    return player_ranks
 # MAIN
 ## PAGE SETUP BELOW
 ## SELECT A PLAYER FROM THE DROPDOWN
@@ -58,78 +95,56 @@ def seasonal_ranks(_season_df, _player, _cols, _title, _gp, _n=0):
 # TODO: get a average for all years for each stat and plot as another line; gives context to the player being an outlier or not
 
 # LOAD IN THE DATA
-year_data_dict = create_year_data_dict(datadir)
-advanced_data_dict = create_year_data_dict(advancedDir)
+year_data_dict, advanced_data_dict = create_year_data_dict(datadir), create_year_data_dict(advancedDir)
 ## get all the unique player names from the year_data_dict
 player_names = pd.Series()
 for key in year_data_dict.keys():
     player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
 player_names = player_names.unique()
 
+# TOGGLE FOR GP THRESHOLD
+if st.toggle('**GP Threshold**'):
+    # add in a slider for the number of games played
+    gp = st.slider('Number of games played', 0, 82, 65)
+    check_gp = True
+
+# GET RANKINGS FOR ALL PLAYERS
+all_ranks = get_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+
+## TABS START HERE
+tabs = st.tabs(['Player Search', 'Stat Search', 'Year Search'])
+
+# TAB 1: PLAYER SEARCH
 ## SELECT A PLAYER FROM THE DROPDOWN
 player = st.selectbox('*Select a player to load data and graphs*', player_names, index=None, placeholder='Player Name...')
 if player is None:
     st.warning('My Personal Recs: Mo Williams, Taj Gibson, Danny Green')
     st.stop()
-# TODO: add a list of recommended players to the dropdown
-
 ## get the data for the player from all years they played in the league
-player_df = get_player_data(year_data_dict, player)
-plot_number = 0
+player_dfs = []
+for df in all_ranks:
+    player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+    player_dfs.append(player_df)
 titles = ['Traditional', 'Shooting', 'Advanced']
 # differentiate here: seasonal or career
 if st.toggle('**Compare by season**', key='compare_season', value=True):
-    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
-    season_df = year_data_dict[season]
-    player_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-    player_gp = player_df['GP'].max()
-    if st.toggle('**GP Threshold**'):
-        # add in a slider for the number of games played
-        gp = st.slider('Number of games played', 0, 82, player_gp)
-        check_gp = True
+    season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
+    for ranks,df,title in zip(rank_cols, player_dfs, titles):
+        player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+        player_gp = player_df['GP'].max()
         if gp > player_gp:
             st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
             st.stop()
-    ## TABS 
-    for cols, title in zip(rank_cols,titles):
-        # check if it's the advanced tab
-        if 'TS%' in cols:
-            season_df = advanced_data_dict[season]
-            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
-        else:
-            seasonal_ranks(season_df, player, cols, title, gp, plot_number)
+        player_ranks = transform_ranks_for_plotting(season_df) 
+        create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
         plot_number += 1
 else:
     st.write('Currently working on implementing this feature!')
-    #player_df['YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
-    #st.dataframe(player_df, use_container_width=True, hide_index=True)
-    #for cols in rank_cols:
-    #    # check if it's the advanced tab
-    #    if 'TS%' in cols:
-    #        seasonal_ranks(advanced_data_dict, player, cols, gp, plot_number)
-    #    else:
-    #        seasonal_ranks(year_data_dict, player, cols, gp, plot_number)
-    #    plot_number += 1
 
-    # TODO: add in a blurb here about the rankings and what they mean
-    # probably something about how they are ranked top x in the league for top 3 stats
-    # could make it pseudo dynamic. For example: Lebron is probably gonna have years where he is top 3 in PPG, APG, RPG. And thne maybe top 10-50 in others that could also be mentioned 
-#with tab4:
-#    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-#    advanced_data_dict = create_year_data_dict(datadir)
-#    ## get the data for the player from all years they played in the league
-#    player_df = get_player_data(advanced_data_dict, player)
-#
-#    # change the YEAR column to be SEASON, keep the split by _
-#    player_df['SEASON'] = player_df['YEAR'].str.split('-').str[0]
-#
-#    # read in the advanced stats data
-#    stats = ['W%', 'TS%', 'USG%', 'AST%', 'OREB%', 'DREB%', 'REB%', 'POSS_PG', 'EFG%']
-#    for stat in stats:
-#        fig = make_year_scatterplot(player_df, stat, team_colors)
-#        st.plotly_chart(fig, use_container_width=True)
-#    ranks = ['OFF_RATING_RANK', 'DEF_RATING_RANK', 'AST%_RANK', 'AST_TO_RATIO_RANK', 'AST_PCT_RANK', 'STL_PCT_RANK', 'BLK_PCT_RANK', 'OREB%_RANK', 'DREB%_RANK', 'REB%_RANK', 'TS%_RANK', 'USG%_RANK', 'EFG%_RANK']
-
+# TAB 2: STAT SEARCH
+## SELECT A STAT TO PLOT
+# get the top x players for the stat
 
 if st.button(f'Show All {player} Data'):
     # show all the data with no scroll bar
