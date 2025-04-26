@@ -115,36 +115,88 @@ all_ranks = get_player_rankings(year_data_dict, advanced_data_dict, rank_cols, c
 tabs = st.tabs(['Player Search', 'Stat Search', 'Year Search'])
 
 # TAB 1: PLAYER SEARCH
-## SELECT A PLAYER FROM THE DROPDOWN
-player = st.selectbox('*Select a player to load data and graphs*', player_names, index=None, placeholder='Player Name...')
-if player is None:
-    st.warning('My Personal Recs: Mo Williams, Taj Gibson, Danny Green')
-    st.stop()
-## get the data for the player from all years they played in the league
-player_dfs = []
-for df in all_ranks:
-    player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-    player_dfs.append(player_df)
-titles = ['Traditional', 'Shooting', 'Advanced']
-# differentiate here: seasonal or career
-if st.toggle('**Compare by season**', key='compare_season', value=True):
-    season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
-    for ranks,df,title in zip(rank_cols, player_dfs, titles):
+with tabs[0]:
+    ## SELECT A PLAYER FROM THE DROPDOWN
+    player = st.selectbox('*Select a player to load data and graphs*', player_names, index=0, placeholder='Player Name...')
+    #player = st.selectbox('*Select a player to load data and graphs*', player_names, index=None, placeholder='Player Name...')
+    #if player is None:
+    #    st.warning('My Personal Recs: Mo Williams, Taj Gibson, Danny Green')
+    #    st.stop()
+    ## get the data for the player from all years they played in the league
+    player_dfs = []
+    for df in all_ranks:
         player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-        player_gp = player_df['GP'].max()
-        if gp > player_gp:
-            st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
-            st.stop()
-        player_ranks = transform_ranks_for_plotting(season_df) 
-        create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
-        plot_number += 1
-else:
-    st.write('Currently working on implementing this feature!')
-
+        player_dfs.append(player_df)
+    titles = ['Traditional', 'Shooting', 'Advanced']
+    # differentiate here: seasonal or career
+    if st.toggle('**Compare by season**', key='compare_season', value=True):
+        season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
+        for ranks,df,title in zip(rank_cols, player_dfs, titles):
+            player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+            season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+            player_gp = player_df['GP'].max()
+            if gp > player_gp:
+                st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+                st.stop()
+            player_ranks = transform_ranks_for_plotting(season_df) 
+            create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
+            plot_number += 1
+    else:
+        st.write('Currently working on implementing this feature!')
 # TAB 2: STAT SEARCH
 ## SELECT A STAT TO PLOT
 # get the top x players for the stat
+with tabs[1]:
+    st.write('**Select a stat to plot**')
+    all_rank_cols = pd.concat(all_ranks, ignore_index=True)
+    df = all_ranks[0]
+    stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
+    # remove rank from the stat list
+    stat_list = [stat.split('_Rank')[0] for stat in stat_list]
+    stat = st.selectbox('Select a stat to plot', stat_list, index=None, placeholder='Stat Name...')
+    season = st.selectbox('Select the season of interest', df['YEAR'].unique(), key=f'season_{plot_number}')
+    season_df = df[df['YEAR'] == season].reset_index(drop=True)
+    # get the top x players for the stat
+    top_x = st.slider('Number of players to plot', 1, 25, 10)
+    rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
+    # keep only the players with the top x of the stat for each year
+    season_df = season_df.sort_values(by=percentile, ascending=False).groupby('YEAR').head(top_x)
+    season_df.reset_index(drop=True, inplace=True)
+    # get the player rankings for the stat
+    #output_df = season_df[['PLAYER_NAME', f'{stat}']]
+    #stat_ranks = season_df[stat]
+    # plot a bar graph of the top x players for the stat
+    fig = px.bar(season_df, x=season_df['PLAYER_NAME'], title = f'{stat} Ranks', y=season_df[percentile], labels={'x': 'Stat', 'y': 'Percentile'})
+    # add the rank above each bar
+    for i in range(len(season_df)):
+        # if ranking is NaN, skip it
+        if pd.isna(season_df[rank][i]):
+            continue
+        fig.add_annotation(x=i, y=season_df[percentile][i], text=f'#{int(season_df[rank][i])}', showarrow=False, font=dict(size=16), yshift=10)
+    #fig = px.bar(season_df.nlargest(top_x, stat), x='PLAYER_NAME', y=stat, color='TEAM_ABBREVIATION', title=f'Top {top_x} Players for {stat} in {season}')
+    # remove the x-axis title
+    fig.update_xaxes(title='')
+    fig.update_yaxes(title='')
+    # set the x-axis label size
+    # remove the y-axis lines, title, and ticks
+    fig.update_layout(yaxis=dict(showgrid=False, zeroline=False, showticklabels=False), xaxis=dict(showgrid=False, zeroline=False, showticklabels=True))
+    fig.update_yaxes(showline=False, title='', ticks='', showticklabels=False)
+    fig.update_xaxes(tickfont=dict(size=16))
+    fig.update_layout(font_family="monospace")
+    # TODO: make the hover the stat
+    #fig.update_traces(hovertemplate=season_df['PLAYER_NAME'] + f'<br>{stat}: ' + season_df[stat].astype(str))
+    st.plotly_chart(fig, use_container_width=True)
+    # 
+    st.dataframe(output_df, use_container_width=True, hide_index=True)
+    plot_number += 1
+with tabs[2]:
+    st.write('**Select a year to plot**')
+    # get the top x players for the stat
+    year = st.selectbox('Select a year to plot',  all_rank_cols['YEAR'].unique(), index=None, placeholder='Year...')
+    # get the player rankings for the stat
+    #player_ranks = get_player_ranks(all_ranks[0], stat, top_x)
+    #create_player_rank_bar_graph(all_ranks[0], player_ranks, player, stat, team_colors, plot_number) 
+    plot_number += 1
 
 if st.button(f'Show All {player} Data'):
     # show all the data with no scroll bar
