@@ -95,9 +95,18 @@ for key in year_data_dict.keys():
     if check_gp:
         season_df = season_df[season_df['GP'] >= gp]
     # get the player rankings for the season
-    player_ranks = get_player_ranks(season_df, rank_cols[0])
-    all_ranks = pd.concat([all_ranks, player_ranks], ignore_index=True)
-st.dataframe(all_ranks, use_container_width=True, hide_index=True)
+    all_ranks = []
+    for ranks in rank_cols:
+        tmp_df = pd.DataFrame()
+        if 'TS%' in ranks:
+            season_df = advanced_data_dict[key]
+            # get the player rankings for the season
+            player_ranks = get_player_ranks(season_df, ranks)
+            tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+        else:
+            player_ranks = get_player_ranks(season_df, ranks)
+            tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+        all_ranks.append(tmp_df)
 
 ## TABS START HERE
 tabs = st.tabs(['Player Search', 'Stat Search', 'Year Search'])
@@ -110,32 +119,32 @@ if player is None:
 # TODO: add a list of recommended players to the dropdown
 
 ## get the data for the player from all years they played in the league
-player_df = all_ranks[all_ranks['PLAYER_NAME'] == player].reset_index(drop=True)
 plot_number = 0
 titles = ['Traditional', 'Shooting', 'Advanced']
 # differentiate here: seasonal or career
 if st.toggle('**Compare by season**', key='compare_season', value=True):
+    player_df = all_ranks[0][all_ranks[0]['PLAYER_NAME'] == player].reset_index(drop=True)
     season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
-    #season_df = year_data_dict[season]
-    #player_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-    season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-    player_gp = player_df['GP'].max()
-    if gp > player_gp:
-        st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
-        st.stop()
-    st.dataframe(season_df, use_container_width=True, hide_index=True)
-    # need to convert this here to only ranks for the player
-    # separate by _ into index and stat
-    ranks = season_df.columns[season_df.columns.str.contains('_Rank')].tolist() 
-    percentiles = season_df.columns[season_df.columns.str.contains('_Percentile')].tolist()
-    player_ranks = pd.DataFrame()
-    for stat in rank_cols[0]:
-        player_ranks[stat] = [season_df[f'{stat}_Percentile'].values[0], season_df[f'{stat}_Rank'].values[0]]
-    player_ranks = player_ranks.T
-    player_ranks.columns = ['Percentile', 'Rank']
-    st.dataframe(player_ranks, use_container_width=True, hide_index=True)
-    create_player_rank_bar_graph(season_df, player_ranks, player, titles[0], team_colors, plot_number) 
-    plot_number += 1
+    for ranks,df in zip(rank_cols, all_ranks):
+        player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+        player_gp = player_df['GP'].max()
+        if gp > player_gp:
+            st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+            st.stop()
+        st.dataframe(season_df, use_container_width=True, hide_index=True)
+        # need to convert this here to only ranks for the player
+        # separate by _ into index and stat
+        ranks = season_df.columns[season_df.columns.str.contains('_Rank')].tolist() 
+        percentiles = season_df.columns[season_df.columns.str.contains('_Percentile')].tolist()
+        player_ranks = pd.DataFrame()
+        for stat in ranks:
+            player_ranks[stat] = [df[f'{stat}_Percentile'].values[0], df[f'{stat}_Rank'].values[0]]
+        player_ranks = player_ranks.T
+        player_ranks.columns = ['Percentile', 'Rank']
+        st.dataframe(player_ranks, use_container_width=True, hide_index=True)
+        create_player_rank_bar_graph(season_df, player_ranks, player, titles[0], team_colors, plot_number) 
+        plot_number += 1
 else:
     st.write('Currently working on implementing this feature!')
     #player_df['YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
