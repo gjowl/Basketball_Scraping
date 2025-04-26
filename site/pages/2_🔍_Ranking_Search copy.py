@@ -88,25 +88,27 @@ if st.toggle('**GP Threshold**'):
     check_gp = True
 
 # GET RANKINGS FOR ALL PLAYERS
-all_ranks = pd.DataFrame()
-for key in year_data_dict.keys():
-    season_df = year_data_dict[key]
-    # remove data for players with less than games played
-    if check_gp:
-        season_df = season_df[season_df['GP'] >= gp]
+all_ranks = []
+for ranks in rank_cols:
     # get the player rankings for the season
-    all_ranks = []
-    for ranks in rank_cols:
-        tmp_df = pd.DataFrame()
+    tmp_df = pd.DataFrame()
+    for key in year_data_dict.keys():
+        season_df = year_data_dict[key]
+        # remove data for players with less than games played
         if 'TS%' in ranks:
             season_df = advanced_data_dict[key]
+        if check_gp:
+            season_df = season_df[season_df['GP'] >= gp]
             # get the player rankings for the season
             player_ranks = get_player_ranks(season_df, ranks)
             tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
         else:
             player_ranks = get_player_ranks(season_df, ranks)
             tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
-        all_ranks.append(tmp_df)
+    all_ranks.append(tmp_df)
+
+#for df in all_ranks:
+#    st.dataframe(df, use_container_width=True, hide_index=True)
 
 ## TABS START HERE
 tabs = st.tabs(['Player Search', 'Stat Search', 'Year Search'])
@@ -119,31 +121,32 @@ if player is None:
 # TODO: add a list of recommended players to the dropdown
 
 ## get the data for the player from all years they played in the league
+player_dfs = []
+for df in all_ranks:
+    player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+    player_dfs.append(player_df)
 plot_number = 0
 titles = ['Traditional', 'Shooting', 'Advanced']
 # differentiate here: seasonal or career
 if st.toggle('**Compare by season**', key='compare_season', value=True):
-    player_df = all_ranks[0][all_ranks[0]['PLAYER_NAME'] == player].reset_index(drop=True)
-    season = st.selectbox('Select the season of interest', player_df['YEAR'].unique(), key=f'season_{plot_number}')
-    for ranks,df in zip(rank_cols, all_ranks):
+    season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
+    for ranks,df,title in zip(rank_cols, player_dfs, titles):
         player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
         season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
         player_gp = player_df['GP'].max()
         if gp > player_gp:
             st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
             st.stop()
-        st.dataframe(season_df, use_container_width=True, hide_index=True)
-        # need to convert this here to only ranks for the player
         # separate by _ into index and stat
-        ranks = season_df.columns[season_df.columns.str.contains('_Rank')].tolist() 
-        percentiles = season_df.columns[season_df.columns.str.contains('_Percentile')].tolist()
+        ranks, percentiles = season_df.columns[season_df.columns.str.contains('_Rank')].tolist(), season_df.columns[season_df.columns.str.contains('_Percentile')].tolist() 
+        # separate ranks by _
+        ranks, percentiles = [rank.split('_Rank')[0] for rank in ranks], [percentile.split('_Percentile')[0] for percentile in percentiles]
         player_ranks = pd.DataFrame()
         for stat in ranks:
             player_ranks[stat] = [df[f'{stat}_Percentile'].values[0], df[f'{stat}_Rank'].values[0]]
         player_ranks = player_ranks.T
         player_ranks.columns = ['Percentile', 'Rank']
-        st.dataframe(player_ranks, use_container_width=True, hide_index=True)
-        create_player_rank_bar_graph(season_df, player_ranks, player, titles[0], team_colors, plot_number) 
+        create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
         plot_number += 1
 else:
     st.write('Currently working on implementing this feature!')
