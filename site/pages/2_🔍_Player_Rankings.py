@@ -151,8 +151,9 @@ tabs = st.tabs(['Player Search', 'Rank Finder'])
 # TAB 1: PLAYER SEARCH
 with tabs[0]:
     ## SELECT A PLAYER FROM THE DROPDOWN
-    player = st.selectbox('*Select a player to load data and graphs*', player_names, index=0, placeholder='Player Name...')
-    #player = st.selectbox('*Select a player to load data and graphs*', player_names, index=None, placeholder='Player Name...')
+    start_player = 'LeBron James'
+    # make a selectbox for the player names, index at the start_player
+    player = st.selectbox('*Select a player to load data and graphs*', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
     #if player is None:
     #    st.warning('My Personal Recs: Mo Williams, Taj Gibson, Danny Green')
     #    st.stop()
@@ -163,7 +164,9 @@ with tabs[0]:
         player_dfs.append(player_df)
     titles = ['Traditional', 'Shooting', 'Advanced']
     # differentiate here: seasonal or career
-    season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
+    # reverse the list to get the most recent season first
+    season_list = sorted(player_dfs[0]['YEAR'].unique(), reverse=True) 
+    season = st.selectbox('Select the season of interest', season_list, key=f'season_{plot_number}')
     for ranks,df,title in zip(rank_cols, player_dfs, titles):
         player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
         season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
@@ -199,9 +202,12 @@ with tabs[1]:
         all_time = True
     else:
         # get the all time ranks for the player
-        season = st.selectbox('Select the season', all_ranks[0]['YEAR'].unique(), key=f'season_{plot_number}')
+        season = st.selectbox('Select the season', sorted(all_ranks[0]['YEAR'].unique(), reverse=True), key=f'season_{plot_number}')
         season_df = season_ranks_df[season_ranks_df['YEAR'] == season].reset_index(drop=True)
         data_df = year_data_dict[season]
+        # remove duplicate players from the dataframe
+        season_df = season_df[season_df['PLAYER_NAME'].isin(data_df['PLAYER_NAME'])].reset_index(drop=True)
+        season_df = season_df.sort_values(by=f'{stat}_Rank', ascending=False).reset_index(drop=True)
         all_time = False
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
     # get a list of the number of ranks in the league
