@@ -78,7 +78,7 @@ def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols,
     return all_ranks
 
 def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
-    all_ranks = []
+    all_ranks, output_dfs = [], []
     for ranks in _rank_cols:
         # get the player rankings for the season
         tmp_df = pd.DataFrame()
@@ -95,9 +95,10 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
         # append the first team abbreviation to the dataframe
         avg_df['TEAM_ABBREVIATION'] = tmp_df.groupby('PLAYER_NAME')['TEAM_ABBREVIATION'].first().values
         tmp_ranks = get_ranks(avg_df, ranks, _season=False)
+        output_dfs.append(avg_df)
         #st.dataframe(tmp_ranks, use_container_width=True, hide_index=True)
         all_ranks.append(tmp_ranks)
-    return all_ranks
+    return all_ranks, output_dfs
 
 def transform_ranks_for_plotting(_df):
     # separate by _ into index and stat
@@ -110,6 +111,16 @@ def transform_ranks_for_plotting(_df):
     player_ranks = player_ranks.T
     player_ranks.columns = ['Percentile', 'Rank']
     return player_ranks
+
+def merge_rank_dfs(_dfs):
+    output_df = pd.DataFrame()
+    for df in _dfs:
+        if output_df.empty:
+            output_df = df.copy()
+        else:
+            output_df = pd.merge(output_df, df, on=['PLAYER_NAME', 'TEAM_ABBREVIATION'])
+    return output_df
+
 # MAIN
 ## PAGE SETUP BELOW
 ## SELECT A PLAYER FROM THE DROPDOWN
@@ -132,6 +143,7 @@ if st.toggle('**GP Threshold**'):
 
 # GET RANKINGS FOR ALL PLAYERS
 all_ranks = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+all_time_ranks, all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 
 ## TABS START HERE
 tabs = st.tabs(['Player Search', 'Rank Finder'])
@@ -151,63 +163,70 @@ with tabs[0]:
         player_dfs.append(player_df)
     titles = ['Traditional', 'Shooting', 'Advanced']
     # differentiate here: seasonal or career
-    if st.toggle('**Compare by season**', key='compare_season', value=True):
-        season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
-        for ranks,df,title in zip(rank_cols, player_dfs, titles):
-            player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-            season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-            player_gp = player_df['GP'].max()
-            if gp > player_gp:
-                st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
-                st.stop()
-            st.dataframe(season_df, use_container_width=True, hide_index=True)
-            player_ranks = transform_ranks_for_plotting(season_df) 
-            st.dataframe(player_ranks, use_container_width=True, hide_index=True)
-            create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
-            plot_number += 1
-    else:
-        all_time_ranks = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+    season = st.selectbox('Select the season of interest', player_dfs[0]['YEAR'].unique(), key=f'season_{plot_number}')
+    for ranks,df,title in zip(rank_cols, player_dfs, titles):
+        player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+        player_gp = player_df['GP'].max()
+        if gp > player_gp:
+            st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+            st.stop()
+        player_ranks = transform_ranks_for_plotting(season_df) 
+        create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
+        plot_number += 1
+    if st.button(f'Show All Time {player} Ranks'):
         for df,title in zip(all_time_ranks,titles):
             player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
             create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors, plot_number) 
             plot_number += 1
-        st.write('Currently working on implementing this feature!')
+        st.button('Hide All Time Ranks', key=f'hide_{player}_all_time_ranks')
 # TAB 2: STAT SEARCH
 ## SELECT A STAT TO PLOT
-output_df = pd.DataFrame()
+season_ranks_df = merge_rank_dfs(all_ranks)
+all_time_ranks_df = merge_rank_dfs(all_time_ranks)
+all_time_avgs_df = merge_rank_dfs(all_time_avgs)
 with tabs[1]:
     #st.write('**PLAYER** is **#RANK** in **STAT**, averaging **VAL** for the **SEASON**')
     all_rank_cols = pd.concat(all_ranks, ignore_index=True)
-    df = all_ranks[0]
     stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
     # remove rank from the stat list
     stat_list = [stat.split('_Rank')[0] for stat in stat_list]
-    stat = st.selectbox('Select a stat', stat_list, index=None, placeholder='Stat Name...')
-    season = st.selectbox('Select the season', df['YEAR'].unique(), key=f'season_{plot_number}')
-    season_df = df[df['YEAR'] == season].reset_index(drop=True)
+    stat = st.selectbox('Select a stat', stat_list, index=1, placeholder='Stat Name...')
+    if st.toggle('**Search All Time Ranks**', value=False):
+        season_df = all_time_ranks_df
+        data_df = all_time_avgs_df
+        all_time = True
+    else:
+        # get the all time ranks for the player
+        season = st.selectbox('Select the season', all_ranks[0]['YEAR'].unique(), key=f'season_{plot_number}')
+        season_df = season_ranks_df[season_ranks_df['YEAR'] == season].reset_index(drop=True)
+        data_df = year_data_dict[season]
+        all_time = False
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
     # get a list of the number of ranks in the league
     rank_list = sorted(season_df[rank].unique(), reverse=False)
     # convert the rank list to a list of int
     rank_list = [int(rank) for rank in rank_list if str(rank) != 'nan']
-    rank_num = st.selectbox('Select a rank', rank_list, index=None, placeholder='Rank...')
+    rank_num = st.selectbox('Select a rank', rank_list, index=0, placeholder='Rank...')
     # get the x ranked player
     player = season_df[season_df[rank] == rank_num]['PLAYER_NAME'].values[0]
     # get the actual stat value for the player
-    data_df = year_data_dict[season]
     stat_value = data_df[data_df['PLAYER_NAME'] == player][stat].values[0]
     # add the values to the df 
     tmp_df = pd.DataFrame({'PLAYER_NAME': [player], 'RANK': [rank_num], 'STAT': [stat], 'VALUE': [stat_value], 'SEASON': [season]})
     #output_df = pd.concat([output_df, tmp_df], ignore_index=True)
-    st.write(f'In the **{season}** season, **{player}** averaged **{round(stat_value,2)}**  **{stat}** good for **#{rank_num}** in the league.')
+    if all_time:
+        st.write(f'**{player}** has averaged **{round(stat_value,2)}**  **{stat}** in his career, which is **#{rank_num}** all time.')
+    else:
+        st.write(f'In the **{season}** season, **{player}** averaged **{round(stat_value,2)}**  **{stat}** good for **#{rank_num}** in the league.')
     # TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
 
-if st.button(f'Show All {player} Data'):
-    # show all the data with no scroll bar
-    player_df = get_player_data(year_data_dict, player)
-    st.dataframe(player_df, use_container_width=True, hide_index=True)
-    st.button('Hide Data', key=f'hide_{player}_data')
+#if st.button(f'Show All {player} Data'):
+#    # show all the data with no scroll bar
+#    player_df = get_player_data(year_data_dict, player)
+#    st.dataframe(player_df, use_container_width=True, hide_index=True)
+#    st.button('Hide Data', key=f'hide_{player}_data')
 # an interesting alternate idea (or maybe concurrent) is to basically make the website a scrolling timeline of the player: Kind of like the spotify wrapped, but a timeline of the player with 
 # their most important stats and their overall impact on the game? Would some sort of impact on the game metric be interesting? How would I define that just using stats?
 # I think I have to start with the most impactful players: Steph is an outlier in 3pt shooting all time. But whenever it started (so he has a large difference in 3PAs to how quickly it gets closer)
