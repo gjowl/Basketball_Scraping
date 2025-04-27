@@ -84,12 +84,12 @@ data_df = data_df[data_df['PLAYER_NAME'].isin(data_df_count.index)]
 
 ## SELECT THE NUMBER OF GAMES PLAYED
 # TODO: might be interesting to do some kind of density plot of GP
-games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 20) # 82 is the max number of games played in a season
+games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 41) # 82 is the max number of games played in a season
 data_df = data_df[data_df['GP'] > games_played]
 
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 # TODO: might not need this?
-num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 50, 20)
+num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 40, 20)
 st.divider()
 
 ## CHOOSE THE STAT TO PLOT
