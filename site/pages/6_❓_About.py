@@ -28,9 +28,10 @@ st.write(
 ## PAGE 2
 st.write(
     """
-    🔍 Rankings Search
+    🔍 Player Rankings
     ===========\n
-    You can search for a player and view their statistical rankings for a given season.
+    You can search for a player and view their statistical rankings all time and/or for a given season. \n
+    It also includes a Ranking Search, where you can search for a rank and output the player either all time and/or for a given season.\n
     """
 )
 
@@ -48,7 +49,7 @@ st.write(
     """
     📈 Yearly Graphs 
     ===========\n
-
+    You can filter the data by number of years in the league and games played to see how players have performed over their years in the league.
     """
 )
 
