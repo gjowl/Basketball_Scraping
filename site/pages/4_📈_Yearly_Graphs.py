@@ -60,75 +60,63 @@ if st.toggle('**Advanced**'):
 year_data_dict = create_year_data_dict(datadir)
 
 ## get all the unique player names from the year_data_dict
-player_names = pd.DataFrame()
+data_df = pd.DataFrame()
 for key in year_data_dict.keys():
     # add the year column to the dataframe
     year_df = year_data_dict[key]
     year_df['YEAR'] = key
-    player_names = pd.concat([player_names, year_df], ignore_index=True)
+    data_df = pd.concat([data_df, year_df], ignore_index=True)
     
-# check if the player name is duplicated, if so remove the duplicates
-player_names_no_dups = player_names['PLAYER_NAME'].drop_duplicates(keep=False)
-
-# if the player is in the list, remove them from the dataframe
-player_names = player_names[~player_names['PLAYER_NAME'].isin(player_names_no_dups)]
-player_names = player_names.reset_index(drop=True)
+## check if the player name is duplicated, if so remove the duplicates
+#data_df_no_dups = data_df['PLAYER_NAME'].drop_duplicates(keep=False)
+#
+## if the player is in the list, remove them from the dataframe
+#data_df = data_df[~data_df['PLAYER_NAME'].isin(data_df_no_dups)]
+#data_df = data_df.reset_index(drop=True)
 # count the number of instances of the player names in the dataframe
-player_names_count = player_names['PLAYER_NAME'].value_counts()
+data_df_count = data_df['PLAYER_NAME'].value_counts()
 
 ## SELECT THE NUMBER OF YEARS
 # add an input slider for the number of years to filter by
-count = st.slider('*Select the number of years to filter by*', 1, 10, 5) 
-player_names_count = player_names_count[player_names_count > 10]
-player_names = player_names[player_names['PLAYER_NAME'].isin(player_names_count.index)]
-#st.write(len(player_names), ' players that have more than 5 years of data in the league')
+count = st.slider('*Select the minimum number of years played in the league*', 1, 10, 5) 
+data_df_count = data_df_count[data_df_count >= count]
+data_df = data_df[data_df['PLAYER_NAME'].isin(data_df_count.index)]
 
 ## SELECT THE NUMBER OF GAMES PLAYED
 # TODO: might be interesting to do some kind of density plot of GP
 games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 20) # 82 is the max number of games played in a season
-player_names = player_names[player_names['GP'] > games_played]
+data_df = data_df[data_df['GP'] > games_played]
 
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 # TODO: might not need this?
-num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 100, 50)
+num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 50, 20)
 st.divider()
 
 ## CHOOSE THE STAT TO PLOT
 # make a search bar for the stats to plot
-stat = st.selectbox('**Select the stat to plot**', player_names.columns[3:]) # from the GP column and on
-# keep only the players with the top 100 of the stat for each year
-player_names = player_names.sort_values(by=stat, ascending=False).groupby('YEAR').head(num_players)
-# sort the players by year
-player_names = player_names.sort_values(by='SEASON')
-
-# add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
+stat = st.selectbox('**Select the stat to plot**', data_df.columns[3:], index=21) # from the GP column and on
+# TODO: add a short wait here (checking stat type...) (make it feel like an old school kind of vibe (that can be toggled))
 if stat in threes:
-    attempts = st.slider('*Select the minimum number of 3PA_PG to filter by*', 1, 10, 2) 
-    player_names = player_names[player_names['3PA_PG'] > attempts]
+    attempts = st.slider('*Select the minimum number of 3PA_PG to filter by*', 1, 10, 3) 
+    data_df = data_df[data_df['3PA_PG'] >= attempts]
 if stat in twos:
-    attempts = st.slider('*Select the minimum number of 2PA_PG to filter by*', 1, 10, 2) 
-    player_names = player_names[player_names['2PA_PG'] > attempts]
+    attempts = st.slider('*Select the minimum number of 2PA_PG to filter by*', 1, 10, 5) 
+    data_df = data_df[data_df['2PA_PG'] >= attempts]
 if stat in general:
-    max_stat = int(player_names[stat].max())
+    max_stat = int(data_df[stat].max())
     attempts = st.slider(f'*Select the minimum number of **{stat}** to filter by*', 1, max_stat, 2)
-    player_names = player_names[player_names[stat] > attempts]
-# make boxplots for each year
-#fig = px.box(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
-#fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
-#fig.update_layout(showlegend=False)
-#st.plotly_chart(fig, use_container_width=True)
-
-fig = px.scatter(player_names, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
+    data_df = data_df[data_df[stat] >= attempts]
+# keep only the players with the top 100 of the stat for each year
+data_df = data_df.sort_values(by=stat, ascending=False).groupby('SEASON').head(num_players)
+# sort the players by year
+data_df = data_df.sort_values(by='SEASON')
+fig = px.scatter(data_df, x='SEASON', y=stat, color='PLAYER_NAME', hover_name='PLAYER_NAME', title=f'{stat} vs YEAR')
 # separate the points out of a straight line
 fig.update_traces(marker=dict(size=12, line=dict(width=2, color='DarkSlateGrey')))
 if st.toggle('**Show Lines**', key='show_lines', value=False):
     fig.update_traces(mode='markers+lines')
 fig.update_layout(showlegend=False)
-## TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
 st.plotly_chart(fig, use_container_width=True)
 
-traditional = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'TOV_PG', 'PF_PG']
-
-#    # trace a line between all values that have the same PLAYER_NAME
-#    # another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions
-## TODO: draw a line between the points of the same player
+## TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
+# another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions
