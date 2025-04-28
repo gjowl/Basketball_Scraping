@@ -79,7 +79,9 @@ st.write(
     TODO: Hide more emojis
     TODO: A page where draft classes are searchable for the following data: how many players with x number of years in the NBA?
      - Some way to compare the success of draft classes (Ex. 1984 vs 2003 vs 2021: maybe something like # of players who played more than x years in the NBA?)
-    TODO: Some way to look at and compare players by career (Al Horford vs Kevin Love vs Myles Turner vs Thad Young vs Brook Lopez , )
+    TODO: Some way to look at and compare players by career
+     - Al Horford vs Kevin Love vs Myles Turner vs Thad Young vs Brook Lopez
+     - TJ McConnell vs Jose Alvarado vs Andre Miller
     """
 )
 # Add in social at the bottom
