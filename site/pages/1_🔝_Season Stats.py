@@ -39,7 +39,7 @@ year_data_dict = create_year_data_dict(datadir)
 year_data_dict = {k: year_data_dict[k] for k in sorted(year_data_dict.keys(), reverse=True)}
 season = st.selectbox('**Season**', year_data_dict.keys(), index=None, placeholder='Season...')
 if season is None:
-    st.warning('*Please select a season (data up to the 1996-97 season)*')
+    st.warning('*Please select a season (data back to the 1996-97 season)*')
     st.stop()
 data = year_data_dict[season]
 max_gp = data['GP'].max()
@@ -52,8 +52,9 @@ max_gp = data['GP'].max()
 ## PLOTS
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
-num_players = st.slider('*Number of players to show*', 1, 30, 10)
-num_gp = st.slider('*Minimum number of games played*', 1, max_gp, 25)
+num_players = st.slider('***Number of players to show***', 1, 30, 10)
+num_gp = st.slider('***Minimum number of games played****', 1, max_gp, 65)
+st.write('***65 games played is the minimum to qualify for NBA awards as of 2023-24 season**')
 
 ## PICK A PLAYER TO VIEW
 st.divider()
