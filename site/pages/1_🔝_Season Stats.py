@@ -56,7 +56,7 @@ num_players = st.slider('*Number of players to show*', 1, 30, 10)
 num_gp = st.slider('*Minimum number of games played*', 1, max_gp, 25)
 
 ## PICK A PLAYER TO VIEW
-st.write(f'Below you can choose a stat to look at the top {num_players} players with a minimum of {num_gp} games played.')
+st.write(f'Below you can choose a stat to look at the top {num_players} ⛹🏻 who played {num_gp} games.')
 st.divider()
 
 ## SELECT THE STAT TO PLOT

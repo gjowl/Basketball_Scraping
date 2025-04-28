@@ -20,9 +20,9 @@ st.header('Welcome to my NBA Stats Website!')
 st.write('This website is a collection of NBA stats and data visualization built using [Streamlit](https://streamlit.io/).')
 st.write('''
          For the **2025-26** season, I hope to add in daily game analysis on this page including but not limited to:\n
-            - **Most Points, Assists, Rebounds, Steals, and Blocks** \n
-            - **Highest +/-, TS%, and USG%** \n
-            - **Statistical Anomalies** (Like Jokic's **30-20-20**, or Luka's *73* point game)\n 
+            🏀 **Most Points, Assists, Rebounds, Steals, and Blocks** \n
+            🏀 **Highest +/-, TS%, and USG%** \n 
+            🏀 **Statistical Anomalies** (Like Jokic's **30-20-20**, or Luka's *73* point game)\n 
         ''')
 st.divider()
 st.write('''
