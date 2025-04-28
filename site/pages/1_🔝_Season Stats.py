@@ -28,17 +28,18 @@ team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-st.write('**Toggle below to switch between traditional/advanced stats**')
+st.write('**Toggle to switch between traditional/advanced stats**')
 if st.toggle('**Advanced**'):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
     stats = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
 
+# LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
 # flip the dict to get the most recent season first
 year_data_dict = {k: year_data_dict[k] for k in sorted(year_data_dict.keys(), reverse=True)}
 season = st.selectbox('**Season**', year_data_dict.keys(), index=None, placeholder='Season...')
 if season is None:
-    st.warning('*Please select a season*')
+    st.warning('*Please select a season (data up to the 1996-97 season)*')
     st.stop()
 data = year_data_dict[season]
 max_gp = data['GP'].max()
@@ -49,19 +50,18 @@ max_gp = data['GP'].max()
 ## PICK A PLAYER TO VIEW
 ## SELECT THE STAT TO PLOT
 ## PLOTS
-## TODO: fix the blurb at the top of the page
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 num_players = st.slider('*Number of players to show*', 1, 30, 10)
 num_gp = st.slider('*Minimum number of games played*', 1, max_gp, 25)
 
 ## PICK A PLAYER TO VIEW
-st.write(f'Below you can choose a stat to look at the top {num_players} ⛹🏻 who played {num_gp} games.')
 st.divider()
 
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
 stats = [col for col in stats if col in cols]
+st.write(f'Choose a stat to plot the **Top {num_players} players** who played at least **{num_gp} games**.')
 option = st.selectbox('**Stat**', stats, index=None, placeholder='Statistic...')
 if option is None:
     st.warning('*Please select a stat to plot*')
