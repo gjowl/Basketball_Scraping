@@ -33,28 +33,28 @@ st.write('**Toggle to switch between :green[Traditional/Advanced] stats**')
 stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
 with stat_explanation:
         st.write('''
-                :green[**Traditional Stats**]\n
-                **PPG** - Points Per Game\n
-                **APG** - Assists Per Game\n
-                **RPG** - Rebounds Per Game\n
-                **SPG** - Steals Per Game\n
-                **BPG** - Blocks Per Game\n
-                **OREB_PG** - Offensive Rebounds Per Game\n
-                **DREB_PG** - Defensive Rebounds Per Game\n
-                **AST_TO** - Assist to Turnover Ratio\n
-                **TOV_PG** - Turnovers Per Game\n
-                **FTA_PG** - Free Throws Attempted Per Game\n
-                **3PM_PG** - 3 Point Field Goals Made Per Game\n
-                **3PA_PG** - 3 Point Field Goals Attempted Per Game\n
-                **2PM_PG** - 2 Point Field Goals Made Per Game\n
-                **2PA_PG** - 2 Point Field Goals Attempted Per Game\n
-                **NBA_FANTASY_PTS_PG** - NBA Fantasy Points Per Game\n
-                :green[**Advanced Stats**]\n
-                **TS%** - True Shooting Percentage\n
-                **USG%** - Usage Percentage\n
-                **OREB%** - Offensive Rebound Percentage\n
-                **DREB%** - Defensive Rebound Percentage\n
-                **AST%** - Assist Percentage\n
+                :green[**Traditional**]\n
+                🏀 **PPG** - Points Per Game\n
+                🏀 **APG** - Assists Per Game\n
+                🏀 **RPG** - Rebounds Per Game\n
+                🏀 **SPG** - Steals Per Game\n
+                🏀 **BPG** - Blocks Per Game\n
+                🏀 **OREB_PG** - Offensive Rebounds Per Game\n
+                🏀 **DREB_PG** - Defensive Rebounds Per Game\n
+                🏀 **AST_TO** - Assist to Turnover Ratio\n
+                🏀 **TOV_PG** - Turnovers Per Game\n
+                🏀 **FTA_PG** - Free Throws Attempted Per Game\n
+                🏀 **3PM_PG** - 3 Point Field Goals Made Per Game\n
+                🏀 **3PA_PG** - 3 Point Field Goals Attempted Per Game\n
+                🏀 **2PM_PG** - 2 Point Field Goals Made Per Game\n
+                🏀 **2PA_PG** - 2 Point Field Goals Attempted Per Game\n
+                🏀 **NBA_FANTASY_PTS_PG** - NBA Fantasy Points Per Game\n
+                :green[**Advanced**]\n
+                🏀 **TS%** - True Shooting Percentage\n
+                🏀 **USG%** - Usage Percentage\n
+                🏀 **OREB%** - Offensive Rebound Percentage\n
+                🏀 **DREB%** - Defensive Rebound Percentage\n
+                🏀 **AST%** - Assist Percentage\n
                 ''')
 
 if st.toggle('**Advanced**'):
@@ -120,13 +120,15 @@ st.divider()
 ### calculate percentiles for the option
 data[f'Percentile'] = data[option].rank(pct=True)
 top_players = sort_and_show_data(data, option, col2, team_colors, num_players) # plots the top player bar graph and scatter plot
+output_df = top_players.copy()
+output_df = output_df[['PLAYER_NAME', option, col2, 'TEAM_ABBREVIATION']]
 top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
-if st.button(f'Show Top {num_players} Data', key='top_players_button'):
-    st.write(top_players)
-    st.button(f'Hide Top {num_players} Data', key='hide_top_players_button')
+st.expander('**Top Players Data**', expanded=False)
+with st.expander('**Top Players Data**', expanded=False):
+    st.dataframe(output_df, use_container_width=True, hide_index=True)
 st.write(f'''
-        The youngest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[0]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[0]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**].\n 
-        The oldest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[-1]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[-1]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**].\n
+        The youngest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[0]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[0]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
+        The oldest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[-1]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[-1]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
          ''')
 # if there are more players from the same team, write them out
 # check if there are any non-unique TEAM_ABBREVIATION values in the top players
@@ -134,9 +136,7 @@ team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
 if len(team_counts) > 1:
     for team, count in team_counts.items():
         if count > 1:
-            st.write(f':red[**{team}**] has multiple players in the :rainbow[**Top 10**]: **{" and ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**.')
-
-
+            st.write(f':red[**{team}**] has multiple players in the :rainbow[**Top 10:**] **{" and ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**')
 st.divider()
 
 # SORT BY THE STAT SELECTED
@@ -148,14 +148,17 @@ data.reset_index(drop=True, inplace=True)
 
 # plot the quadrant graph with the stat vs the sort_col
 plot_quadrant_scatter(data, option, sort_col, top_players, team_colors)
-scatter_data = data[['PLAYER_NAME', 'AGE', 'TEAM_ABBREVIATION', 'GP', option, sort_col]].copy()
-if st.button(f'Show Top {num_players} Scatter Data', key='scatter_data_button'):
-    st.dataframe(scatter_data, use_container_width=True, hide_index=True)
-    st.button(f'Hide Top {num_players} Scatter Data', key='hide_scatter_data_button')
-st.write(f'''
-        The :blue[**x-axis**] is the :blue[**{option}**] and the :red[**y-axis**] is the :red[**{sort_col}**], with the season average plotted along the axes in red. \n
-        The :blue[**{option}**] vs :red[**{sort_col}**] scatter plot shows the distribution of players in the league for the **2023-24** season. \n
+scatter_data = data[['PLAYER_NAME', option, sort_col, 'TEAM_ABBREVIATION']].copy()
+scatter_data.sort_values(by=option, ascending=False, inplace=True)
+st.expander('**Top Players Scatter Data**', expanded=False)
+with st.expander('**Top Players Scatter Data**', expanded=False):
+    st.write(f'''
+        The :blue[**x-axis**] is the :blue[**{option}**] and the :red[**y-axis**] is the :red[**{sort_col}**], with the **{season} season** average plotted along the axes in red \n
         Players found in the :rainbow[**top right**] quadrant performed above average, while players in the :gray[**bottom left**] quadrant performed below average. \n
+         ''')
+    st.dataframe(scatter_data, use_container_width=True, hide_index=True)
+st.write(f'''
+        The :blue[**{option}**] vs :red[**{sort_col}**] scatter plot shows the distribution of players in the league for the **{season} season**. \n
          ''')
 
 
