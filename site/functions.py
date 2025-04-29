@@ -40,7 +40,6 @@ def sort_and_show_data(_data, _col1, _col2, team_colors, n=10):
         st.plotly_chart(fig, use_container_width=True)
     with c2:
         st.plotly_chart(fig1, use_container_width=False)
-    st.button(f'Hide')
     return top
 
 # plot the scatter plot of the stat vs the sort column
