@@ -190,7 +190,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.expander('**Top Players Data**', expanded=False)
 with st.expander(':green[**Top Players Data**]', expanded=False):
     if st.toggle('**Show Condensed Data**', key='show_data', value=True):
-        data_df = data_df[['PLAYER_NAME', 'SEASON', stat, stat_2, 'TEAM_ABBREVIATION']]
+        data_df = data_df[['PLAYER_NAME', 'SEASON', 'GP', stat, stat_2, 'TEAM_ABBREVIATION']]
         data_df = data_df.sort_values(by=['SEASON', stat], ascending=False)
         st.dataframe(data_df, use_container_width=True, hide_index=True)
     else:

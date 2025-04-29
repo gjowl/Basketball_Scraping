@@ -132,14 +132,20 @@ st.divider()
 data[f'Percentile'] = data[option].rank(pct=True)
 top_players = sort_and_show_data(data, option, col2, team_colors, num_players) # plots the top player bar graph and scatter plot
 output_df = top_players.copy()
-output_df = output_df[['PLAYER_NAME', option, col2, 'TEAM_ABBREVIATION']]
+output_df = output_df[['PLAYER_NAME', 'GP', option, col2, 'TEAM_ABBREVIATION']]
 top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
 st.expander('**Top Players Data**', expanded=False)
 with st.expander('**Top Players Data**', expanded=False):
     st.dataframe(output_df, use_container_width=True, hide_index=True)
+    young_player = top_players_by_age.iloc[0]['PLAYER_NAME']
+    old_player = top_players_by_age.iloc[-1]['PLAYER_NAME']
+    if young_player == 'Anthony Edwards':
+        young_player = 'Anthony Edwards 🐜'
+    if old_player == 'LeBron James':
+        old_player = 'LeBron James 👑'
 st.write(f'''
-        The youngest player in the :violet[**Top {num_players}**] is **{top_players_by_age.iloc[0]['PLAYER_NAME']}** at :green[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
-        The oldest player in the :violet[**Top {num_players}**] is **{top_players_by_age.iloc[-1]['PLAYER_NAME']}** at :green[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
+        The youngest player in the :violet[**Top {num_players}**] is **{young_player}** at :green[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
+        The oldest player in the :violet[**Top {num_players}**] is **{old_player}** at :green[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
          ''')
 # if there are more players from the same team, write them out
 # check if there are any non-unique TEAM_ABBREVIATION values in the top players
@@ -159,7 +165,7 @@ data.reset_index(drop=True, inplace=True)
 
 # plot the quadrant graph with the stat vs the sort_col
 plot_quadrant_scatter(data, option, sort_col, top_players, team_colors)
-scatter_data = data[['PLAYER_NAME', option, sort_col, 'TEAM_ABBREVIATION']].copy()
+scatter_data = data[['PLAYER_NAME', 'GP', option, sort_col, 'TEAM_ABBREVIATION']].copy()
 scatter_data.sort_values(by=option, ascending=False, inplace=True)
 st.expander('**Top Players Scatter Data**', expanded=False)
 with st.expander('**Top Players Scatter Data**', expanded=False):
