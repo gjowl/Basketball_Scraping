@@ -57,10 +57,10 @@ def get_ranks(_data, _stat_list, _season=True):
     return player_ranks
 
 def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
-    all_ranks = []
+    all_ranks, output_dfs = [], []
     for ranks in _rank_cols:
         # get the player rankings for the season
-        tmp_df = pd.DataFrame()
+        tmp_df, tmp_out_df = pd.DataFrame(), pd.DataFrame()
         for key in _year_data_dict.keys():
             season_df = _year_data_dict[key]
             # remove data for players with less than games played
@@ -71,11 +71,14 @@ def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols,
                 # get the player rankings for the season
                 player_ranks = get_ranks(season_df, ranks)
                 tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+                tmp_out_df = pd.concat([tmp_out_df, season_df], ignore_index=True)
             else:
                 player_ranks = get_ranks(season_df, ranks)
                 tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
+                tmp_out_df = pd.concat([tmp_out_df, season_df], ignore_index=True)
+        output_dfs.append(tmp_out_df) 
         all_ranks.append(tmp_df)
-    return all_ranks
+    return all_ranks, output_dfs
 
 def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
     all_ranks, output_dfs = [], []
@@ -142,90 +145,112 @@ if st.toggle('**GP Threshold**'):
     check_gp = True
 
 # GET RANKINGS FOR ALL PLAYERS
-all_ranks = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+all_ranks, all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 all_time_ranks, all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 
 ## TABS START HERE
-tabs = st.tabs(['Player Search', 'Rank Finder'])
+tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
 
 # TAB 1: PLAYER SEARCH
 with tabs[0]:
     ## SELECT A PLAYER FROM THE DROPDOWN
     start_player = 'LeBron James'
     # make a selectbox for the player names, index at the start_player
-    player = st.selectbox('*Select a player to load data and graphs*', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
-    #if player is None:
-    #    st.warning('My Personal Recs: Mo Williams, Taj Gibson, Danny Green')
-    #    st.stop()
+    player = st.selectbox('**Select a Player to Load Rank Graphs**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
     ## get the data for the player from all years they played in the league
-    player_dfs = []
-    for df in all_ranks:
+    player_dfs, player_avg_dfs = [], []
+    for df, avg_df in zip(all_ranks, all_avgs):
         player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+        player_avg = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
         player_dfs.append(player_df)
+        player_avg_dfs.append(player_avg)
     titles = ['Traditional', 'Shooting', 'Advanced']
-    # differentiate here: seasonal or career
     # reverse the list to get the most recent season first
     season_list = sorted(player_dfs[0]['YEAR'].unique(), reverse=True) 
-    season = st.selectbox('Select the season of interest', season_list, key=f'season_{plot_number}')
-    for ranks,df,title in zip(rank_cols, player_dfs, titles):
-        player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-        player_gp = player_df['GP'].max()
-        if gp > player_gp:
-            st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
-            st.stop()
-        player_ranks = transform_ranks_for_plotting(season_df) 
-        create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors, plot_number) 
-        plot_number += 1
-    if st.button(f'Show All Time {player} Ranks'):
-        for df,title in zip(all_time_ranks,titles):
+    season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
+    # loop through to 
+    st.write(f'**{player} {season} Season Ranks**')
+    for ranks,df,avg_df,title in zip(rank_cols, player_dfs, player_avg_dfs, titles):
+        st.expander(f'**{title} Ranks**', expanded=False)
+        with st.expander(f':green[**{title} Ranks**]', expanded=False):
+            player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+            season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+            player_gp = player_df['GP'].max()
+            if gp > player_gp:
+                st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+                st.stop()
+            player_ranks = transform_ranks_for_plotting(season_df) 
+            fig = create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
+            # setup the hover template with the avg_df values
+            st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{plot_number}')
+            # show the player data in a table
+            season_avg_df = avg_df[avg_df['YEAR'] == season].reset_index(drop=True)
+            season_avg_df = season_avg_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP'] + ranks]
+            season_avg_df[ranks] = season_avg_df[ranks].round(2)
+            st.dataframe(season_avg_df, use_container_width=True, hide_index=True)
+            plot_number += 1
+    st.write(f'**{player} All Time Ranks**')
+    st.expander('**All Time Ranks**', expanded=False)
+    with st.expander(':rainbow[**All Time Ranks**]', expanded=False):
+        for df,avg_df,title in zip(all_time_ranks,all_time_avgs,titles):
             player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
-            create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors, plot_number) 
+            fig = create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
+            st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{plot_number}')
+            player_avg_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
+            # remove _Percentile and _Rank from the columns
+            player_avg_df = player_avg_df[[col for col in player_avg_df.columns if '_Percentile' not in col and '_Rank' not in col]]
+            # round all but player name and team abbreviation to 2 decimal places
+            cols = player_avg_df.columns.tolist()
+            cols = [col for col in cols if col not in ['PLAYER_NAME', 'TEAM_ABBREVIATION']]
+            player_avg_df[cols] = player_avg_df[cols].round(2)
+            st.dataframe(player_avg_df, use_container_width=True, hide_index=True)
             plot_number += 1
-        st.button('Hide All Time Ranks', key=f'hide_{player}_all_time_ranks')
 # TAB 2: STAT SEARCH
 ## SELECT A STAT TO PLOT
+# TODO: fix the seasonal rank search at some point; the merge here doesn't work because of same cols with diff values
 season_ranks_df = merge_rank_dfs(all_ranks)
 all_time_ranks_df = merge_rank_dfs(all_time_ranks)
 all_time_avgs_df = merge_rank_dfs(all_time_avgs)
+# TODO: I think adding in a year filter here would be good too
 with tabs[1]:
     #st.write('**PLAYER** is **#RANK** in **STAT**, averaging **VAL** for the **SEASON**')
     all_rank_cols = pd.concat(all_ranks, ignore_index=True)
     stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
     # remove rank from the stat list
     stat_list = [stat.split('_Rank')[0] for stat in stat_list]
-    stat = st.selectbox('Select a stat', stat_list, index=1, placeholder='Stat Name...')
-    if st.toggle('**Search All Time Ranks**', value=False):
-        season_df = all_time_ranks_df
-        data_df = all_time_avgs_df
-        all_time = True
-    else:
-        # get the all time ranks for the player
-        season = st.selectbox('Select the season', sorted(all_ranks[0]['YEAR'].unique(), reverse=True), key=f'season_{plot_number}')
-        season_df = season_ranks_df[season_ranks_df['YEAR'] == season].reset_index(drop=True)
-        data_df = year_data_dict[season]
-        # remove duplicate players from the dataframe
-        season_df = season_df[season_df['PLAYER_NAME'].isin(data_df['PLAYER_NAME'])].reset_index(drop=True)
-        season_df = season_df.sort_values(by=f'{stat}_Rank', ascending=False).reset_index(drop=True)
-        all_time = False
+    stat = st.selectbox('**Select a Stat**', stat_list, index=1, placeholder='Stat Name...')
+    season_df = all_time_ranks_df
+    data_df = all_time_avgs_df
+    #all_time = True
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
     # get a list of the number of ranks in the league
     rank_list = sorted(season_df[rank].unique(), reverse=False)
     # convert the rank list to a list of int
     rank_list = [int(rank) for rank in rank_list if str(rank) != 'nan']
-    rank_num = st.selectbox('Select a rank', rank_list, index=0, placeholder='Rank...')
+    rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...')
     # get the x ranked player
     player = season_df[season_df[rank] == rank_num]['PLAYER_NAME'].values[0]
     # get the actual stat value for the player
     stat_value = data_df[data_df['PLAYER_NAME'] == player][stat].values[0]
     # add the values to the df 
     tmp_df = pd.DataFrame({'PLAYER_NAME': [player], 'RANK': [rank_num], 'STAT': [stat], 'VALUE': [stat_value], 'SEASON': [season]})
-    #output_df = pd.concat([output_df, tmp_df], ignore_index=True)
-    if all_time:
-        st.write(f'**{player}** has averaged **{round(stat_value,2)}**  **{stat}** in his career, which is **#{rank_num}** all time.')
+    if check_gp:
+        if gp < 65:
+            st.write(f'In the seasons where :rainbow[**{player}**] played at least :gray[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
+        else:
+            st.write(f'In the seasons where :rainbow[**{player}**] played at least :green[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
     else:
-        st.write(f'In the **{season}** season, **{player}** averaged **{round(stat_value,2)}**  **{stat}** good for **#{rank_num}** in the league.')
+        st.write(f':rainbow[**{player}**] has averaged :green[**{round(stat_value,2)}**  **{stat}**] in his career, which is :violet[**#{rank_num}**] all time.')
+    st.expander('**Player Data**', expanded=False)
+    with st.expander(':green[**Player Data**]', expanded=False):
+        cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', rank]
+        cols_data = ['PLAYER_NAME', 'TEAM_ABBREVIATION', stat]
+        data_df = data_df[cols_data]
+        season_df = season_df[cols]
+        output_df = pd.merge(data_df, season_df, on=['PLAYER_NAME', 'TEAM_ABBREVIATION'])
+        output_df = output_df.sort_values(by=rank, ascending=True).reset_index(drop=True)
+        st.dataframe(output_df, use_container_width=True, hide_index=True)
     # TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
 
 #if st.button(f'Show All {player} Data'):

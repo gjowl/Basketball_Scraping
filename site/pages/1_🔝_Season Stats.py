@@ -21,15 +21,14 @@ datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
-stats = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-st.write('**Toggle to switch between :green[Traditional/Advanced] stats**')
-# TODO: show button for what the traditional/advanced stats are
+st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
 stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
 with stat_explanation:
         st.write('''
@@ -55,11 +54,23 @@ with stat_explanation:
                 🏀 **OREB%** - Offensive Rebound Percentage\n
                 🏀 **DREB%** - Defensive Rebound Percentage\n
                 🏀 **AST%** - Assist Percentage\n
+                🏀 **W%** - Winning %\n
+                🏀 **EFG%** - Effective Field Goal Percentage\n
+                🏀 **OFF_RATING** - Offensive Rating\n
+                🏀 **DEF_RATING** - Defensive Rating\n
+                🏀 **NET_RATING** - Net Rating\n
+                🏀 **AST_RATIO** - Assist Ratio\n
+                🏀 **TM_TOV%** - Team Turnover Percentage\n
+                🏀 **PACE** - Pace\n
+                🏀 **PIE** - Player Impact Estimate\n
+                🏀 **POSS** - Possessions\n
+                🏀 **POSS_PG** - Possessions Per Game\n
                 ''')
 
 if st.toggle('**Advanced**'):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-    stats = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%']
+    stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+    advanced = True
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -89,12 +100,12 @@ st.divider()
 
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
-stats = [col for col in stats if col in cols]
+stat_options = [col for col in stat_options if col in cols]
 if num_gp < 65:
-    st.write(f'Choose a stat to plot the :rainbow[**Top {num_players}**] players who played at least :gray[**{num_gp} games**].')
+    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :gray[**{num_gp} games**]')
 else:  
-    st.write(f'Choose a stat to plot the :rainbow[**Top {num_players}**] players who played at least :green[**{num_gp} games**].')
-option = st.selectbox('**Stat**', stats, index=None, placeholder='Statistic...')
+    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :green[**{num_gp} games**]')
+option = st.selectbox('**Stat**', stat_options, index=None, placeholder='Statistic...')
 if option is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
@@ -127,8 +138,8 @@ st.expander('**Top Players Data**', expanded=False)
 with st.expander('**Top Players Data**', expanded=False):
     st.dataframe(output_df, use_container_width=True, hide_index=True)
 st.write(f'''
-        The youngest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[0]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[0]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
-        The oldest player in the :rainbow[**Top {num_players}**] is **{top_players_by_age.iloc[-1]['PLAYER_NAME']}** at **{int(top_players_by_age.iloc[-1]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
+        The youngest player in the :violet[**Top {num_players}**] is :rainbow[**{top_players_by_age.iloc[0]['PLAYER_NAME']}**] at **{int(top_players_by_age.iloc[0]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
+        The oldest player in the :violet[**Top {num_players}**] is :rainbow[**{top_players_by_age.iloc[-1]['PLAYER_NAME']}**] at **{int(top_players_by_age.iloc[-1]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
          ''')
 # if there are more players from the same team, write them out
 # check if there are any non-unique TEAM_ABBREVIATION values in the top players
@@ -136,7 +147,7 @@ team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
 if len(team_counts) > 1:
     for team, count in team_counts.items():
         if count > 1:
-            st.write(f':red[**{team}**] has multiple players in the :rainbow[**Top 10:**] **{" and ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**')
+            st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10:**] :rainbow[**{", ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**]')
 st.divider()
 
 # SORT BY THE STAT SELECTED
@@ -154,7 +165,7 @@ st.expander('**Top Players Scatter Data**', expanded=False)
 with st.expander('**Top Players Scatter Data**', expanded=False):
     st.write(f'''
         The :blue[**x-axis**] is the :blue[**{option}**] and the :red[**y-axis**] is the :red[**{sort_col}**], with the **{season} season** average plotted along the axes in red \n
-        Players found in the :rainbow[**top right**] quadrant performed above average, while players in the :gray[**bottom left**] quadrant performed below average. \n
+        Most of the time, players found in the :rainbow[**top right**] quadrant performed above average, while players in the :gray[**bottom left**] quadrant performed below average. \n
          ''')
     st.dataframe(scatter_data, use_container_width=True, hide_index=True)
 st.write(f'''

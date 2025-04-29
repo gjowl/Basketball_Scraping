@@ -40,6 +40,7 @@ def sort_and_show_data(_data, _col1, _col2, team_colors, n=10):
         st.plotly_chart(fig, use_container_width=True)
     with c2:
         st.plotly_chart(fig1, use_container_width=False)
+    #st.button(f'Hide')
     return top
 
 # plot the scatter plot of the stat vs the sort column
@@ -142,9 +143,10 @@ def get_player_ranks(_data, _player, _stat_list):
     return player_ranks
 
 # create a bar graph of the player ranks
-def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _team_colors, _n):
+def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _team_colors):
     # create a bar graph of the stat with the rank above the bar for the chosen player
-    fig = px.bar(_player_ranks, x=_player_ranks.index, title = f'{_title} Ranks', y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
+    #fig = px.bar(_player_ranks, x=_player_ranks.index, title = f'{_title} Ranks', y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
+    fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
     # add the rank above each bar
     for i in range(len(_player_ranks)):
         # if ranking is NaN, skip it
@@ -166,8 +168,8 @@ def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _te
     # add a line at the 0 mark on the y-axis
     fig.add_hline(y=0, line_color=color2, line_width=3)
     # customize the hover label to show the stat name and the percentile
-    fig.update_traces(hovertemplate='Percentile: %{y:.3f}')
-    st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{_n}')
+    fig.update_traces(hovertemplate='%{x} Percentile: %{y:.3f}')
+    return fig
 
 # set the size of the text in the x and y axes
 def set_axis_text(_fig, _x_size=16, _y_size=16):

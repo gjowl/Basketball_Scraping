@@ -23,6 +23,7 @@ datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
+stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 advanced = False
 plot_number = 0
 
@@ -68,9 +69,48 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0):
     st.plotly_chart(fig, key=f'compare_player_scatterplot_{n}', use_container_width=True)
 
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-st.write('**Toggle below to switch between traditional/advanced stats**')
-if st.toggle('**Advanced Stats**'):
+st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+# TODO: show button for what the traditional/advanced stats are
+stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
+with stat_explanation:
+        st.write('''
+                :green[**Traditional**]\n
+                🏀 **PPG** - Points Per Game\n
+                🏀 **APG** - Assists Per Game\n
+                🏀 **RPG** - Rebounds Per Game\n
+                🏀 **SPG** - Steals Per Game\n
+                🏀 **BPG** - Blocks Per Game\n
+                🏀 **OREB_PG** - Offensive Rebounds Per Game\n
+                🏀 **DREB_PG** - Defensive Rebounds Per Game\n
+                🏀 **AST_TO** - Assist to Turnover Ratio\n
+                🏀 **TOV_PG** - Turnovers Per Game\n
+                🏀 **FTA_PG** - Free Throws Attempted Per Game\n
+                🏀 **3PM_PG** - 3 Point Field Goals Made Per Game\n
+                🏀 **3PA_PG** - 3 Point Field Goals Attempted Per Game\n
+                🏀 **2PM_PG** - 2 Point Field Goals Made Per Game\n
+                🏀 **2PA_PG** - 2 Point Field Goals Attempted Per Game\n
+                🏀 **NBA_FANTASY_PTS_PG** - NBA Fantasy Points Per Game\n
+                :green[**Advanced**]\n
+                🏀 **TS%** - True Shooting Percentage\n
+                🏀 **USG%** - Usage Percentage\n
+                🏀 **OREB%** - Offensive Rebound Percentage\n
+                🏀 **DREB%** - Defensive Rebound Percentage\n
+                🏀 **AST%** - Assist Percentage\n
+                🏀 **W%** - Winning %\n
+                🏀 **OFF_RATING** - Offensive Rating\n
+                🏀 **DEF_RATING** - Defensive Rating\n
+                🏀 **NET_RATING** - Net Rating\n
+                🏀 **AST%** - Assist Percentage\n
+                🏀 **AST_RATIO** - Assist Ratio\n
+                🏀 **TM_TOV%** - Team Turnover Percentage\n
+                🏀 **PACE** - Pace\n
+                🏀 **PIE** - Player Impact Estimate\n
+                🏀 **POSS** - Possessions\n
+                🏀 **EFG%** - Effective Field Goal Percentage\n
+                ''')
+if st.toggle('**Advanced**'):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
     advanced = True
 
 # INITIAL DATA PROCESSING
@@ -101,7 +141,6 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
 ## SELECT STATS TO PLOT
 ## PLOTS
-# TODO: add selectedd to each othercompared to each other
 
 ## PAGE BLURB
 # TODO: add a bit more a blurb here for the page
@@ -110,24 +149,31 @@ st.divider()
 
 ## SELECT PLAYERS
 # TODO: write a way that outputs the most important takeaway from the data
-players = st.multiselect('**Select players to compare**', player_names_count.index.tolist(), default=['Stephen Curry', 'Steve Nash', 'Chris Paul'], key='players')
+players = st.multiselect('**Select Players to Compare**', player_names_count.index.tolist(), default=['Stephen Curry', 'Steve Nash', 'Chris Paul'], key='players')
 
 # get the data for the selected player
 player_dfs = []
 for player in players:
     player_df = player_names[player_names['PLAYER_NAME'] == player].reset_index(drop=True)
-    player_df['YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
+    player_df['#YEARS_IN_LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
     player_dfs.append(player_df)
 
 ## SELECT STATS TO PLOT 
+cols = player_dfs[0].columns.tolist()
+stat_options = [col for col in stat_options if col in cols]
 if advanced == False:
-    stats = st.multiselect('**Select stats to compare**', player_dfs[0].columns.tolist()[3:], default=['PPG', '3P%', 'FG%'], key='stats')
+    stats = st.multiselect('**Select Stats to Compare**', stat_options, default=['PPG', '3P%', 'FG%'], key='stats')
 else:
-    stats = st.multiselect('**Select stats to compare**', player_dfs[0].columns.tolist()[3:], default=['TS%', 'USG%', 'AST%'], key='stats')
+    cols = player_dfs[0].columns.tolist()
+    # remove columns that have _RANK in them
+    cols = [col for col in cols if '_RANK' not in col]
+    remove_cols = ['PLAYER_NAME', 'SEASON', 'YEAR', 'MPG', '#YEARS_IN_LEAGUE', 'FGM', 'FGA', 'FGM_PG', 'FGA_PG', 'FG%', 'AST_TO']
+    cols = [col for col in cols if col not in remove_cols]
+    stats = st.multiselect('**Select Stats to Compare**', cols[6:], default=['TS%', 'USG%', 'AST%'], key='stats')
 
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
-if st.toggle('**Compare by years in league**', key='compare_years', value=True):
-    xaxis = 'YEARS_IN_LEAGUE'
+if st.toggle('**Compare by :blue-background[#YEARS_IN_LEAGUE]**', key='compare_years', value=True):
+    xaxis = '#YEARS_IN_LEAGUE'
 else:
     xaxis = 'SEASON'
 cols = ['PLAYER_NAME', xaxis, 'GP']

@@ -78,19 +78,21 @@ data_df_count = data_df['PLAYER_NAME'].value_counts()
 
 ## SELECT THE NUMBER OF YEARS
 # add an input slider for the number of years to filter by
-count = st.slider('*Select the minimum number of years played in the league*', 1, 10, 5) 
+count = st.slider('**Select the minimum number of years played in the league**', 1, 10, 5) 
 data_df_count = data_df_count[data_df_count >= count]
 data_df = data_df[data_df['PLAYER_NAME'].isin(data_df_count.index)]
 
 ## SELECT THE NUMBER OF GAMES PLAYED
 # TODO: might be interesting to do some kind of density plot of GP
-games_played = st.slider('*Select the number of games played to filter by*', 1, 82, 41) # 82 is the max number of games played in a season
+games_played = st.slider('**Select the number of games played to filter by**', 1, 82, 41) # 82 is the max number of games played in a season
 data_df = data_df[data_df['GP'] > games_played]
 
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 # TODO: might not need this?
-num_players = st.slider('*Select the maximum number of players to plot per year*', 1, 40, 20)
+num_players = st.slider('**Select the maximum number of players to plot per year**', 1, 40, 20)
 st.divider()
+
+# TODO: add in a blurb here for what this will do
 
 ## CHOOSE THE STAT TO PLOT
 # make a search bar for the stats to plot
