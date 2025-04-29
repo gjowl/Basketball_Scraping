@@ -33,7 +33,7 @@ option_df = pd.read_csv(options)
 
 # FUNCTIONS
 # TODO: fix the colors here for up to 10 players
-colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#F5DEB3']
+colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#FF4500', '#FFD700', '#00FF00']
 def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0):
     names, hover_templates = [], []
     for player_df in _player_dfs:
@@ -144,12 +144,16 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 
 ## PAGE BLURB
 # TODO: add a bit more a blurb here for the page
-st.write('This page allows you to compare the stats of players over the years they have played in the league since the 1996-97 season (as far back as nba.com has data).')
+st.write('**This page allows you to compare the stats of players over the years they have played in the league since the 1996-97 season (as far back as nba.com has data).**')
 st.divider()
 
 ## SELECT PLAYERS
 # TODO: write a way that outputs the most important takeaway from the data
 players = st.multiselect('**Select Players to Compare**', player_names_count.index.tolist(), default=['Stephen Curry', 'Steve Nash', 'Chris Paul'], key='players')
+# check if the players list is longer than 10
+if len(players) > 10:
+    st.warning('*> 10 players may result in crashing, please select fewer players to compare*')
+    st.stop()
 
 # get the data for the selected player
 player_dfs = []

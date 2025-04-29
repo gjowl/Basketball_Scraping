@@ -8,7 +8,7 @@ st.set_page_config(page_title='Blue Moons!',
                    layout='wide',
                    initial_sidebar_state='auto')
 
-st.title('Blue Moons!')
+st.title('🔵 Blue Moons')
 
 # read through the leaders directory and get the csv files
 leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
@@ -16,10 +16,11 @@ leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
 # Page Setup
 
 st.write('''
-         The stats that occur "once in a blue moon" are stats that rarely occur and that go down in the history books.\n
+         **Stats that occur "once in a :blue[blue moon]" are rare events that go down in the history books.**\n
+            **This page is dedicated to those rare events (data from Wikipedia).**\n
          ''')
-# TODO: add in a blurb about the data being from Wikipedia with a link to the pages
-# TODO: need to work on the analysis here. If no time, at least something simple
+# TODO: need to work on the analysis here
+# TODO: add in a way to update these if there's ever a new blue moon (and link it to the home page!)
 # get the list of csv files in the directory
 csv_files = [f for f in os.listdir(leaders_dir) if f.endswith('.csv')]
 
@@ -36,8 +37,7 @@ for f in csv_files:
 
 # make those names into a list of tabs
 tabs = st.tabs(csv_names)
-
-if st.toggle("Show Simplified DataFrames", key="show_df", value=True):
+if st.toggle("**Show Simplified DataFrames**", key="show_df", value=True):
     for tab, csv in zip(tabs,csv_names):
         with tab:
             cols = ['Player', csv, 'Date']

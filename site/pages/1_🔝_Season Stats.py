@@ -33,13 +33,13 @@ stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expande
 with stat_explanation:
         st.write('''
                 :green[**Traditional**]\n
-                🏀 **PPG** - Points Per Game\n
+                🗑️ **PPG** - Points Per Game\n
                 🏀 **APG** - Assists Per Game\n
-                🏀 **RPG** - Rebounds Per Game\n
+                🪃 **RPG** - Rebounds Per Game\n
                 🏀 **SPG** - Steals Per Game\n
-                🏀 **BPG** - Blocks Per Game\n
-                🏀 **OREB_PG** - Offensive Rebounds Per Game\n
-                🏀 **DREB_PG** - Defensive Rebounds Per Game\n
+                ☝🏿 **BPG** - Blocks Per Game\n
+                🪃 **OREB_PG** - Offensive Rebounds Per Game\n
+                🪃 **DREB_PG** - Defensive Rebounds Per Game\n
                 🏀 **AST_TO** - Assist to Turnover Ratio\n
                 🏀 **TOV_PG** - Turnovers Per Game\n
                 🏀 **FTA_PG** - Free Throws Attempted Per Game\n
@@ -76,7 +76,7 @@ if st.toggle('**Advanced**'):
 year_data_dict = create_year_data_dict(datadir)
 # flip the dict to get the most recent season first
 year_data_dict = {k: year_data_dict[k] for k in sorted(year_data_dict.keys(), reverse=True)}
-season = st.selectbox('**Season**', year_data_dict.keys(), index=None, placeholder='Season...')
+season = st.selectbox('**Season**', year_data_dict.keys(), index=0, placeholder='Season...')
 if season is None:
     st.warning('*Please select a season (data back to the 1996-97 season)*')
     st.stop()
@@ -105,7 +105,7 @@ if num_gp < 65:
     st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :gray[**{num_gp} games**]')
 else:  
     st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :green[**{num_gp} games**]')
-option = st.selectbox('**Stat**', stat_options, index=None, placeholder='Statistic...')
+option = st.selectbox('**Stat**', stat_options, index=0, placeholder='Statistic...')
 if option is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
@@ -138,8 +138,8 @@ st.expander('**Top Players Data**', expanded=False)
 with st.expander('**Top Players Data**', expanded=False):
     st.dataframe(output_df, use_container_width=True, hide_index=True)
 st.write(f'''
-        The youngest player in the :violet[**Top {num_players}**] is :rainbow[**{top_players_by_age.iloc[0]['PLAYER_NAME']}**] at **{int(top_players_by_age.iloc[0]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
-        The oldest player in the :violet[**Top {num_players}**] is :rainbow[**{top_players_by_age.iloc[-1]['PLAYER_NAME']}**] at **{int(top_players_by_age.iloc[-1]['AGE'])}** years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
+        The youngest player in the :violet[**Top {num_players}**] is **{top_players_by_age.iloc[0]['PLAYER_NAME']}** at :green[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
+        The oldest player in the :violet[**Top {num_players}**] is **{top_players_by_age.iloc[-1]['PLAYER_NAME']}** at :green[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging :green[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
          ''')
 # if there are more players from the same team, write them out
 # check if there are any non-unique TEAM_ABBREVIATION values in the top players
@@ -147,7 +147,7 @@ team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
 if len(team_counts) > 1:
     for team, count in team_counts.items():
         if count > 1:
-            st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10:**] :rainbow[**{", ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**]')
+            st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10**] - **{", ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**')
 st.divider()
 
 # SORT BY THE STAT SELECTED

@@ -139,6 +139,7 @@ for key in year_data_dict.keys():
 player_names = player_names.unique()
 
 # TOGGLE FOR GP THRESHOLD
+st.write('**Toggle to filter by Games Played**')
 if st.toggle('**GP Threshold**'):
     # add in a slider for the number of games played
     gp = st.slider('Number of games played', 0, 82, 65)
