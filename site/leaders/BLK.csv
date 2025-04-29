@@ -2,7 +2,7 @@ BLK,Player,Team,Opponent,Date,Score,MIN,PTS,REB,AST,Triple-double,Led the league
 17,Elmore Smith,Los Angeles Lakers,Portland Trail Blazers,10/28/73,111-98,48,12,16,2,Yes,Yes,W
 15,Manute Bol,Washington Bullets,Atlanta Hawks,01/25/86,111-103,43,4,4,0,No,Yes,W
 15,Manute Bol,Washington Bullets,Indiana Pacers,02/26/87,100-94,47,10,19,1,Yes,No,W
-15,Shaquille O'Neal*,Orlando Magic,New Jersey Nets,11/20/93,87-85,36,24,28,3,Yes,No,W
+15,Shaquille O'Neal,Orlando Magic,New Jersey Nets,11/20/93,87-85,36,24,28,3,Yes,No,W
 14,Elmore Smith,Los Angeles Lakers,Detroit Pistons,10/26/73,94-92,48,18,13,2,Yes,Yes,W
 14,Elmore Smith,Los Angeles Lakers,Houston Rockets,11/04/73,106-93,45,9,18,2,No,Yes,W
 14,Mark Eaton,Utah Jazz,Portland Trail Blazers,01/18/85,127-122,41,12,20,3,Yes,Yes,W
@@ -10,10 +10,10 @@ BLK,Player,Team,Opponent,Date,Score,MIN,PTS,REB,AST,Triple-double,Led the league
 13,George T. Johnson,San Antonio Spurs,Golden State Warriors,02/24/81,131-126,28,9,9,0,No,Yes,W
 13,Mark Eaton,Utah Jazz,Portland Trail Blazers,02/18/83,97-101,41,16,9,2,No,No,L
 13,Darryl Dawkins,New Jersey Nets,Philadelphia 76ers,11/05/83,112-119,41,17,8,2,No,No,L
-13,Ralph Sampson*,Houston Rockets,Chicago Bulls,12/09/83,115-112,49,28,18,5,Yes,No,W
+13,Ralph Sampson,Houston Rockets,Chicago Bulls,12/09/83,115-112,49,28,18,5,Yes,No,W
 13,Manute Bol,Golden State Warriors,New Jersey Nets,02/02/90,128-109,33,2,11,0,No,No,W
 13,Shawn Bradley,Dallas Mavericks,Portland Trail Blazers,04/07/98,91-99,38,22,22,0,Yes,No,L
-12,Nate Thurmond*,Chicago Bulls,Atlanta Hawks,10/18/74,120-115,45,22,14,13,Yes,No,W
+12,Nate Thurmond,Chicago Bulls,Atlanta Hawks,10/18/74,120-115,45,22,14,13,Yes,No,W
 12,George T. Johnson,New Jersey Nets,New Orleans Jazz,03/21/78,114-117,37,17,13,1,Yes,Yes,L
 12,"Wayne ""Tree"" Rollins", Atlanta Hawks,Portland Trail Blazers,02/21/79,106-83,27,11,13,0,Yes,No,W
 12,Mark Eaton,Utah Jazz,Denver Nuggets,02/05/83,136-143,35,12,14,6,Yes,No,L
@@ -22,71 +22,71 @@ BLK,Player,Team,Opponent,Date,Score,MIN,PTS,REB,AST,Triple-double,Led the league
 12,Manute Bol,Washington Bullets,Milwaukee Bucks,12/12/85,110-108,48,18,9,1,No,Yes,W
 12,Mark Eaton,Utah Jazz,Portland Trail Blazers,11/01/86,119-110,38,15,20,2,Yes,Yes,W
 12,Manute Bol,Washington Bullets,Cleveland Cavaliers,02/05/87,94-85,23,6,3,1,No,No,W
-12,Hakeem Olajuwon*,Houston Rockets,Seattle SuperSonics,03/10/87,127-136,53,38,17,6,Yes,No,L
+12,Hakeem Olajuwon,Houston Rockets,Seattle SuperSonics,03/10/87,127-136,53,38,17,6,Yes,No,L
 12,Manute Bol,Washington Bullets,Boston Celtics,03/26/87,106-103,43,6,17,0,No,No,W
 12,Manute Bol,Golden State Warriors,San Antonio Spurs,02/22/89,118-107,30,7,6,0,No,Yes,W
-12,Hakeem Olajuwon*,Houston Rockets,Utah Jazz,11/11/89,100-92,42,24,21,2,Yes,Yes,W
-12,David Robinson*,San Antonio Spurs,Minnesota Timberwolves,02/23/90,105-95,36,24,12,2,Yes,No,W
-12,Dikembe Mutombo*,Denver Nuggets,Los Angeles Clippers,04/18/93,94-83,43,16,21,2,Yes,No,W
+12,Hakeem Olajuwon,Houston Rockets,Utah Jazz,11/11/89,100-92,42,24,21,2,Yes,Yes,W
+12,David Robinson,San Antonio Spurs,Minnesota Timberwolves,02/23/90,105-95,36,24,12,2,Yes,No,W
+12,Dikembe Mutombo,Denver Nuggets,Los Angeles Clippers,04/18/93,94-83,43,16,21,2,Yes,No,W
 12,Shawn Bradley,New Jersey Nets,Toronto Raptors,04/17/96,107-95,37,11,10,2,Yes,No,W
-12,Vlade Divac*,Charlotte Hornets,New Jersey Nets,02/12/97,113-100,41,18,9,2,No,No,W
+12,Vlade Divac,Charlotte Hornets,New Jersey Nets,02/12/97,113-100,41,18,9,2,No,No,W
 12,Keon Clark,Toronto Raptors,Atlanta Hawks,03/23/01,112-86,28,13,8,2,No,No,W
 12,JaVale McGee,Washington Wizards,Chicago Bulls,03/15/11,79-98,39:22:00,11,12,1,Yes,No,L
 12,Hassan Whiteside,Miami Heat,Chicago Bulls,01/25/15,96-84,24:37:00,14,13,0,Yes,No,W
 11,Elmore Smith 4,Los Angeles Lakers,Golden State Warriors,04/15/74,107-112,40,25,12,0,Yes,Yes,W
-11,Kareem Abdul-Jabbar*,Los Angeles Lakers,Detroit Pistons,12/03/75,118-110,46,29,21,2,Yes,Yes,W
+11,Kareem Abdul-Jabbar,Los Angeles Lakers,Detroit Pistons,12/03/75,118-110,46,29,21,2,Yes,Yes,W
 11,George T. Johnson,Golden State Warriors,Chicago Bulls,03/30/76,94-84,29,6,8,0,No,No,W
-11,Artis Gilmore*,Chicago Bulls,Atlanta Hawks,12/20/77,94-86,41,35,15,,Yes,No,W
-11,Elvin Hayes*,Washington Bullets,Detroit Pistons,03/03/78,124-108,47,22,27,0,Yes,No,W
-11,Robert Parish*,Golden State Warriors,Cleveland Cavaliers,10/29/78,99-94,45,22,16,1,Yes,No,W
-11,Kareem Abdul-Jabbar*,Los Angeles Lakers,Detroit Pistons,11/28/78,103-105,43,27,16,4,Yes,Yes,L
-11,Kareem Abdul-Jabbar*,Los Angeles Lakers,Kansas City Kings,11/25/79,111-110,41,25,15,3,Yes,Yes,W
+11,Artis Gilmore,Chicago Bulls,Atlanta Hawks,12/20/77,94-86,41,35,15,,Yes,No,W
+11,Elvin Hayes,Washington Bullets,Detroit Pistons,03/03/78,124-108,47,22,27,0,Yes,No,W
+11,Robert Parish,Golden State Warriors,Cleveland Cavaliers,10/29/78,99-94,45,22,16,1,Yes,No,W
+11,Kareem Abdul-Jabbar,Los Angeles Lakers,Detroit Pistons,11/28/78,103-105,43,27,16,4,Yes,Yes,L
+11,Kareem Abdul-Jabbar,Los Angeles Lakers,Kansas City Kings,11/25/79,111-110,41,25,15,3,Yes,Yes,W
 11,"Wayne ""Tree"" Rollins", Atlanta Hawks,Indiana Pacers,11/27/82,117-98,36,10,15,2,Yes,Yes,W
 11,Mark Eaton,Utah Jazz,Indiana Pacers,01/01/85,117-119,38,4,13,5,No,Yes,L
-11,Hakeem Olajuwon*,Houston Rockets,Golden State Warriors,01/07/86,124-115,40,26,12,7,Yes,No,W
+11,Hakeem Olajuwon,Houston Rockets,Golden State Warriors,01/07/86,124-115,40,26,12,7,Yes,No,W
 11,Mark Eaton,Utah Jazz,Golden State Warriors,03/17/87,118-103,38,9,11,0,No,Yes,W
 11,Mark Eaton,Utah Jazz,Philadelphia 76ers,12/30/88,102-95,43,6,12,2,No,No,W
 11,Larry Nance,Cleveland Cavaliers,New York Knicks,01/07/89,104-96,36,24,6,4,No,No,W
 11,Mark Eaton,Utah Jazz,San Antonio Spurs,01/12/89,115-91,37,7,17,3,No,No,W
 11,Manute Bol,Golden State Warriors,Philadelphia 76ers,01/27/89,112-113,21,2,4,0,No,Yes,L
-11,David Robinson*,San Antonio Spurs,Charlotte Hornets,02/02/90,118-107,35,27,15,3,Yes,No,W
-11,Hakeem Olajuwon*,Houston Rockets,Golden State Warriors,03/03/90,129-109,40,29,18,9,Yes,Yes,W
-11,Hakeem Olajuwon*,Houston Rockets,Milwaukee Bucks,03/29/90,120-94,40,18,16,10,Yes,Yes,W
-11,Hakeem Olajuwon*,Houston Rockets,Orlando Magic,12/20/90,128-126,50,24,16,4,Yes,Yes,W
-11,David Robinson*,San Antonio Spurs,Sacramento Kings,12/28/90,104-88,35,27,13,2,Yes,No,W
-11,David Robinson*,San Antonio Spurs,Utah Jazz,01/12/91,112-92,39,22,18,5,Yes,No,W
-11,David Robinson*,San Antonio Spurs,Portland Trail Blazers,02/04/92,95-88,45,23,14,3,Yes,Yes,W
-11,Dikembe Mutombo*,Denver Nuggets,Portland Trail Blazers,11/26/93,112-101,39,17,13,1,Yes,Yes,W
-11,Dikembe Mutombo*,Denver Nuggets,Los Angeles Clippers,04/05/94,91-92,33,11,16,0,Yes,Yes,L
-11,Dikembe Mutombo*,Denver Nuggets,Seattle SuperSonics,04/07/94,104-90,36,13,13,2,Yes,Yes,W
-11,Dikembe Mutombo*,Denver Nuggets,Dallas Mavericks,11/08/94,115-107,46,12,14,2,Yes,Yes,W
+11,David Robinson,San Antonio Spurs,Charlotte Hornets,02/02/90,118-107,35,27,15,3,Yes,No,W
+11,Hakeem Olajuwon,Houston Rockets,Golden State Warriors,03/03/90,129-109,40,29,18,9,Yes,Yes,W
+11,Hakeem Olajuwon,Houston Rockets,Milwaukee Bucks,03/29/90,120-94,40,18,16,10,Yes,Yes,W
+11,Hakeem Olajuwon,Houston Rockets,Orlando Magic,12/20/90,128-126,50,24,16,4,Yes,Yes,W
+11,David Robinson,San Antonio Spurs,Sacramento Kings,12/28/90,104-88,35,27,13,2,Yes,No,W
+11,David Robinson,San Antonio Spurs,Utah Jazz,01/12/91,112-92,39,22,18,5,Yes,No,W
+11,David Robinson,San Antonio Spurs,Portland Trail Blazers,02/04/92,95-88,45,23,14,3,Yes,Yes,W
+11,Dikembe Mutombo,Denver Nuggets,Portland Trail Blazers,11/26/93,112-101,39,17,13,1,Yes,Yes,W
+11,Dikembe Mutombo,Denver Nuggets,Los Angeles Clippers,04/05/94,91-92,33,11,16,0,Yes,Yes,L
+11,Dikembe Mutombo,Denver Nuggets,Seattle SuperSonics,04/07/94,104-90,36,13,13,2,Yes,Yes,W
+11,Dikembe Mutombo,Denver Nuggets,Dallas Mavericks,11/08/94,115-107,46,12,14,2,Yes,Yes,W
 11,Shawn Bradley,New Jersey Nets,Washington Bullets,03/14/96,92-100,41,19,17,3,Yes,No,L
 11,Shawn Bradley,New Jersey Nets,Boston Celtics,12/21/96,101-100,42,17,15,4,Yes,Yes,W
 11,Shawn Bradley,New Jersey Nets,Indiana Pacers,02/06/97,100-104,37,14,14,0,Yes,Yes,L
 11,Greg Ostertag,Utah Jazz,Philadelphia 76ers,01/06/98,98-95,49,3,9,4,No,No,W
 11,Marcus Camby,Toronto Raptors,New Jersey Nets,04/14/98,96-92,43,15,12,2,Yes,Yes,W
-11,Dikembe Mutombo*,Atlanta Hawks,New Jersey Nets,02/15/00,103-86,38,21,13,1,Yes,No,W
+11,Dikembe Mutombo,Atlanta Hawks,New Jersey Nets,02/15/00,103-86,38,21,13,1,Yes,No,W
 11,Marcus Camby,Denver Nuggets,Utah Jazz,01/17/08,120-109,43:44:00,8,24,1,No,Yes,W
 11,Serge Ibaka,Oklahoma City Thunder,Denver Nuggets,02/19/12,124-118,40:41:00,14,15,0,Yes,Yes,W
 11,Roy Hibbert,Indiana Pacers,New Orleans Hornets,11/21/12,115-107,36:27:00,10,11,1,Yes,No,W
 11,Joakim Noah,Chicago Bulls,Philadelphia 76ers,02/28/13,93-82,45:00:00,23,21,1,Yes,No,W
 11,Hassan Whiteside,Miami Heat,Denver Nuggets,01/15/16,98-95,38:32:00,19,17,2,Yes,Yes,W
-10,Kareem Abdul-Jabbar*,Milwaukee Bucks,Detroit Pistons,11/03/73,123-115,53,19,16,5,Yes,No,W
+10,Kareem Abdul-Jabbar,Milwaukee Bucks,Detroit Pistons,11/03/73,123-115,53,19,16,5,Yes,No,W
 10,Elmore Smith,Los Angeles Lakers,Kansas City-Omaha Kings,11/30/73,123-107,44,14,10,3,Yes,Yes,W
 10,Elmore Smith,Los Angeles Lakers,Cleveland Cavaliers,12/11/73,100-101,53,10,17,2,Yes,Yes,L
 10,Elmore Smith,Los Angeles Lakers,Golden State Warriors,03/16/75,111-95,42,7,22,7,No,No,W
 10,Harvey Catchings,Philadelphia 76ers,Atlanta Hawks,03/21/75,114-103,20,4,5,1,No,No,W
-10,Kareem Abdul-Jabbar*,Los Angeles Lakers,Atlanta Hawks,11/02/75,116-113,49,39,23,5,Yes,Yes,W
+10,Kareem Abdul-Jabbar,Los Angeles Lakers,Atlanta Hawks,11/02/75,116-113,49,39,23,5,Yes,Yes,W
 10,George T. Johnson,Golden State Warriors,Seattle SuperSonics,04/03/76,130-115,26,10,6,1,No,No,W
 10,George T. Johnson,New Jersey Nets,Atlanta Hawks,10/26/77,110-113,35,7,12,3,No,Yes,L
 10,Joe Meriweather,New Orleans Jazz,Phoenix Suns,10/28/77,114-107,34,10,14,4,Yes,No,W
 10,Joe Meriweather,New York Knicks,Atlanta Hawks,12/12/79,102-114,31,12,6,0,No,No,L
-10,Kareem Abdul-Jabbar*,Los Angeles Lakers,Atlanta Hawks,01/18/80,108-102,39,28,15,2,Yes,Yes,W
+10,Kareem Abdul-Jabbar,Los Angeles Lakers,Atlanta Hawks,01/18/80,108-102,39,28,15,2,Yes,Yes,W
 10,George T. Johnson,New Jersey Nets,Indiana Pacers,03/04/80,114-109,36,8,11,3,No,No,L
 10,"Wayne ""Tree"" Rollins", Atlanta Hawks,Boston Celtics,03/14/80,88-87,39,5,23,2,No,No,W
 10,Ben Poquette,Utah Jazz,Chicago Bulls,12/12/80,98-118,40,16,5,2,No,No,L
 10,Edgar Jones,Detroit Pistons,Indiana Pacers,12/17/81,96-100,38,25,13,1,Yes,No,L
-10,Kareem Abdul-Jabbar*,Los Angeles Lakers,Detroit Pistons,01/22/82,123-111,35,19,10,0,Yes,No,W
+10,Kareem Abdul-Jabbar,Los Angeles Lakers,Detroit Pistons,01/22/82,123-111,35,19,10,0,Yes,No,W
 10,"Wayne ""Tree"" Rollins", Atlanta Hawks,Chicago Bulls,12/21/82,116-124,41,14,15,0,Yes,Yes,L
 10,"Wayne ""Tree"" Rollins", Atlanta Hawks,New Jersey Nets,01/17/83,102-96,39,13,9,1,No,Yes,W
 10,"Wayne ""Tree"" Rollins", Atlanta Hawks,Cleveland Cavaliers,03/29/83,95-82,35,6,9,1,No,Yes,W
@@ -97,7 +97,7 @@ BLK,Player,Team,Opponent,Date,Score,MIN,PTS,REB,AST,Triple-double,Led the league
 10,Mark Eaton,Utah Jazz,Kansas City Kings,03/27/84,110-106,31,6,10,2,No,Yes,W
 10,Mark Eaton,Utah Jazz,San Antonio Spurs,11/07/84,136-124,34,12,11,0,Yes,Yes,W
 10,Mark Eaton,Utah Jazz,Dallas Mavericks,02/01/85,121-109,42,12,20,1,Yes,Yes,W
-10,Artis Gilmore*,San Antonio Spurs,Golden State Warriors,02/04/85,114-109,37,25,13,1,Yes,No,W
+10,Artis Gilmore,San Antonio Spurs,Golden State Warriors,02/04/85,114-109,37,25,13,1,Yes,No,W
 10,Mark Eaton,Utah Jazz,Portland Trail Blazers,02/05/85,106-126,36,17,10,2,Yes,Yes,L
 10,Mark Eaton,Utah Jazz,Houston Rockets,04/26/85,94-96,40,8,10,0,No,Yes,L
 10,Manute Bol,Washington Bullets,Phoenix Suns,01/08/86,97-109,37,2,7,1,No,Yes,L
@@ -107,50 +107,50 @@ BLK,Player,Team,Opponent,Date,Score,MIN,PTS,REB,AST,Triple-double,Led the league
 10,Larry Nance,Phoenix Suns,Philadelphia 76ers,01/04/88,114-122,40,17,11,5,Yes,No,L
 10,Manute Bol,Washington Bullets,Golden State Warriors,01/22/88,115-91,15,6,10,0,No,No,W
 10,Benoit Benjamin,Los Angeles Clippers,Milwaukee Bucks,01/29/88,88-97,35,12,8,3,No,No,L
-10,Hakeem Olajuwon*,Houston Rockets,San Antonio Spurs,04/21/88,116-117,42,38,10,4,Yes,No,L
+10,Hakeem Olajuwon,Houston Rockets,San Antonio Spurs,04/21/88,116-117,42,38,10,4,Yes,No,L
 10,Manute Bol,Golden State Warriors,Portland Trail Blazers,11/12/88,107-100,34,3,10,0,No,Yes,W
 10,Manute Bol,Golden State Warriors,San Antonio Spurs,12/17/88,123-113,29,3,8,0,No,Yes,W
 10,Wayne Cooper,Denver Nuggets,Miami Heat,12/30/88,109-83,25,6,13,1,No,No,W
 10,Manute Bol,Golden State Warriors,Los Angeles Clippers,02/16/89,143-138,32,2,5,0,No,Yes,W
 10,Manute Bol,Golden State Warriors,Utah Jazz,03/10/89,112-126,27,8,5,0,No,Yes,L
 10,Benoit Benjamin,Los Angeles Clippers,San Antonio Spurs,03/31/89,109-106,44,25,10,3,Yes,No,W
-10,Hakeem Olajuwon*,Houston Rockets,Orlando Magic,12/17/89,109-94,43,32,25,2,Yes,Yes,W
-10,David Robinson*,San Antonio Spurs,Los Angeles Lakers,02/20/90,114-115,41,23,16,2,Yes,No,L
+10,Hakeem Olajuwon,Houston Rockets,Orlando Magic,12/17/89,109-94,43,32,25,2,Yes,Yes,W
+10,David Robinson,San Antonio Spurs,Los Angeles Lakers,02/20/90,114-115,41,23,16,2,Yes,No,L
 10,Charles Jones,Washington Bullets,Orlando Magic,03/03/90,132-128,49,2,13,2,No,No,W
 10,Manute Bol,Golden State Warriors,Los Angeles Clippers,03/12/90,112-109,18,0,4,1,No,No,W
-10,Hakeem Olajuwon*,Houston Rockets,Los Angeles Lakers,04/29/90,100-104,43,11,11,1,Yes,Yes,L
-10,David Robinson*,San Antonio Spurs,Orlando Magic,01/10/91,117-111,41,43,12,3,Yes,No,W
+10,Hakeem Olajuwon,Houston Rockets,Los Angeles Lakers,04/29/90,100-104,43,11,11,1,Yes,Yes,L
+10,David Robinson,San Antonio Spurs,Orlando Magic,01/10/91,117-111,41,43,12,3,Yes,No,W
 10,Shawn Kemp,Seattle SuperSonics,Los Angeles Lakers,01/18/91,96-105,40,20,8,3,No,No,L
 10,Manute Bol,Philadelphia 76ers,Sacramento Kings,02/14/91,81-98,30,3,8,0,No,No,L
-10,Dikembe Mutombo*,Denver Nuggets,Orlando Magic,03/10/92,89-82,42,13,8,1,No,No,W
-10,David Robinson*,San Antonio Spurs,Milwaukee Bucks,11/10/92,104-98,43,29,9,5,No,No,W
-10,Hakeem Olajuwon*,Houston Rockets,Portland Trail Blazers,01/03/93,101-103,44,40,9,3,No,Yes,L
-10,Dikembe Mutombo*,Denver Nuggets,Golden State Warriors,03/25/93,99-88,40,21,16,2,Yes,No,W
-10,David Robinson*,San Antonio Spurs,Minnesota Timberwolves,11/09/93,110-95,41,43,11,1,Yes,No,W
-10,Dikembe Mutombo*,Denver Nuggets,Utah Jazz,12/10/93,107-98,35,13,9,3,No,Yes,W
-10,David Robinson*,San Antonio Spurs,Detroit Pistons,02/17/94,115-96,43,34,10,10,Yes,No,W
-10,Dikembe Mutombo*,Denver Nuggets,Cleveland Cavaliers,04/02/95,104-101,47,18,18,1,Yes,Yes,W
-10,Dikembe Mutombo*,Denver Nuggets,Minnesota Timberwolves,12/02/95,109-105,46,22,16,2,Yes,Yes,W
-10,Hakeem Olajuwon*,Houston Rockets,Vancouver Grizzlies,12/13/95,100-89,38,15,14,3,Yes,No,W
+10,Dikembe Mutombo,Denver Nuggets,Orlando Magic,03/10/92,89-82,42,13,8,1,No,No,W
+10,David Robinson,San Antonio Spurs,Milwaukee Bucks,11/10/92,104-98,43,29,9,5,No,No,W
+10,Hakeem Olajuwon,Houston Rockets,Portland Trail Blazers,01/03/93,101-103,44,40,9,3,No,Yes,L
+10,Dikembe Mutombo,Denver Nuggets,Golden State Warriors,03/25/93,99-88,40,21,16,2,Yes,No,W
+10,David Robinson,San Antonio Spurs,Minnesota Timberwolves,11/09/93,110-95,41,43,11,1,Yes,No,W
+10,Dikembe Mutombo,Denver Nuggets,Utah Jazz,12/10/93,107-98,35,13,9,3,No,Yes,W
+10,David Robinson,San Antonio Spurs,Detroit Pistons,02/17/94,115-96,43,34,10,10,Yes,No,W
+10,Dikembe Mutombo,Denver Nuggets,Cleveland Cavaliers,04/02/95,104-101,47,18,18,1,Yes,Yes,W
+10,Dikembe Mutombo,Denver Nuggets,Minnesota Timberwolves,12/02/95,109-105,46,22,16,2,Yes,Yes,W
+10,Hakeem Olajuwon,Houston Rockets,Vancouver Grizzlies,12/13/95,100-89,38,15,14,3,Yes,No,W
 10,Shawn Bradley,New Jersey Nets,Phoenix Suns,03/12/96,88-98,33,8,12,4,No,No,L
-10,Hakeem Olajuwon*,Houston Rockets,Dallas Mavericks,04/13/96,112-111,32,31,13,6,Yes,No,W
+10,Hakeem Olajuwon,Houston Rockets,Dallas Mavericks,04/13/96,112-111,32,31,13,6,Yes,No,W
 10,Shawn Bradley,New Jersey Nets,Boston Celtics,04/19/96,106-112,32,17,13,0,Yes,No,L
 10,Shawn Bradley,New Jersey Nets,Orlando Magic,11/08/96,82-86,28,6,10,0,No,Yes,L
 10,Shawn Bradley,New Jersey Nets,Dallas Mavericks,11/23/96,114-91,25,8,12,0,No,Yes,W
 10,Shawn Bradley,Dallas Mavericks,Los Angeles Lakers,03/04/97,92-102,26,12,9,0,No,Yes,L
 10,Marcus Camby,Toronto Raptors,Philadelphia 76ers,04/19/98,78-107,30,13,11,1,Yes,Yes,L
-10,Dikembe Mutombo*,Philadelphia 76ers,Chicago Bulls,12/01/01,93-76,39,16,19,0,Yes,No,W
-10,Ben Wallace*,Detroit Pistons,Milwaukee Bucks,02/24/02,82-89,39,10,17,1,Yes,Yes,L
-10,Ben Wallace*,Detroit Pistons,Miami Heat,11/20/02,79-68,43,12,19,1,Yes,No,W
+10,Dikembe Mutombo,Philadelphia 76ers,Chicago Bulls,12/01/01,93-76,39,16,19,0,Yes,No,W
+10,Ben Wallace,Detroit Pistons,Milwaukee Bucks,02/24/02,82-89,39,10,17,1,Yes,Yes,L
+10,Ben Wallace,Detroit Pistons,Miami Heat,11/20/02,79-68,43,12,19,1,Yes,No,W
 10,Jermaine O'Neal,Indiana Pacers,Toronto Raptors,01/22/03,101-98,43,18,10,3,Yes,No,W
-10,Dikembe Mutombo*,New York Knicks,New Jersey Nets,01/04/04,85-95,42,4,5,0,No,No,L
+10,Dikembe Mutombo,New York Knicks,New Jersey Nets,01/04/04,85-95,42,4,5,0,No,No,L
 10,Calvin Booth,Seattle SuperSonics,Cleveland Cavaliers,01/13/04,96-104,17,2,0,0,No,No,L
 10,Amar'e Stoudemire,Phoenix Suns,Utah Jazz,02/07/04,92-96,39,20,6,1,No,No,L
 10,Josh Smith,Atlanta Hawks,Dallas Mavericks,12/18/04,68-90,34,9,7,4,No,No,L
 10,Andrei Kirilenko,Utah Jazz,Sacramento Kings,03/25/06,89-91,39:49:00,15,14,3,Yes,No,L
 10,Emeka Okafor,Charlotte Bobcats,New York Knicks,01/12/07,126-110,41:39:00,20,9,1,No,No,W
 10,Marcus Camby,Denver Nuggets,Milwaukee Bucks,12/26/07,125-105,30:12:00,10,11,5,Yes,Yes,W
-10,Dwight Howard*,Orlando Magic,Oklahoma City Thunder,11/12/08,109-92,38:06:00,30,19,3,Yes,Yes,W
+10,Dwight Howard,Orlando Magic,Oklahoma City Thunder,11/12/08,109-92,38:06:00,30,19,3,Yes,Yes,W
 10,Serge Ibaka,Oklahoma City Thunder,Dallas Mavericks,02/01/12,95-86,39:59:00,4,11,1,No,Yes,W
 10,Serge Ibaka,Oklahoma City Thunder,Sacramento Kings,02/09/12,101-106,30:26:00,6,9,0,No,Yes,L
 10,Andrew Bynum,Los Angeles Lakers,Denver Nuggets,04/29/12,103-88,35:32:00,10,13,0,Yes,No,W
