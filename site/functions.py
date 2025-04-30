@@ -208,9 +208,9 @@ def make_year_scatterplot(_df, _col, _team_colors):
     return fig
         
 ## traverse directory to load data
-def create_year_data_dict(datadir):
+def create_year_data_dict(_datadir):
     year_data_dict = {}
-    for root, dirs, files in os.walk(datadir):
+    for root, dirs, files in os.walk(_datadir):
         for file in files:
             # look if the name of the file is what you want
             # read in the file
@@ -226,3 +226,20 @@ def create_year_data_dict(datadir):
             # add the df to the dictionary with the filename as the key
             year_data_dict[filename] = tmp_df
     return year_data_dict
+
+def annotate_with_emojis(_player_name, _emoji_df):
+    # Check if the player name is in the emoji_df
+    if _player_name in _emoji_df['PLAYER_NAME'].values:
+        # Get the corresponding emoji from the emoji_df
+        emoji = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Emoji'].values[0]
+        link = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link'].values[0]
+        return f"{_player_name} [{emoji}]({link})"
+    else:
+        return _player_name
+
+# check if the emoji players are in the top players list
+def emoji_check(_emoji_df, _players_df, col='PLAYER_NAME'):
+    players = _players_df[col].tolist()
+    emoji_player_list = [player for player in players if player in _emoji_df['PLAYER_NAME'].tolist()]
+    _emoji_df = _emoji_df[_emoji_df['PLAYER_NAME'].isin(emoji_player_list)]
+    return _emoji_df

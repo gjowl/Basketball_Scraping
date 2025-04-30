@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import create_year_data_dict
+from functions import create_year_data_dict, emoji_check, annotate_with_emojis
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Season Trajectories',
@@ -21,6 +21,7 @@ st.title('📈 Season Trajectories')
 datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
+emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 
 # HARDCODED STAT GROUPS
 threes = ['3PM_PG', '3PA_PG', '3P%']
@@ -34,6 +35,7 @@ advanced = False
 # READ IN THE TEAM COLORS
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
+emoji_df = pd.read_csv(emoji_file)
 
 # MAIN
 # TODO: might it be interesting to only look at specific teams?
@@ -130,7 +132,7 @@ data_df = data_df[data_df['GP'] > games_played]
 
 ## SELECT THE MAXIMUM NUMBER OF PLAYERS TO PLOT
 # TODO: might not need this?
-num_players = st.slider('**Select the maximum # of players to plot per season**', 1, 40, 20)
+num_players = st.slider('**Select the maximum # of players to plot per season**', 1, 25, 5)
 color = ':green'
 if games_played < 65:
     gp_color = ':gray'
@@ -196,7 +198,19 @@ with st.expander(':green[**Top Players Data**]', expanded=False):
     else:
         data_df = data_df.sort_values(by=['SEASON', stat], ascending=False)
         st.dataframe(data_df, use_container_width=True, hide_index=True)
-    
+st.divider()
+
+# WRITE THE EMOJIS
+st.expander('**Emojis**', expanded=False)
+with st.expander(':green[**Emojis**]', expanded=False):
+    emoji_players = emoji_check(emoji_df, data_df)
+    # write out the players with emojis
+    for player in emoji_players['PLAYER_NAME']:
+        player_emoji = annotate_with_emojis(player, emoji_df)
+        st.write(f'''{player_emoji}''')
+    st.write(f'''
+    "おめでとうございます,絵文字を見つけました/O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found some emojis :D"\n
+    ''')
 
 ## TODO: these might actually just be better as yearly boxplots; maybe add a button to toggle between the two?
 # another idea: get the biggest movers from year to year to identify players that were starting to space out the league at the 4 and 5 positions

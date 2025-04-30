@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import create_year_data_dict
+from functions import create_year_data_dict, emoji_check, annotate_with_emojis
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Comparison',
@@ -23,6 +23,7 @@ datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
+emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 advanced = False
 plot_number = 0
@@ -30,6 +31,7 @@ plot_number = 0
 # READ IN THE TEAM COLORS
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
+emoji_df = pd.read_csv(emoji_file)
 
 # FUNCTIONS
 # TODO: fix the colors here for up to 10 players
@@ -154,7 +156,6 @@ players = st.multiselect('**Select Players to Compare**', player_names_count.ind
 if len(players) > 10:
     st.warning('*> 10 players may result in crashing, please select fewer players to compare*')
     st.stop()
-
 # get the data for the selected player
 player_dfs = []
 for player in players:
@@ -176,14 +177,18 @@ else:
     stats = st.multiselect('**Select Stats to Compare**', cols[6:], default=['TS%', 'USG%', 'AST%'], key='stats')
 
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
-if st.toggle('**Compare by :blue-background[#YEARS_IN_LEAGUE]**', key='compare_years', value=True):
+if st.toggle('**Compare by #YEARS_IN_LEAGUE**', key='compare_years', value=True):
     xaxis = '#YEARS_IN_LEAGUE'
 else:
     xaxis = 'SEASON'
 cols = ['PLAYER_NAME', xaxis, 'GP']
 for stat in stats:
     cols.append(stat)
+
+
 st.divider()
+
+
 
 # keep the first 3 columns and the stat columns
 final_dfs = []
@@ -195,6 +200,17 @@ for player_df in player_dfs:
 for stat in stats:
     compare_player_scatterplot(final_dfs, xaxis, stat, plot_number)
     plot_number+=1
+st.divider()
+
+# PRINT OUT EMOJI PLAYERS
+emoji_players = emoji_df[emoji_df['PLAYER_NAME'].isin(players)]
+if len(emoji_players) > 0:
+    st.expander(f'**Emojis**', expanded=True)
+    with st.expander(f':green[Emojis]', expanded=False):
+        for player in emoji_players['PLAYER_NAME'].tolist():
+            emoji = emoji_df.loc[emoji_df['PLAYER_NAME'] == player, 'Emoji'].values[0]
+            link = emoji_df.loc[emoji_df['PLAYER_NAME'] == player, 'Link'].values[0]
+            st.write(f'**{player}** [{emoji}]({link})')
 
 # add a button to show the player data
 if st.button('Show player data', key='show_player_data'):

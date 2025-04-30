@@ -42,12 +42,11 @@ st.divider()
 # TODO: add in buttons or something to link to my links
 st.write('''
         EMOJIS to Find:
-          👾👑🐜
-        🐜🪄🌈
-
-         🦄🕷️🐂🐐🏆🏅
+        👾👑🐜
+        🪄🌈🦄🕷️
+        🐍🖐🏿🐐🐎
+        
 ⭐😷🪰
 🐛🦋
 🐌🐢🦥
-   🦧     🖐🏿 
          ''')

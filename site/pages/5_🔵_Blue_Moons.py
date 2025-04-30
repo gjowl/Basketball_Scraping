@@ -1,6 +1,7 @@
 import streamlit as st
 import altair as alt
 import os, pandas as pd
+from functions import emoji_check, annotate_with_emojis
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Blue Moons!',
@@ -12,6 +13,8 @@ st.title('🔵 Blue Moons')
 
 # read through the leaders directory and get the csv files
 leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
+emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
+emoji_df = pd.read_csv(emoji_file)
 
 # Page Setup
 
@@ -43,6 +46,13 @@ if st.toggle("**Show Simplified DataFrames**", key="show_df", value=True):
             cols = ['Player', csv, 'Date']
             df = dfs[csv][cols]
             st.dataframe(df, use_container_width=True, hide_index=True)
+            emoji_df = emoji_check(emoji_df, df, 'Player')
+            st.expander(f"Emojis", expanded=False)
+            with st.expander(f":green[Emojis]", expanded=False):
+                # get the emojis for the players in the dataframe
+                for player in emoji_df['PLAYER_NAME']:
+                    player_emoji = annotate_with_emojis(player, emoji_df)
+                    st.write(f"{player_emoji}")
 else:
     for tab, csv in zip(tabs,csv_names):
         with tab:

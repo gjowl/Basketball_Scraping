@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import plot_quadrant_scatter, get_player_data, get_player_ranks, create_player_rank_bar_graph, make_year_scatterplot, create_year_data_dict
+from functions import emoji_check, annotate_with_emojis, create_player_rank_bar_graph, create_year_data_dict
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Rankings',
@@ -24,10 +24,12 @@ advancedDir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
 contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
+emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
+emoji_df = pd.read_csv(emoji_file)
 
 ## VARIABLES FOR THE STATS TO GET
 name_and_year = ['PLAYER_NAME', 'YEAR']
@@ -158,6 +160,7 @@ with tabs[0]:
     start_player = 'LeBron James'
     # make a selectbox for the player names, index at the start_player
     player = st.selectbox('**Select a Player to Load Rank Graphs**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
+    player_emoji = annotate_with_emojis(player, emoji_df)
     ## get the data for the player from all years they played in the league
     player_dfs, player_avg_dfs = [], []
     for df, avg_df in zip(all_ranks, all_avgs):
@@ -170,7 +173,8 @@ with tabs[0]:
     season_list = sorted(player_dfs[0]['YEAR'].unique(), reverse=True) 
     season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
     # loop through to 
-    st.write(f'**{player} {season} Season Ranks**')
+
+    st.write(f'**{player_emoji} {season} Season Ranks**')
     for ranks,df,avg_df,title in zip(rank_cols, player_dfs, player_avg_dfs, titles):
         st.expander(f'**{title} Ranks**', expanded=False)
         with st.expander(f':green[**{title} Ranks**]', expanded=False):
@@ -178,7 +182,7 @@ with tabs[0]:
             season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
             player_gp = player_df['GP'].max()
             if gp > player_gp:
-                st.warning(f'Player has only played {player_gp} games this season. Please select a lower number of games played.')
+                st.warning(f'{player_emoji} has only played {player_gp} games this season. Please select a lower number of games played.')
                 st.stop()
             player_ranks = transform_ranks_for_plotting(season_df) 
             fig = create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
@@ -190,7 +194,7 @@ with tabs[0]:
             season_avg_df[ranks] = season_avg_df[ranks].round(2)
             st.dataframe(season_avg_df, use_container_width=True, hide_index=True)
             plot_number += 1
-    st.write(f'**{player} All Time Ranks**')
+    st.write(f'**{player_emoji} All Time Ranks**')
     st.expander('**All Time Ranks**', expanded=False)
     with st.expander(':rainbow[**All Time Ranks**]', expanded=False):
         for df,avg_df,title in zip(all_time_ranks,all_time_avgs,titles):
@@ -232,17 +236,18 @@ with tabs[1]:
     rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...')
     # get the x ranked player
     player = season_df[season_df[rank] == rank_num]['PLAYER_NAME'].values[0]
+    player_emoji = annotate_with_emojis(player, emoji_df)
     # get the actual stat value for the player
     stat_value = data_df[data_df['PLAYER_NAME'] == player][stat].values[0]
     # add the values to the df 
     tmp_df = pd.DataFrame({'PLAYER_NAME': [player], 'RANK': [rank_num], 'STAT': [stat], 'VALUE': [stat_value], 'SEASON': [season]})
     if check_gp:
         if gp < 65:
-            st.write(f'In the seasons where :rainbow[**{player}**] played at least :gray[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
+            st.write(f'In the seasons where :rainbow[**{player_emoji}**] played at least :gray[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
         else:
-            st.write(f'In the seasons where :rainbow[**{player}**] played at least :green[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
+            st.write(f'In the seasons where :rainbow[**{player_emoji}**] played at least :green[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] all time.')
     else:
-        st.write(f':rainbow[**{player}**] has averaged :green[**{round(stat_value,2)}**  **{stat}**] in his career, which is :violet[**#{rank_num}**] all time.')
+        st.write(f':rainbow[**{player_emoji}**] has averaged :green[**{round(stat_value,2)}**  **{stat}**] in his career, which is :violet[**#{rank_num}**] all time.')
     st.expander('**Player Data**', expanded=False)
     with st.expander(':green[**Player Data**]', expanded=False):
         cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', rank]
