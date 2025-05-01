@@ -17,12 +17,10 @@ def change_to_team_colors(_fig, _data, team_colors):
         _fig.data[i].marker.line.color = color2
 
 # sort and show the data
-def sort_and_show_data(_data, _col1, _col2, team_colors, n=10):
+def sort_and_show_data(_data, _col1, team_colors, n=10):
     # sort the data by the stat
     top = _data.sort_values(by=_col1, ascending=False).head(n)
     top = top.reset_index(drop=True)
-    # trim to only have player name and the stat
-    percentile_col = f'Percentile'
     # show the data in a bar graph with player names and the stat above the bar
     fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'Top {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
     fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
@@ -31,19 +29,12 @@ def sort_and_show_data(_data, _col1, _col2, team_colors, n=10):
     # remove the legend
     fig.update_layout(showlegend=False)
     # make spec for vega-lite charts
-    fig1 = px.scatter(top, x=_col2, y=_col1, color='PLAYER_NAME', title=f'{_col2} vs {_col1}', labels={'x': _col2, 'y': _col1}, size=f'{percentile_col}')
-    change_to_team_colors(fig1, top, team_colors)
     change_to_team_colors(fig, top, team_colors)
-    #fig2 = px.scatter(top, x=_col1, y=newCol, color='PLAYER_NAME', title=f'{_col1} vs {newCol}', labels={'x': _col1, 'y': newCol}, size=f'{percentile_col}')
-    c1, c2 = st.columns(2)
-    with c1:
-        st.plotly_chart(fig, use_container_width=True)
-    with c2:
-        st.plotly_chart(fig1, use_container_width=False)
-    #st.button(f'Hide')
-    return top
+    #st.plotly_chart(fig, use_container_width=True)
+    return fig
 
 # plot the scatter plot of the stat vs the sort column
+# TODO: could eventually highlight players who are in their first, second, third etc. years in the league in gold?
 def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
     # calculate the average of the stat
     avg = _data[_col1].mean()
@@ -52,7 +43,7 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
     # plot the data
     fig = px.scatter(_data, x=_col1, y=_col2, color='PLAYER_NAME', title=f'{_col1} vs {_col2}')
     # add a line at 0 for both axes
-    fig.add_hline(y=avg_sort, line_color='red', line_width=1, line_dash='dash')
+    fig.add_hline(y=avg_sort, line_color='dodgerblue', line_width=1, line_dash='dash')
     fig.add_vline(x=avg, line_color='red', line_width=1, line_dash='dash')
     fig.update_traces(marker=dict(size=10))
     # remove the legend
@@ -80,9 +71,9 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
     max_x = _data[_col1].max()
     max_y = _data[_col2].max()
     set_axis_text(fig)
-    adjust_axes(fig, _data, _col1, _col2)
-    fig.add_annotation(x=max_x, y=0, text=f'Avg {_col1} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
-    fig.add_annotation(x=max_x, y=max_y, text=f'Avg {_col2} = {avg_sort:.2f}', showarrow=False, font=dict(size=16), xshift=10)
+    #adjust_axes(fig, _data, _col1, _col2)
+    #fig.add_annotation(x=max_x, y=0, text=f'Avg {_col1} = {avg:.2f}', showarrow=False, font=dict(size=16), yshift=10)
+    #fig.add_annotation(x=max_x, y=max_y, text=f'Avg {_col2} = {avg_sort:.2f}', showarrow=False, font=dict(size=16), xshift=10)
     st.plotly_chart(fig, use_container_width=False)
 
 # loop through the year_data_dictionary and get all the data for the player
@@ -145,7 +136,6 @@ def get_player_ranks(_data, _player, _stat_list):
 # create a bar graph of the player ranks
 def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _team_colors):
     # create a bar graph of the stat with the rank above the bar for the chosen player
-    #fig = px.bar(_player_ranks, x=_player_ranks.index, title = f'{_title} Ranks', y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
     fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
     # add the rank above each bar
     for i in range(len(_player_ranks)):

@@ -1,7 +1,7 @@
 import streamlit as st
 import os, pandas as pd
 import plotly.express as px
-from functions import sort_and_show_data, plot_quadrant_scatter, create_year_data_dict, annotate_with_emojis,emoji_check
+from functions import sort_and_show_data, change_to_team_colors,plot_quadrant_scatter, create_year_data_dict, annotate_with_emojis,emoji_check
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
@@ -22,59 +22,75 @@ contains = '2023-24_boxscore' # file you want to read
 colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
-stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
-emoji_player_list = ['Anthony Edwards', 'LeBron James', 'Kobe Bryant']
+stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
+stat_options = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 expander_color = ':green'
+stat_color = ':blue'
+top_players_color = ':violet'
+default_num_gp = 65
+
+# BOOL
+advanced = False
+go_deeper = False
+explanation = False
+flip_graph = False
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 emoji_df = pd.read_csv(emoji_file)
+stat_df = pd.read_csv(stat_file)
 
-## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
-with stat_explanation:
+# CHECKBOX FOR MORE OPTIONS
+go_deeper_variable_color = ':grey'
+cols = st.columns(2)
+with cols[0]:
+    go_deeper = st.checkbox(f'**{go_deeper_variable_color}[Go Deeper]**', value=False, key='go_deeper')
+    if go_deeper == True:
+        go_deeper_variable_color = ':green'
+with cols[1]:
+    explanation = st.checkbox(f'**:grey[Explanations]**', value=True)
+
+# INTRO BLURB
+if explanation == True:
+    if go_deeper == False:
         st.write('''
-                :green[**Traditional**]\n
-                🏀 **PPG** - Points Per Game\n
-                🏀 **APG** - Assists Per Game\n
-                🏀 **RPG** - Rebounds Per Game\n
-                🏀 **SPG** - Steals Per Game\n
-                🏀 **BPG** - Blocks Per Game\n
-                🏀 **OREB_PG** - Offensive Rebounds Per Game\n
-                🏀 **DREB_PG** - Defensive Rebounds Per Game\n
-                🏀 **AST_TO** - Assist to Turnover Ratio\n
-                🏀 **TOV_PG** - Turnovers Per Game\n
-                🏀 **FTA_PG** - Free Throws Attempted Per Game\n
-                🏀 **3PM_PG** - 3 Point Field Goals Made Per Game\n
-                🏀 **3PA_PG** - 3 Point Field Goals Attempted Per Game\n
-                🏀 **2PM_PG** - 2 Point Field Goals Made Per Game\n
-                🏀 **2PA_PG** - 2 Point Field Goals Attempted Per Game\n
-                🏀 **NBA_FANTASY_PTS_PG** - NBA Fantasy Points Per Game\n
-                :green[**Advanced**]\n
-                🏀 **TS%** - True Shooting Percentage\n
-                🏀 **USG%** - Usage Percentage\n
-                🏀 **OREB%** - Offensive Rebound Percentage\n
-                🏀 **DREB%** - Defensive Rebound Percentage\n
-                🏀 **AST%** - Assist Percentage\n
-                🏀 **W%** - Winning %\n
-                🏀 **EFG%** - Effective Field Goal Percentage\n
-                🏀 **OFF_RATING** - Offensive Rating\n
-                🏀 **DEF_RATING** - Defensive Rating\n
-                🏀 **NET_RATING** - Net Rating\n
-                🏀 **AST_RATIO** - Assist Ratio\n
-                🏀 **TM_TOV%** - Team Turnover Percentage\n
-                🏀 **PACE** - Pace\n
-                🏀 **PIE** - Player Impact Estimate\n
-                🏀 **POSS** - Possessions\n
-                🏀 **POSS_PG** - Possessions Per Game\n
-                ''')
+                ***Who averaged the most points in the 2024-25 season? What about the year before that? Before that?***\n
+                ***On this page, you can roll back data from present to the 1996-97 season.***\n
+                **Pick the number of players and the stat you want to see, and the top players will be plotted in a bar graph.**\n
+                **Generate graphics for the :violet[**Top N**] players in the league for all available stats from NBA.com**\n
+                \n
+        ''')
+    else:
+        st.write(f'''
+                ***Who averaged the most points in the 2024-25 season? What about the year before that? Before that?***\n
+                ***On this page, you can roll back data from present to the 1996-97 season.***\n
+                **Pick the :violet[number of players], :green[games played], and the :green[age range] of players.**\n
+                **Then pick the stats you want to see, and the top players will be plotted in bar graphs and scatterplots.**\n
+                \n
+        ''')
 
+st.divider()
+## TOGGLE FOR TRADITIONAL/ADVANCED STATS
 if st.toggle('**Advanced**'):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
     stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
     advanced = True
+if go_deeper == True:
+    st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+    stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
+    with stat_explanation:
+        clicked = st.checkbox('**click me :D**', value=False, key='click_me')
+        stat_types = ['Traditional', 'Advanced']
+        for type in stat_types:
+            stat_type_df = stat_df[stat_df['Type'] == type]
+            st.write(f'**{type} Stats**')
+            for index, row in stat_type_df.iterrows():
+                stat_type = row['Type']
+                if stat_type == 'Traditional':
+                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
+                else:
+                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -96,34 +112,45 @@ max_gp = data['GP'].max()
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 num_players = st.slider('***Number of players to show***', 1, 30, 10)
-num_gp = st.slider('***Minimum number of games played****', 1, max_gp, 65)
-st.write('**{expander_color}[65 games] played is the minimum to qualify for NBA awards as of 2023-24 season**')
-
-## PICK A PLAYER TO VIEW
+num_gp = default_num_gp 
+if go_deeper == True:
+    num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp)
+    min_age, max_age = data['AGE'].min(), data['AGE'].max()
+    ages = st.slider('***Age Range***', min_age, max_age, (min_age, max_age), format='%d')
+    data = data[(data['AGE'] >= ages[0]) & (data['AGE'] <= ages[1])]
+    go_deeper = True
 st.divider()
 
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
 stat_options = [col for col in stat_options if col in cols]
-if num_gp < 65:
-    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :gray[**{num_gp} games**]')
-else:  
-    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least {expander_color}[**{num_gp} games**]')
-option = st.selectbox('**Stat**', stat_options, index=0, placeholder='Statistic...')
-if option is None:
+if go_deeper == True and explanation == True:
+    stat_options = [col for col in stat_options if col in cols]
+    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
+elif explanation == True:
+    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :grey[**{num_gp} games**]')
+stat = st.selectbox('**Stat**', stat_options, index=0, placeholder='Statistic...')
+if stat is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
+# GET THE Y-AXIS STAT
+y_axis = option_df[option_df['OPTION'] == stat]['SORT'].values[0]
+if go_deeper == True:
+    stat_options_2 = stat_options.copy()
+    stat_options_2.remove(stat)
+    # find y_axis in the stat_options_2 list and set it to the index of the stat
+    default_index = stat_options_2.index(y_axis)
+    #st.write(f'**Choose a second stat to plot**')
+    stat_2 = st.selectbox('**Stat 2**', stat_options_2, index=default_index, placeholder='Statistic...')
+    y_axis = stat_2
 
 ### FILTERING/DATA PREPROCESSING
-col2 = 'MPG'
-if 'AST_TO' in option:
-    if data[option].isnull().values.any():
-        data[option] = data[option].replace([float('inf'), -float('inf')], float('nan'))
+if 'AST_TO' in stat:
+    if data[stat].isnull().values.any():
+        data[stat] = data[stat].replace([float('inf'), -float('inf')], float('nan'))
 else:
-    if data[option].isnull().values.any():
-        data[option] = data[option].replace([float('inf'), -float('inf')], float('nan'))
-newCol = f'{option}_per_{col2}'
-data[newCol] = data[option] / data[col2]
+    if data[stat].isnull().values.any():
+        data[stat] = data[stat].replace([float('inf'), -float('inf')], float('nan'))
 ## make sure that the GP column is not infinite/NaN
 if data['GP'].isnull().values.any():
     data['GP'] = data['GP'].replace([float('inf'), -float('inf')], float('nan'))
@@ -131,85 +158,110 @@ if data['GP'].isnull().values.any():
 data = data[data['GP'] >= num_gp]
 st.divider()
 
-
 ## PLOTS
 ### calculate percentiles for the option
-data[f'Percentile'] = data[option].rank(pct=True)
-top_players = sort_and_show_data(data, option, col2, team_colors, num_players) # plots the top player bar graph and scatter plot
-output_df = top_players.copy()
-output_df = output_df[['PLAYER_NAME', 'GP', option, col2, 'TEAM_ABBREVIATION']]
-top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
-if top_players_by_age.empty:
-    st.write('**No players found with the selected filters, try lowering the number of GP!**')
-    st.stop()
-emoji_df = emoji_check(emoji_df, top_players_by_age)
-st.expander('**Top Players Data**', expanded=False)
-with st.expander(f'{expander_color}[**Top Players Data**]', expanded=False):
-    st.dataframe(output_df, use_container_width=True, hide_index=True)
+data[f'Percentile'] = data[stat].rank(pct=True)
+# sort the data by the stat
+flip_top = st.toggle('**Flip Top Players**', value=False, key='flip_top_players')
+top_players = data.sort_values(by=stat, ascending=flip_top).head(num_players)
+top_players = top_players.reset_index(drop=True)
+# BAR GRAPH PLOT AND OUTPUTS
+bar_graph = sort_and_show_data(data, stat, team_colors, num_players) # plots the top player bar graph and scatter plot
+if go_deeper == False:
+    st.plotly_chart(bar_graph, use_container_width=True)
+    output_df = top_players.copy()
+    output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
+    top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
+    if top_players_by_age.empty:
+        st.write('**No players found with the selected filters, try lowering the number of GP!**')
+        st.stop()
+    if go_deeper == True:
+        emoji_df = emoji_check(emoji_df, top_players_by_age)
     young_player = top_players_by_age.iloc[0]['PLAYER_NAME']
     old_player = top_players_by_age.iloc[-1]['PLAYER_NAME']
-    if young_player in emoji_df['PLAYER_NAME'].tolist():
-        young_player = annotate_with_emojis(young_player, emoji_df)
-    if old_player in emoji_df['PLAYER_NAME'].tolist():
-        old_player = annotate_with_emojis(old_player, emoji_df)
-st.write(f'''
-        The youngest player in the :violet[**Top {num_players}**] is **{young_player}** at {expander_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][option],1)} {option}**]\n 
-        The oldest player in the :violet[**Top {num_players}**] is **{old_player}** at {expander_color}[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[-1][option],1)} {option}**]\n
-         ''')
+    if go_deeper == True:
+        st.expander('**Top Players Data**', expanded=False)
+        with st.expander(f'{expander_color}[**Top Players Data**]', expanded=False):
+            st.dataframe(output_df, use_container_width=True, hide_index=True)
+            if go_deeper == True:
+                if young_player in emoji_df['PLAYER_NAME'].tolist():
+                    young_player = annotate_with_emojis(young_player, emoji_df)
+                if old_player in emoji_df['PLAYER_NAME'].tolist():
+                    old_player = annotate_with_emojis(old_player, emoji_df)
+    if explanation == True:
+        st.write(f'''
+                The youngest player in the :violet[**Top {num_players}**] is **{young_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][stat],1)} {stat}**]\n 
+                The oldest player in the :violet[**Top {num_players}**] is **{old_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[-1][stat],1)} {stat}**]\n
+                 ''')
+    # if there are more players from the same team, write them out
+    # check if there are any non-unique TEAM_ABBREVIATION values in the top players
+    team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
+    if len(team_counts) > 1:
+        for team, count in team_counts.items():
+            if count > 1:
+                players = top_players[top_players['TEAM_ABBREVIATION'] == team]['PLAYER_NAME'].values
+                if go_deeper == True:
+                    for player in players:
+                        if player in emoji_df['PLAYER_NAME'].tolist():
+                            output_player = annotate_with_emojis(player, emoji_df)
+                            players[players == player] = output_player
+                if explanation == True:
+                    st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10**] - **{", ".join(players)}**')
+    st.divider()
 
-# if there are more players from the same team, write them out
-# check if there are any non-unique TEAM_ABBREVIATION values in the top players
-team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
-if len(team_counts) > 1:
-    for team, count in team_counts.items():
-        if count > 1:
-            st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10**] - **{", ".join(top_players[top_players["TEAM_ABBREVIATION"] == team]["PLAYER_NAME"].values)}**')
+# MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
+if go_deeper == True:
+    data = data.sort_values(by=y_axis, ascending=flip_top)
+    data.reset_index(drop=True, inplace=True)
+    # plot the quadrant graph with the stat vs the y_axis
+    plot_quadrant_scatter(data, stat, y_axis, top_players, team_colors)
+    scatter_data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
+    scatter_data.sort_values(by=stat, ascending=flip_top, inplace=True)
+    x_avg = round(data[stat].mean(),2)
+    y_avg = round(data[y_axis].mean(),2)
+    if explanation == True:
+        st.write(f'''
+                The :blue[**{stat}**] vs :red[**{y_axis}**] scatter plot shows the distribution of players in the league for the :green[**{season} season**]. \n
+                The :violet[Top {num_players}] players are highlighted by their team colors in the scatter plot, and all other players are plotted in gray. \n
+                The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
+                🏀 **:red[Avg {stat} = {x_avg}]** \n
+                🏀 **:blue[Avg {y_axis} = {y_avg}]** \n
+                Typically, the best players are found in the top right quadrant, being above average for both stats. \n
+                Hover over a point to see the player name, team, and the **:green[**{season} season**]** averages ! \n
+                 ''')
+    st.expander('**Top Players Scatter Data**', expanded=False)
+    with st.expander(f'**{expander_color}[Top Players Scatter Data]**', expanded=False):
+        st.write(f'''
+            The :blue[**x-axis**] is the :blue[**{stat}**] and the :red[**y-axis**] is the :red[**{y_axis}**], with the **{season} season** average plotted along the axes in red \n
+            The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
+            🏀 **:red[Avg {stat} = {x_avg}]** \n
+            🏀 **:blue[Avg {y_axis} = {y_avg}]** \n
+             ''')
+        output_data = scatter_data.head(num_players)
+        st.dataframe(output_data, use_container_width=True, hide_index=True)
+    st.divider()
 
-st.divider()
-
-# SORT BY THE STAT SELECTED
-sort_col = option_df[option_df['OPTION'] == option]['SORT'].values[0]
-
-# plot the percentile data as a bar graph with player names
-data = data.sort_values(by=sort_col, ascending=False)
-data.reset_index(drop=True, inplace=True)
-
-# plot the quadrant graph with the stat vs the sort_col
-plot_quadrant_scatter(data, option, sort_col, top_players, team_colors)
-scatter_data = data[['PLAYER_NAME', 'GP', option, sort_col, 'TEAM_ABBREVIATION']].copy()
-scatter_data.sort_values(by=option, ascending=False, inplace=True)
-st.expander('**Top Players Scatter Data**', expanded=False)
-with st.expander(f'**{expander_color}[Top Players Scatter Data]**', expanded=False):
-    st.write(f'''
-        The :blue[**x-axis**] is the :blue[**{option}**] and the :red[**y-axis**] is the :red[**{sort_col}**], with the **{season} season** average plotted along the axes in red \n
-        Most of the time, players found in the :rainbow[**top right**] quadrant performed above average, while players in the :gray[**bottom left**] quadrant performed below average. \n
-         ''')
-    st.dataframe(scatter_data, use_container_width=True, hide_index=True)
-st.write(f'''
-        The :blue[**{option}**] vs :red[**{sort_col}**] scatter plot shows the distribution of players in the league for the **{season} season**. \n
-         ''')
-st.divider()
-
-
-# PERCENTILE BAR GRAPH (Redacted as of 2025-04-25)
-## keep only the top 100
-#data = data.head(100)
-#fig = px.bar(data, x='PLAYER_NAME', y='Percentile', color='Percentile', title=f'{option} Percentiles (sorted left to right by {sort_col})')
-#st.plotly_chart(fig, use_container_width=False)
-
+# SHOW ALL DATA
+st.expander('**Show All Data**', expanded=False)
+with st.expander(f'**Show All Data**', expanded=False):
+    if st.toggle('**Simplified Data**', key='show_all_data', value=True):
+        data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
+        data.sort_values(by=stat, ascending=flip_top, inplace=True)
+        st.dataframe(data, use_container_width=True, hide_index=True)
+    st.dataframe(data, use_container_width=True, hide_index=True)
 
 ## ADD IN THE EMOJIS
-st.expander('**Emojis**', expanded=False)
-with st.expander(f'{expander_color}[**Emojis**]', expanded=False):
-    if len(emoji_df) > 0:
-        for index, row in emoji_df.iterrows():
+if go_deeper == True and clicked == True and explanation == True:
+    st.expander('**Emojis**', expanded=False)
+    with st.expander(f'{expander_color}[**Emojis**]', expanded=False):
+        if len(emoji_df) > 0:
+            player_emoji_list = []
+            for player in emoji_df['PLAYER_NAME']:
+                st.write(f'**{player}**')
+                player_emoji = annotate_with_emojis(player, emoji_df)
+                player_emoji_list.append(player_emoji)
+            st.write(f'{" | ".join(player_emoji_list)}')
             st.write(f'''
-            {row['PLAYER_NAME']} {row['Emoji']}\n
+            "おめでとうございます,絵文字を見つけました"\n
+            "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found some emojis :D"\n
             ''')
-        st.write(f'''
-        "おめでとうございます,絵文字を見つけました/O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found some emojis :D"\n
-        ''')
-
-if st.button('Show All Data', key='all_data_button'):
-    st.dataframe(data, use_container_width=True, hide_index=True)
-    st.button(f'Hide')
