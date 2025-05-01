@@ -92,6 +92,7 @@ st.write(
     🏀 **Hide more emojis**\n
     🏀 **A page where draft classes are searchable for the following data: how many players with x number of years in the NBA?**\n
     🏀 **A way to compare the success of draft classes (Ex. 1984 vs 2003 vs 2021: maybe something like # of players who played more than x years in the NBA?)**\n
+    🏀 **Scatterplot of data where you highlight players who are in their first, second, third etc. years in the league?**
     🏀 **Al Horford vs Kevin Love vs Myles Turner vs Thad Young vs Brook Lopez**\n
     🏀 **TJ McConnell vs Jose Alvarado vs Andre Miller**
     """

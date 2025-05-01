@@ -46,13 +46,15 @@ if st.toggle("**Show Simplified DataFrames**", key="show_df", value=True):
             cols = ['Player', csv, 'Date']
             df = dfs[csv][cols]
             st.dataframe(df, use_container_width=True, hide_index=True)
-            emoji_df = emoji_check(emoji_df, df, 'Player')
+            tmp_emoji_df = emoji_check(emoji_df, df, 'Player')
             st.expander(f"Emojis", expanded=False)
             with st.expander(f":green[Emojis]", expanded=False):
                 # get the emojis for the players in the dataframe
-                for player in emoji_df['PLAYER_NAME']:
-                    player_emoji = annotate_with_emojis(player, emoji_df)
-                    st.write(f"{player_emoji}")
+                player_emoji_list = []
+                for player in tmp_emoji_df['PLAYER_NAME']:
+                    player_emoji = annotate_with_emojis(player, tmp_emoji_df)
+                    player_emoji_list.append(player_emoji)
+                st.write(" | ".join(player_emoji_list))
 else:
     for tab, csv in zip(tabs,csv_names):
         with tab:

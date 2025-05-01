@@ -207,10 +207,11 @@ emoji_players = emoji_df[emoji_df['PLAYER_NAME'].isin(players)]
 if len(emoji_players) > 0:
     st.expander(f'**Emojis**', expanded=True)
     with st.expander(f':green[Emojis]', expanded=False):
+        player_emoji_list = []
         for player in emoji_players['PLAYER_NAME'].tolist():
-            emoji = emoji_df.loc[emoji_df['PLAYER_NAME'] == player, 'Emoji'].values[0]
-            link = emoji_df.loc[emoji_df['PLAYER_NAME'] == player, 'Link'].values[0]
-            st.write(f'**{player}** [{emoji}]({link})')
+            player_emoji = annotate_with_emojis(player, emoji_df)
+            player_emoji_list.append(player_emoji)
+        st.write(f"{' | '.join(player_emoji_list)}")
 
 # add a button to show the player data
 if st.button('Show player data', key='show_player_data'):

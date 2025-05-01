@@ -205,9 +205,11 @@ st.expander('**Emojis**', expanded=False)
 with st.expander(':green[**Emojis**]', expanded=False):
     emoji_players = emoji_check(emoji_df, data_df)
     # write out the players with emojis
+    player_emoji_list = []
     for player in emoji_players['PLAYER_NAME']:
         player_emoji = annotate_with_emojis(player, emoji_df)
-        st.write(f'''{player_emoji}''')
+        player_emoji_list.append(player_emoji)
+    st.write(f"{' | '.join(player_emoji_list)}")
     st.write(f'''
     "おめでとうございます,絵文字を見つけました/O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found some emojis :D"\n
     ''')

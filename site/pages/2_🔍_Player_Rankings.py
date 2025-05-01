@@ -12,6 +12,10 @@ st.set_page_config(page_title='Player Rankings',
                    initial_sidebar_state='auto')
 
 st.title('🔍 Player Rankings')
+st.write('''
+        This page is here to answer questions like:\n 
+        *** ***\n
+         ''')
 
 # VARIABLES 
 #cwd = os.getcwd()
