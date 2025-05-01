@@ -17,25 +17,25 @@ def change_to_team_colors(_fig, _data, team_colors):
         _fig.data[i].marker.line.color = color2
 
 # sort and show the data
-def sort_and_show_data(_data, _col1, team_colors, n=10):
+def sort_and_show_data(_data, _col1, _team_colors, _descriptor, _sort_bottom=False, n=10):
     # sort the data by the stat
-    top = _data.sort_values(by=_col1, ascending=False).head(n)
+    top = _data.sort_values(by=_col1, ascending=_sort_bottom).head(n)
     top = top.reset_index(drop=True)
     # show the data in a bar graph with player names and the stat above the bar
-    fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'Top {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
+    fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'{_descriptor} {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
     fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
     # fit the figure to the screen
     fig.update_layout(yaxis=dict(range=[0, top[_col1].max() * 1.1]), xaxis=dict(tickmode='linear', tick0=0, dtick=1))
     # remove the legend
     fig.update_layout(showlegend=False)
     # make spec for vega-lite charts
-    change_to_team_colors(fig, top, team_colors)
+    change_to_team_colors(fig, top, _team_colors)
     #st.plotly_chart(fig, use_container_width=True)
-    return fig
+    return top, fig
 
 # plot the scatter plot of the stat vs the sort column
 # TODO: could eventually highlight players who are in their first, second, third etc. years in the league in gold?
-def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
+def plot_quadrant_scatter(_data, _col1, _col2, _top, _team_colors):
     # calculate the average of the stat
     avg = _data[_col1].mean()
     # get the difference from the average
@@ -56,8 +56,8 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, team_colors):
         player = _top['PLAYER_NAME'][i]
         team = _top['TEAM_ABBREVIATION'][i]
         # color the player name and team abbreviation
-        color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
-        color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
+        color1 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
+        color2 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
         # find the player in the data and set the color to the team color
         player_index = _data[_data['PLAYER_NAME'] == player].index[0]
         fig.data[player_index].marker.color = color1

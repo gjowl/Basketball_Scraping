@@ -28,12 +28,13 @@ expander_color = ':green'
 stat_color = ':blue'
 top_players_color = ':violet'
 default_num_gp = 65
+descriptor = 'Top'
 
 # BOOL
 advanced = False
 go_deeper = False
 explanation = False
-flip_graph = False
+flip_top = False
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
@@ -123,12 +124,16 @@ st.divider()
 
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
+if go_deeper == True:
+    flip_top = st.toggle(f'{go_deeper_variable_color}[**Bottom Players**]', value=False, key='bottom_players')
+    if flip_top == True:
+        descriptor = 'Bottom'
 stat_options = [col for col in stat_options if col in cols]
 if go_deeper == True and explanation == True:
     stat_options = [col for col in stat_options if col in cols]
-    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
+    st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
 elif explanation == True:
-    st.write(f'Choose a stat to plot the :violet[**Top {num_players}**] players who played at least :grey[**{num_gp} games**]')
+    st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least :grey[**{num_gp} games**]')
 stat = st.selectbox('**Stat**', stat_options, index=0, placeholder='Statistic...')
 if stat is None:
     st.warning('*Please select a stat to plot*')
@@ -162,11 +167,9 @@ st.divider()
 ### calculate percentiles for the option
 data[f'Percentile'] = data[stat].rank(pct=True)
 # sort the data by the stat
-flip_top = st.toggle('**Flip Top Players**', value=False, key='flip_top_players')
-top_players = data.sort_values(by=stat, ascending=flip_top).head(num_players)
-top_players = top_players.reset_index(drop=True)
+
 # BAR GRAPH PLOT AND OUTPUTS
-bar_graph = sort_and_show_data(data, stat, team_colors, num_players) # plots the top player bar graph and scatter plot
+top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, flip_top, num_players) # plots the top player bar graph and scatter plot
 if go_deeper == False:
     st.plotly_chart(bar_graph, use_container_width=True)
     output_df = top_players.copy()
@@ -179,19 +182,11 @@ if go_deeper == False:
         emoji_df = emoji_check(emoji_df, top_players_by_age)
     young_player = top_players_by_age.iloc[0]['PLAYER_NAME']
     old_player = top_players_by_age.iloc[-1]['PLAYER_NAME']
-    if go_deeper == True:
-        st.expander('**Top Players Data**', expanded=False)
-        with st.expander(f'{expander_color}[**Top Players Data**]', expanded=False):
-            st.dataframe(output_df, use_container_width=True, hide_index=True)
-            if go_deeper == True:
-                if young_player in emoji_df['PLAYER_NAME'].tolist():
-                    young_player = annotate_with_emojis(young_player, emoji_df)
-                if old_player in emoji_df['PLAYER_NAME'].tolist():
-                    old_player = annotate_with_emojis(old_player, emoji_df)
+    
     if explanation == True:
         st.write(f'''
-                The youngest player in the :violet[**Top {num_players}**] is **{young_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][stat],1)} {stat}**]\n 
-                The oldest player in the :violet[**Top {num_players}**] is **{old_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[-1][stat],1)} {stat}**]\n
+                The youngest player in the :violet[**{descriptor} {num_players}**] is **{young_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][stat],1)} {stat}**]\n 
+                The oldest player in the :violet[**{descriptor} {num_players}**] is **{old_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[-1][stat],1)} {stat}**]\n
                  ''')
     # if there are more players from the same team, write them out
     # check if there are any non-unique TEAM_ABBREVIATION values in the top players
@@ -206,7 +201,16 @@ if go_deeper == False:
                             output_player = annotate_with_emojis(player, emoji_df)
                             players[players == player] = output_player
                 if explanation == True:
-                    st.write(f':red[**{team}**] has multiple players in the :violet[**Top 10**] - **{", ".join(players)}**')
+                    st.write(f':red[**{team}**] has multiple players in the :violet[**{descriptor} 10**] - **{", ".join(players)}**')
+    # EXPANDER FOR THE DATA
+    st.expander(f'**{descriptor} Players Data**', expanded=False)
+    with st.expander(f'**{descriptor} Players Data**', expanded=False):
+        st.dataframe(output_df, use_container_width=True, hide_index=True)
+        if go_deeper == True:
+            if young_player in emoji_df['PLAYER_NAME'].tolist():
+                young_player = annotate_with_emojis(young_player, emoji_df)
+            if old_player in emoji_df['PLAYER_NAME'].tolist():
+                old_player = annotate_with_emojis(old_player, emoji_df)
     st.divider()
 
 # MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
@@ -222,15 +226,15 @@ if go_deeper == True:
     if explanation == True:
         st.write(f'''
                 The :blue[**{stat}**] vs :red[**{y_axis}**] scatter plot shows the distribution of players in the league for the :green[**{season} season**]. \n
-                The :violet[Top {num_players}] players are highlighted by their team colors in the scatter plot, and all other players are plotted in gray. \n
+                The :violet[{descriptor} {num_players}] players are highlighted by their team colors in the scatter plot, and all other players are plotted in gray. \n
                 The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
                 🏀 **:red[Avg {stat} = {x_avg}]** \n
                 🏀 **:blue[Avg {y_axis} = {y_avg}]** \n
                 Typically, the best players are found in the top right quadrant, being above average for both stats. \n
                 Hover over a point to see the player name, team, and the **:green[**{season} season**]** averages ! \n
                  ''')
-    st.expander('**Top Players Scatter Data**', expanded=False)
-    with st.expander(f'**{expander_color}[Top Players Scatter Data]**', expanded=False):
+    st.expander(f'**{descriptor} Players Scatter Data**', expanded=False)
+    with st.expander(f'**{expander_color}[{descriptor} Players Scatter Data]**', expanded=False):
         st.write(f'''
             The :blue[**x-axis**] is the :blue[**{stat}**] and the :red[**y-axis**] is the :red[**{y_axis}**], with the **{season} season** average plotted along the axes in red \n
             The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
