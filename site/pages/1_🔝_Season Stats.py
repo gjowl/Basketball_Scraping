@@ -28,6 +28,7 @@ expander_color = ':green'
 stat_color = ':blue'
 top_players_color = ':violet'
 default_num_gp = 65
+max_players = 30
 descriptor = 'Top'
 
 # BOOL
@@ -57,17 +58,16 @@ if explanation == True:
     if go_deeper == False:
         st.write('''
                 ***Who averaged the most points in the 2024-25 season? What about the year before that? Before that?***\n
-                ***On this page, you can roll back data from present to the 1996-97 season.***\n
-                **Pick the number of players and the stat you want to see, and the top players will be plotted in a bar graph.**\n
-                **Generate graphics for the :violet[**Top N**] players in the league for all available stats from NBA.com**\n
+                **Pick the :violet[number of players] and the stat you want to see, and the top players will be plotted in a bar graph.**\n
+                ***Data from present to the 1996-97 season.***\n
                 \n
         ''')
     else:
         st.write(f'''
-                ***Who averaged the most points in the 2024-25 season? What about the year before that? Before that?***\n
-                ***On this page, you can roll back data from present to the 1996-97 season.***\n
+                ***What's the relationship between PPG and APG? TS% and OFF_RATING? SPG and FT%?***\n
                 **Pick the :violet[number of players], :green[games played], and the :green[age range] of players.**\n
-                **Then pick the stats you want to see, and the top players will be plotted in bar graphs and scatterplots.**\n
+                **Then pick two stats you want to graph, and the top players will be plotted in scatterplots.**\n
+                ***Data from present to the 1996-97 season.***\n
                 \n
         ''')
 
@@ -112,7 +112,9 @@ max_gp = data['GP'].max()
 ## PLOTS
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
-num_players = st.slider('***Number of players to show***', 1, 30, 10)
+if go_deeper == True:
+    max_players = 100
+num_players = st.slider('***Number of players to show***', 1, max_players, 10)
 num_gp = default_num_gp 
 if go_deeper == True:
     num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp)
@@ -122,6 +124,9 @@ if go_deeper == True:
     go_deeper = True
 st.divider()
 
+# check if there are less than num_players in the data
+if len(data) < num_players:
+    num_players = len(data)
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
 if go_deeper == True:
@@ -134,7 +139,7 @@ if go_deeper == True and explanation == True:
     st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
 elif explanation == True:
     st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least :grey[**{num_gp} games**]')
-stat = st.selectbox('**Stat**', stat_options, index=0, placeholder='Statistic...')
+stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...')
 if stat is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
@@ -178,11 +183,13 @@ if go_deeper == False:
     if top_players_by_age.empty:
         st.write('**No players found with the selected filters, try lowering the number of GP!**')
         st.stop()
-    if go_deeper == True:
-        emoji_df = emoji_check(emoji_df, top_players_by_age)
+    emoji_df = emoji_check(emoji_df, top_players_by_age)
     young_player = top_players_by_age.iloc[0]['PLAYER_NAME']
     old_player = top_players_by_age.iloc[-1]['PLAYER_NAME']
-    
+    if young_player in emoji_df['PLAYER_NAME'].tolist():
+        young_player = annotate_with_emojis(young_player, emoji_df)
+    if old_player in emoji_df['PLAYER_NAME'].tolist():
+        old_player = annotate_with_emojis(old_player, emoji_df)
     if explanation == True:
         st.write(f'''
                 The youngest player in the :violet[**{descriptor} {num_players}**] is **{young_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][stat],1)} {stat}**]\n 
@@ -195,22 +202,20 @@ if go_deeper == False:
         for team, count in team_counts.items():
             if count > 1:
                 players = top_players[top_players['TEAM_ABBREVIATION'] == team]['PLAYER_NAME'].values
-                if go_deeper == True:
-                    for player in players:
-                        if player in emoji_df['PLAYER_NAME'].tolist():
-                            output_player = annotate_with_emojis(player, emoji_df)
-                            players[players == player] = output_player
+                for player in players:
+                    if player in emoji_df['PLAYER_NAME'].tolist():
+                        output_player = annotate_with_emojis(player, emoji_df)
+                        players[players == player] = output_player
                 if explanation == True:
-                    st.write(f':red[**{team}**] has multiple players in the :violet[**{descriptor} 10**] - **{", ".join(players)}**')
+                    st.write(f':red[**{team}**] has multiple players in the :violet[**{descriptor} {num_players}**] - **{", ".join(players)}**')
     # EXPANDER FOR THE DATA
     st.expander(f'**{descriptor} Players Data**', expanded=False)
     with st.expander(f'**{descriptor} Players Data**', expanded=False):
         st.dataframe(output_df, use_container_width=True, hide_index=True)
-        if go_deeper == True:
-            if young_player in emoji_df['PLAYER_NAME'].tolist():
-                young_player = annotate_with_emojis(young_player, emoji_df)
-            if old_player in emoji_df['PLAYER_NAME'].tolist():
-                old_player = annotate_with_emojis(old_player, emoji_df)
+        if young_player in emoji_df['PLAYER_NAME'].tolist():
+            young_player = annotate_with_emojis(young_player, emoji_df)
+        if old_player in emoji_df['PLAYER_NAME'].tolist():
+            old_player = annotate_with_emojis(old_player, emoji_df)
     st.divider()
 
 # MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
@@ -243,6 +248,12 @@ if go_deeper == True:
              ''')
         output_data = scatter_data.head(num_players)
         st.dataframe(output_data, use_container_width=True, hide_index=True)
+        emoji_player_list = []
+        for player in output_data['PLAYER_NAME']:
+            if player in emoji_df['PLAYER_NAME'].tolist():
+                player_emoji = annotate_with_emojis(player, emoji_df)
+                emoji_player_list.append(player_emoji)
+        st.write(f':rainbow[**Emoji Players Found!**] {" | ".join(emoji_player_list)}')
     st.divider()
 
 # SHOW ALL DATA
@@ -252,7 +263,8 @@ with st.expander(f'**Show All Data**', expanded=False):
         data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
         data.sort_values(by=stat, ascending=flip_top, inplace=True)
         st.dataframe(data, use_container_width=True, hide_index=True)
-    st.dataframe(data, use_container_width=True, hide_index=True)
+    else:
+        st.dataframe(data, use_container_width=True, hide_index=True)
 
 ## ADD IN THE EMOJIS
 if go_deeper == True and clicked == True and explanation == True:
@@ -260,12 +272,14 @@ if go_deeper == True and clicked == True and explanation == True:
     with st.expander(f'{expander_color}[**Emojis**]', expanded=False):
         if len(emoji_df) > 0:
             player_emoji_list = []
+            emoji_df = emoji_check(emoji_df, data)
             for player in emoji_df['PLAYER_NAME']:
-                st.write(f'**{player}**')
                 player_emoji = annotate_with_emojis(player, emoji_df)
                 player_emoji_list.append(player_emoji)
             st.write(f'{" | ".join(player_emoji_list)}')
+        if num_gp == 1 and min_age == ages[0] and max_age == ages[1]:
             st.write(f'''
             "おめでとうございます,絵文字を見つけました"\n
-            "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found some emojis :D"\n
+            "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found the emojis"\n
+            These are all the emojis present in data for the **:green[{season} season]** :D\n
             ''')
