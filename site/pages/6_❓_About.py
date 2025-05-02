@@ -25,26 +25,12 @@ st.write(
     **This page allows you to view graphs for :violet[**Top N**] players in the league for a :blue[**CHOSEN SEASON**]**\n
     **Graphs Include:**\n
     🏀 **Bar Graph** - :violet[**Top N**] players in the league for a given stat\n
-    🏀 **Scatter Plot** - :violet[**Top N**] players in the league for a given stat vs MPG (Minutes Per Game)\n
     🏀 **Quadrant Plot** - :violet[**Top N**] players highlighted against all other players in the league for a given stat (will add the ability to choose :red[**Y-AXIS**] stat in the future)\n
     """
 )
 st.divider()
 
 ## PAGE 2
-st.write(
-    """
-    🔍 Player Rankings
-    ===========\n
-    **You can search for a player and view their statistical rankings **OR** search for a rank and output the player**\n
-    🏀 **PLAYER SEARCH** - Search for a **PLAYER** to make ranking bar graphs for either a :blue[**CHOSEN SEASON**] OR :violet[**ALL TIME**]\n
-    🏀 **RANKING SEARCH** - Search for a **RANK** to output a player; currently only be done for :violet[**ALL TIME**]\n
-    **Rankings are made by normalizing each stat as a percentile from lowest stat (0) to highest stat (1)**\n
-    """
-)
-st.divider()
-
-## PAGE 3
 st.write(
     """
     🦉 Player Comparison
@@ -57,18 +43,20 @@ st.write(
 )
 st.divider()
 
-## PAGE 4
+## PAGE 3
 st.write(
     """
-    📈 Season Trajectories 
+    🔍 Player Rankings
     ===========\n
-    **You can filter the data by number of seasons in the league and # of games played to see the top performing players against each other over their years in the league.** \n
-    **Eventually, I'd like to update this page to identify trends over time according to these data.**
+    **You can search for a player and view their statistical rankings **OR** search for a rank and output the player**\n
+    🏀 **PLAYER SEARCH** - Search for a **PLAYER** to make ranking bar graphs for either a :blue[**CHOSEN SEASON**] OR :violet[**ALL TIME**]\n
+    🏀 **RANKING SEARCH** - Search for a **RANK** to output a player; currently only be done for :violet[**ALL TIME**]\n
+    **Rankings are made by normalizing each stat as a percentile from lowest stat (0) to highest stat (1)**\n
     """
 )
 st.divider()
 
-## PAGE 5
+## PAGE 4
 st.write(
     """
     🔵 Blue Moons 
@@ -82,9 +70,19 @@ st.write(
     **[Blocks](https://en.wikipedia.org/wiki/List_of_NBA_single-game_blocks_leaders)** 
     """
 )
+st.divider()
 
 # TODO Section
+st.write(
+    """
+    📈 Season Trajectories 
+    ===========\n
+    """
+)
 st.divider()
+
+## PAGE 5
+
 st.write(
     """
     MAJOR TODOs:

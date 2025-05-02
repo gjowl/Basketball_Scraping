@@ -23,7 +23,7 @@ colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
-stat_options = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+stat_options = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 expander_color = ':green'
 stat_color = ':blue'
 top_players_color = ':violet'
@@ -73,16 +73,24 @@ if explanation == True:
 
 st.divider()
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-if st.toggle('**Advanced**'):
-    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-    stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
-    advanced = True
+if go_deeper == False:
+    if explanation == True:
+        st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+    if st.toggle('**Advanced**'):
+        datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+        stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+        advanced = True
 if go_deeper == True:
-    st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+    if explanation == True:
+        st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+    if st.toggle('**Advanced**'):
+        datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+        stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+        advanced = True
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
     with stat_explanation:
         clicked = st.checkbox('**click me :D**', value=False, key='click_me')
-        stat_types = ['Traditional', 'Advanced']
+        stat_types = stat_df['Type'].unique()
         for type in stat_types:
             stat_type_df = stat_df[stat_df['Type'] == type]
             st.write(f'**{type} Stats**')
@@ -92,6 +100,7 @@ if go_deeper == True:
                     st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
                 else:
                     st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
+    
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -269,7 +278,7 @@ with st.expander(f'**Show All Data**', expanded=False):
 ## ADD IN THE EMOJIS
 if go_deeper == True and clicked == True and explanation == True:
     st.expander('**Emojis**', expanded=False)
-    with st.expander(f'{expander_color}[**Emojis**]', expanded=False):
+    with st.expander(f':rainbow[**Emojis**]', expanded=False):
         if len(emoji_df) > 0:
             player_emoji_list = []
             emoji_df = emoji_check(emoji_df, data)
