@@ -46,8 +46,6 @@ for datafile in os.listdir(dataDir):
     box.statDivision('FTM', 'FTA', 'FT%') # add the free throw percentage column
     box.statDivision('FG3M', 'FG3A', '3P%') # add the 3 point percentage column
     box.statDivision('AST', 'TOV', 'AST_TO') # add the assist to turnover ratio column
-    # add usage here eventually
-    #box.calcUsage()
 
     # get per game stats
     box.statDivision('PTS', 'GP', 'PPG') # add the points per game column
@@ -79,6 +77,10 @@ for datafile in os.listdir(dataDir):
     # temporary until you make your own fantasy points calculation
     box.statDivision('NBA_FANTASY_PTS', 'GP', 'NBA_FANTASY_PTS_PG') # get the fantasy points per game column
 
+    # add stocks column
+    box.statAddition('STL', 'BLK', 'STOCKS') # add the stocks column
+    box.statDivision('STOCKS', 'GP', 'STOCKS_PG') # add the stocks per game column
+
     colNames = ['PLAYER_NAME',
     'AGE',
     'TEAM_ABBREVIATION',
@@ -94,6 +96,8 @@ for datafile in os.listdir(dataDir):
     'AST_TO',
     'SPG',
     'BPG',
+    'STOCKS',
+    'STOCKS_PG',
     'OREB_PG',
     'DREB_PG',
     'TOV_PG',

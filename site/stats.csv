@@ -1,19 +1,24 @@
 Type,Stat,Definition,Link
-Traditional,PPG,Points Per Game,
-Traditional,APG,Assists Per Game,
-Traditional,RPG,Rebounds Per Game,
-Traditional,SPG,Steals Per Game,
-Traditional,BPG,Blocks Per Game,
+Traditional,PPG,Points Per Game,https://youtu.be/_edl_x4FRic?t=1623
+Traditional,APG,Assists Per Game,https://www.youtube.com/watch?v=Osxe1GW8AKw&ab_channel=NBA
+Traditional,RPG,Rebounds Per Game,https://www.youtube.com/watch?v=atr60tR7Emo&ab_channel=MarchMadness
+Traditional,SPG,Steals Per Game,https://youtu.be/Ql-wlP29Hdg?t=403
+Traditional,BPG,Blocks Per Game,https://youtu.be/bldN-4ZE530?t=828
+Traditional,FG%,Field Goal Percentage,https://www.youtube.com/watch?v=MreScY9ehKc&ab_channel=CoshReport
+Traditional,FT%,Free Throw Percentage,https://www.youtube.com/watch?v=1oOPk9m434E&ab_channel=CoshReport
+Traditional,2P%,2 Point Field Goal Percentage,https://www.youtube.com/watch?v=1oOPk9m434E&ab_channel=CoshReport
+Traditional,3P%,3 Point Field Goal Percentage,https://www.youtube.com/watch?v=FqE9Q3w0BLM&ab_channel=CoshReport
 Traditional,OREB_PG,Offensive Rebounds Per Game,
 Traditional,DREB_PG,Defensive Rebounds Per Game,
-Traditional,AST_TO,Assist to Turnover Ratio,
-Traditional,TOV_PG,Turnovers Per Game,
-Traditional,FTA_PG,Free Throws Attempted Per Game,
-Traditional,3PM_PG,3 Point Field Goals Made Per Game,
-Traditional,3PA_PG,3 Point Field Goals Attempted Per Game,
+Traditional,AST_TO,Assist to Turnover Ratio,https://www.youtube.com/watch?v=Kxtgp--c9Hc&ab_channel=ClutchPoints
+Traditional,TOV_PG,Turnovers Per Game,https://www.youtube.com/watch?v=Kxtgp--c9Hc&ab_channel=ClutchPoints
+Traditional,FTA_PG,Free Throws Attempted Per Game,https://youtu.be/YeeDMFF9WUk?t=39
+Traditional,3PM_PG,3 Point Field Goals Made Per Game,https://youtu.be/_edl_x4FRic?t=1623
+Traditional,3PA_PG,3 Point Field Goals Attempted Per Game,https://www.youtube.com/watch?v=fhOOssqKLas&ab_channel=CoshReport
 Traditional,2PM_PG,2 Point Field Goals Made Per Game,
 Traditional,2PA_PG,2 Point Field Goals Attempted Per Game,
 Traditional,NBA_FANTASY_PTS_PG,NBA Fantasy Points Per Game,
+Traditional,STOCKS_PG,Steals + Blocks Per Game,
 Advanced,TS%,True Shooting Percentage,
 Advanced,USG%,Usage Percentage,
 Advanced,OREB%,Offensive Rebound Percentage,

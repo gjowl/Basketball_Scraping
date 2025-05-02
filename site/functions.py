@@ -30,6 +30,7 @@ def sort_and_show_data(_data, _col1, _team_colors, _descriptor, _sort_bottom=Fal
     fig.update_layout(showlegend=False)
     # make spec for vega-lite charts
     change_to_team_colors(fig, top, _team_colors)
+    set_axis_text(fig)
     #st.plotly_chart(fig, use_container_width=True)
     return top, fig
 
@@ -163,14 +164,16 @@ def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _te
 
 # set the size of the text in the x and y axes
 def set_axis_text(_fig, _x_size=16, _y_size=16):
+    additional_size = 2.5
     # update the text size of the x and y axes ticks
     _fig.update_xaxes(tickfont=dict(size=_x_size))
     _fig.update_yaxes(tickfont=dict(size=_y_size))
     # update the text size of the x and y axes titles
-    _fig.update_xaxes(title_font=dict(size=_x_size+2.5))# make this a formula
-    _fig.update_yaxes(title_font=dict(size=_y_size+2.5))
+    _fig.update_xaxes(title_font=dict(size=_x_size+additional_size))# make this a formula
+    _fig.update_yaxes(title_font=dict(size=_y_size+additional_size))
     # change the text to monospaced font
     _fig.update_layout(font_family="monospace")
+    _fig.update_layout(title_font=dict(size=_x_size+additional_size*2))
 
 def make_year_scatterplot(_df, _col, _team_colors):
     x_axis = 'SEASON'
