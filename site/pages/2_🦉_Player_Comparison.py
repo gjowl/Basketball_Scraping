@@ -38,21 +38,15 @@ emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 
 # FUNCTIONS
-# TODO: fix the colors here for up to 10 players
-colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#FF4500', '#FFD700', '#00FF00']
-def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0):
+graph_colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#FF4500', '#FFD700', '#00FF00']
+def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0, colors=graph_colors):
     names, hover_templates = [], []
     for player_df in _player_dfs:
         names.append(player_df['PLAYER_NAME'].values[0])
     # make the hover template for the player name
-    if _yaxis != 'GP':
-        for player_df, name in zip(player_dfs, names):
-            hover_template = name + f'<br>SEASON: ' + player_df['SEASON'].astype(str) + f'<br>#YEARS IN LEAGUE: ' + player_df["#YEARS IN LEAGUE"].astype(str) + '<br>' + _yaxis + ': ' + player_df[_yaxis].astype(str) + '<br>GP: ' + player_df['GP'].astype(str)
-            hover_templates.append(hover_template)
-    else:
-        for player_df, name in zip(player_dfs, names):
-            hover_template = name + f'<br>SEASON: ' + player_df['SEASON'].astype(str) + f'<br>#YEARS IN LEAGUE: ' + player_df["#YEARS IN LEAGUE"].astype(str) + '<br>' + _yaxis + ': ' + player_df[_yaxis].astype(str)
-            hover_templates.append(hover_template)
+    for player_df, name in zip(_player_dfs, names):
+        hover_template = name + f'<br>AGE: ' + player_df['AGE'].astype(str) + f'<br>SEASON: ' + player_df['SEASON'].astype(str) + f'<br>#YEARS IN LEAGUE: ' + player_df["#YEARS IN LEAGUE"].astype(str) + '<br>' + _yaxis + ': ' + player_df[_yaxis].astype(str) + '<br>GP: ' + player_df['GP'].astype(str)
+        hover_templates.append(hover_template)
     # check if colors is smaller than the number of players, if so, add more colors
     if len(colors) < len(_player_dfs):
         # add random colors to the list of colors
@@ -60,7 +54,7 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0):
             colors.append('#' + ''.join([str(hex(mp.rand.randint(0, 255)))[2:] for _ in range(3)]))
     for player_df, hover_template, player_name, color in zip(_player_dfs, hover_templates, names, colors):
         # if the first player, create the fig
-        if player_df['PLAYER_NAME'].values[0] == player_dfs[0]['PLAYER_NAME'].values[0]:
+        if player_df['PLAYER_NAME'].values[0] == _player_dfs[0]['PLAYER_NAME'].values[0]:
             fig = px.scatter(player_df, x=_xaxis, y=_yaxis, hover_name='PLAYER_NAME')
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='lines', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
@@ -81,6 +75,19 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0):
     # make the legend larger
     fig.update_layout(legend=dict(font=dict(size=16), orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1))
     st.plotly_chart(fig, key=f'compare_player_scatterplot_{n}', use_container_width=True)
+
+def write_output_blurb(_dict, _stat):
+    _dict = {k: v for k, v in sorted(_dict.items(), key=lambda item: item[1][_stat], reverse=True)}
+    # get the player with the highest average for the stat
+    max_player = list(_dict.keys())[0]
+    max_value = avg_dict[max_player][_stat]
+    #st.write(f'🏀 **{max_player}** averaged :green[**{max_value} {_stat}**] during their career')
+    st.write(f'🏀 **{max_player}** averaged :green[**{max_value} {_stat}**]')
+    # calculate how much higher the max player is than the other players
+    for player, value in avg_dict.items():
+        if player != max_player:
+            diff = round(max_value - value[_stat],3)
+            st.write(f'🏀 **{player}** averaged :red[**{diff} {_stat}**] less than **{max_player}** **(:green[{value[_stat]} {_stat}])**')
 
 # CHECKBOXES
 col1, col2 = st.columns(2)
@@ -146,12 +153,13 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 if explanations:
     if go_deeper:
         st.write('''
-                **Who was the best 3 point shooter over the course of their career? Aaron Gordon, Jerami Grant, Paul Millsap?**\n
-                **Now you can select up to :green[10 players] and :green[multiple stats] to plot over time**\n
+                ***Who was the best 3 point shooter over the first and last 5 years of their career? Aaron Gordon, Jerami Grant, Paul Millsap?***\n
+                **Now you can select up to :green[10 players] and :green[multiple stats] to plot**\n
+                **You can also look at stints of careers by adjusting the :green[year] range**\n
                 ''')
     else:
         st.write('''
-                ***Who averaged more points in their first 5 years? Lebron or Kobe? Who was more efficient?***\n
+                ***Who averaged more points in their career? Lebron or Kobe? Who was more efficient?***\n
                 ***Who had a better 3P% throughout their career? CP3 or Nash? Who averaged more assists?***\n
                 **Pick :grey[2 players] and :grey[1 stat] to plot on a line graph over time**\n
                  ''')
@@ -173,11 +181,17 @@ if go_deeper:
     if len(players) > 10:
         st.warning('*> 10 players may result in crashing, please select fewer players to compare*')
         st.stop()
-    # get the data for the selected player
+    # get the longest tenured player
+    longest_tenured_player = player_names_count[player_names_count.index.isin(players)].idxmax()
+    shortest_tenured_player = player_names_count[player_names_count.index.isin(players)].idxmin()
     for player in players:
         player_df = player_names[player_names['PLAYER_NAME'] == player].reset_index(drop=True)
         player_df['#YEARS IN LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
         player_dfs.append(player_df)
+        if player == longest_tenured_player:
+            max_years = player_df['#YEARS IN LEAGUE'].max()
+        if player == shortest_tenured_player:
+            max_years_short = player_df['#YEARS IN LEAGUE'].min()
     ## SELECT STATS TO PLOT 
     cols = player_dfs[0].columns.tolist()
     stat_options = [col for col in stat_options if col in cols]
@@ -190,6 +204,10 @@ if go_deeper:
         remove_cols = ['PLAYER_NAME', 'SEASON', 'YEAR', 'MPG', '#YEARS IN LEAGUE', 'FGM', 'FGA', 'FGM_PG', 'FGA_PG', 'FG%', 'AST_TO']
         cols = [col for col in cols if col not in remove_cols]
         stats = st.multiselect('**Select Stats to Compare**', cols[6:], default=['TS%', 'USG%', 'AST%'], key='stats')
+    # define the year range to plot
+    if xaxis == '#YEARS IN LEAGUE':
+        # choose the year range to plot
+        year_range = st.slider('**Select Year Range**', min_value=0, max_value=max_years, value=(0, max_years), key='year_range')
 else:
     player_1 = st.selectbox('**Player 1**', player_names_count.index.tolist(), index=0, key='player_1')
     player_names_2 = player_names_count[player_names_count.index != player_1].index.tolist()
@@ -203,35 +221,54 @@ else:
     stats = [stat1]
 
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
-
-cols = ['PLAYER_NAME', 'SEASON', '#YEARS IN LEAGUE', 'GP']
+cols = ['PLAYER_NAME', 'AGE', 'SEASON', '#YEARS IN LEAGUE', 'GP']
 for stat in stats:
     cols.append(stat)
 st.divider()
 
 # keep the first 3 columns and the stat columns
-final_dfs, avgs = [], {} 
+final_dfs, avg_dict = [], {} 
 output_df = pd.DataFrame()
-for player_df in player_dfs:
+output_colors = []
+for player_df,color in zip(player_dfs,graph_colors):
     player_df = player_df[cols]
-    final_dfs.append(player_df)
-    player = player_df['PLAYER_NAME'].values[0]
-    for stat in stats:
+    if go_deeper:
+        # keep only the rows where the year is in the range
+        if xaxis == '#YEARS IN LEAGUE':
+            if player_df['#YEARS IN LEAGUE'].max() <= max_years:
+                player_df = player_df[(player_df['#YEARS IN LEAGUE'] >= year_range[0]) & (player_df['#YEARS IN LEAGUE'] <= year_range[1])]
+    # remove any players that have no data in the range
+    if player_df.empty == False:
+        final_dfs.append(player_df)
+        output_colors.append(color)
+        player = player_df['PLAYER_NAME'].values[0]
+        if player in emoji_df['PLAYER_NAME'].values:
+            player = annotate_with_emojis(player, emoji_df)
         # get the average of the stat for the player
-        avg = player_df[stat].mean().round(2)
-        avgs[player] = {}
-        avgs[player][stat] = avg
+        stat_dict = {}
+        for stat in stats:
+            avg = player_df[stat].mean().round(3)
+            stat_dict[stat] = avg
+        avg_dict[player] = stat_dict
 
 # PLOTS
 if go_deeper:
+    if explanations:
+        if xaxis == '#YEARS IN LEAGUE':
+            st.write(f'**:green[{year_range[0]} - {year_range[1]}] YEARS IN THE LEAGUE**')
+        else:
+            st.write(f'**CAREER AVERAGES**')
     for stat in stats:
-        compare_player_scatterplot(final_dfs, xaxis, stat, plot_number)
+        compare_player_scatterplot(final_dfs, xaxis, stat, plot_number, output_colors)
         plot_number+=1
+        if explanations:
+            write_output_blurb(avg_dict, stat)
 else:
-    compare_player_scatterplot(final_dfs, xaxis, stat1, plot_number)
+    st.write(f'**CAREER AVERAGES | {player_1} vs {player_2}**')
+    compare_player_scatterplot(final_dfs, xaxis, stat1, plot_number, output_colors)
     plot_number+=1
-    for player, value in avgs.items():
-        st.write(f'**{player}** - {stat1}: {value[stat1]}')
+    if explanations:
+        write_output_blurb(avg_dict, stat1)
 
 st.divider()
 
@@ -247,11 +284,11 @@ with st.expander('**Show player data**', expanded=False):
 
 # PRINT OUT EMOJI PLAYERS
 sum = len(players) + len(stats)
-if go_deeper and sum >= 7 and explanations == False:
+if go_deeper and sum >= 8 and explanations == False:
     emoji_players = emoji_df[emoji_df['PLAYER_NAME'].isin(players)]
     if len(emoji_players) > 0:
         st.expander(f'**Emojis**', expanded=True)
-        with st.expander(f':rainbow[Emojis]', expanded=False):
+        with st.expander(f':rainbow[**Emojis**]', expanded=False):
             player_emoji_list = []
             for player in emoji_players['PLAYER_NAME'].tolist():
                 player_emoji = annotate_with_emojis(player, emoji_df)
