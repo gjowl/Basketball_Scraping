@@ -3,7 +3,7 @@ import os, pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
-from functions import emoji_check, annotate_with_emojis, create_player_rank_bar_graph, create_year_data_dict
+from functions import emoji_check, annotate_with_emojis, create_year_data_dict
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Rankings',
@@ -33,7 +33,7 @@ start_player = 'LeBron James'
 # 
 cols = st.columns(2)
 with cols[0]:
-    go_deeper = st.checkbox('**:grey[Go Deeper]**', value=True)
+    go_deeper = st.checkbox('**:grey[Go Deeper]**', value=False)
 with cols[1]:
     explanation = st.checkbox('**:grey[Explanations]**', value=True)
 
@@ -55,20 +55,22 @@ gp, plot_number = 0, 0
 # FUNCTIONS
 def get_ranks(_data, _stat_list, _season=True):
     player_ranks = pd.DataFrame()
+    tmp_data_df = _data.copy() # so that we don't modify the original dataframe
     for stat in _stat_list:
         if player_ranks.empty:
             if _season == False:
-                player_ranks = _data[['PLAYER_NAME', 'TEAM_ABBREVIATION']].copy()
+                player_ranks = tmp_data_df[['PLAYER_NAME', 'TEAM_ABBREVIATION']].copy()
             else: 
                 # add the player name and year to the dataframe
-                player_ranks = _data[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'SEASON', 'YEAR']].copy()
+                player_ranks = tmp_data_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'SEASON', 'YEAR']].copy()
         # calculate the percentile for each stat
-        _data[f'{stat}_Percentile'] = _data[stat].rank(pct=True)
+        tmp_data_df[f'{stat}_Percentile'] = _data[stat].rank(pct=True)
         # create a ranked list column based on the percentile of the stat
-        _data[f'{stat}_Rank'] = _data[stat].rank(method='first', ascending=False)
-        player_ranks = pd.concat([player_ranks, _data[[f'{stat}_Percentile', f'{stat}_Rank']]], axis=1)
+        tmp_data_df[f'{stat}_Rank'] = _data[stat].rank(method='first', ascending=False)
+        player_ranks = pd.concat([player_ranks, tmp_data_df[[f'{stat}_Percentile', f'{stat}_Rank']]], axis=1)
     return player_ranks
 
+# get the player rankings for the season
 def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
     all_ranks, output_dfs = [], []
     for ranks in _rank_cols:
@@ -76,16 +78,9 @@ def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols,
         tmp_df, tmp_out_df = pd.DataFrame(), pd.DataFrame()
         for key in _year_data_dict.keys():
             season_df = _year_data_dict[key]
-            # remove data for players with less than games played
+            # to get advanced data
             if 'TS%' in ranks:
                 season_df = _advanced_data_dict[key]
-            #if _check_gp:
-            #    season_df = season_df[season_df['GP'] >= _gp]
-            #    # get the player rankings for the season
-            #    player_ranks = get_ranks(season_df, ranks)
-            #    tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
-            #    tmp_out_df = pd.concat([tmp_out_df, season_df], ignore_index=True)
-            #else:
             player_ranks = get_ranks(season_df, ranks)
             tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
             tmp_out_df = pd.concat([tmp_out_df, season_df], ignore_index=True)
@@ -93,6 +88,7 @@ def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols,
         all_ranks.append(tmp_df)
     return all_ranks, output_dfs
 
+# get the all time player rankings
 def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
     all_ranks, output_dfs = [], []
     for ranks in _rank_cols:
@@ -100,11 +96,9 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
         tmp_df = pd.DataFrame()
         for key in _year_data_dict.keys():
             season_df = _year_data_dict[key]
+            # to get advanced data
             if 'TS%' in ranks:
                 season_df = _advanced_data_dict[key]
-            # remove data for players with less than games played
-            #if _check_gp:
-            #    season_df = season_df[season_df['GP'] >= _gp]
             tmp_df = pd.concat([tmp_df, season_df], ignore_index=True)
         # get the mean for each stat in the rank list
         avg_df = tmp_df.groupby('PLAYER_NAME')[ranks].mean().reset_index()
@@ -112,10 +106,11 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
         avg_df['TEAM_ABBREVIATION'] = tmp_df.groupby('PLAYER_NAME')['TEAM_ABBREVIATION'].first().values
         tmp_ranks = get_ranks(avg_df, ranks, _season=False)
         #st.dataframe(tmp_ranks, use_container_width=True, hide_index=True)
-        all_ranks.append(tmp_ranks)
         output_dfs.append(avg_df)
+        all_ranks.append(tmp_ranks)
     return all_ranks, output_dfs
 
+# transform the ranks for plotting
 def transform_ranks_for_plotting(_df):
     # separate by _ into index and stat
     ranks, percentiles = _df.columns[_df.columns.str.contains('_Rank')].tolist(), _df.columns[_df.columns.str.contains('_Percentile')].tolist() 
@@ -128,6 +123,35 @@ def transform_ranks_for_plotting(_df):
     player_ranks.columns = ['Percentile', 'Rank']
     return player_ranks
 
+# create a bar graph of the player ranks
+def create_player_rank_bar_graph(_season_df, _player_ranks, _player, _title, _team_colors):
+    # create a bar graph of the stat with the rank above the bar for the chosen player
+    fig = px.bar(_player_ranks, x=_player_ranks.index, y=_player_ranks['Percentile'], labels={'x': 'Stat', 'y': 'Percentile'})
+    # add the rank above each bar
+    for i in range(len(_player_ranks)):
+        # if ranking is NaN, skip it
+        if pd.isna(_player_ranks['Rank'][i]):
+            continue
+        fig.add_annotation(x=i, y=_player_ranks['Percentile'][i], text=f'#{int(_player_ranks["Rank"][i])}', showarrow=False, font=dict(size=16), yshift=10)
+    # remove the x-axis title
+    fig.update_xaxes(title='')
+    # set the x-axis label size
+    fig.update_xaxes(tickfont=dict(size=16))
+    fig.update_layout(font_family="monospace")
+    # change the color of the bars to be the team color
+    color1 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 1'].values[0]
+    color2 = _team_colors[_team_colors['TEAM_ABBREVIATION'] == _season_df[_season_df['PLAYER_NAME'] == _player]['TEAM_ABBREVIATION'].values[0]]['Color 2'].values[0]
+    fig.update_traces(marker=dict(color=color1, line=dict(width=3, color=color2)))
+    # remove the y-axis lines, title, and ticks
+    fig.update_layout(yaxis=dict(showgrid=False, zeroline=False, showticklabels=False), xaxis=dict(showgrid=False, zeroline=False, showticklabels=True))
+    fig.update_yaxes(showline=False, title='', ticks='', showticklabels=False)
+    # add a line at the 0 mark on the y-axis
+    fig.add_hline(y=0, line_color=color2, line_width=3)
+    # customize the hover label to show the stat name and the percentile
+    fig.update_traces(hovertemplate='%{x} Percentile: %{y:.3f}')
+    st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{plot_number}')
+
+# merge rank dataframes together
 def merge_rank_dfs(_dfs):
     output_df = pd.DataFrame()
     for df in _dfs:
@@ -136,6 +160,51 @@ def merge_rank_dfs(_dfs):
         else:
             output_df = pd.merge(output_df, df, on=['PLAYER_NAME', 'TEAM_ABBREVIATION'])
     return output_df
+
+# function to join the season ranks and averages dataframes (slightly annoying to do)
+def join_season_dfs(_rank_dfs, _data_dfs):
+    season_ranks_df, season_avg_df = pd.DataFrame(), pd.DataFrame()
+    cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'YEAR', 'SEASON']
+    for df, avg_df in zip(_rank_dfs, _data_dfs):
+        if season_ranks_df.empty:
+            season_ranks_df = df.copy()
+            season_avg_df = avg_df.copy()
+        else:
+            season_ranks_df.set_index(cols, inplace=True)
+            season_avg_df.set_index(cols, inplace=True)
+            tmp_df, tmp_avg_df = df.copy(), avg_df.copy()
+            tmp_df.set_index(cols, inplace=True)
+            tmp_avg_df.set_index(cols, inplace=True)
+            season_ranks_df = season_ranks_df.join(tmp_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
+            season_avg_df = season_avg_df.join(tmp_avg_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
+    # cols to drop from the ranks df,  
+    contain_cols = '_tmp_2|_RANK|_Rank|_Percentile|AGE_tmp|MPG_tmp|FG%_tmp|FGM_PG_tmp|FGA_PG_tmp|AST_TO_tmp'
+    season_avg_df = season_avg_df.loc[:, ~season_avg_df.columns.str.contains(contain_cols)]
+    season_avg_df.columns = [col.split('_tmp')[0] for col in season_avg_df.columns]
+    return season_ranks_df, season_avg_df
+
+def get_rank_player_data(_all_ranks, _all_data, _player):
+    player_dfs, player_avg_dfs = [], []
+    for df, avg_df in zip(_all_ranks, _all_data):
+        player_df = df[df['PLAYER_NAME'] == _player].reset_index(drop=True)
+        player_avg = avg_df[avg_df['PLAYER_NAME'] == _player].reset_index(drop=True)
+        player_dfs.append(player_df)
+        player_avg_dfs.append(player_avg)
+    return player_dfs, player_avg_dfs
+
+# EXPLANATIONS
+def tab1_explanation(_go_deeper):
+    if _go_deeper:
+        st.write('''
+                **Choose a player and season below to see their ranks in the given season. \*All Time Ranks are included at the bottom of the page**\n
+                ''')
+        st.caption('''
+                **\*Ranks calculated for data back to the 1996-97 season**\n
+                ''')
+    else:
+        st.write('''
+                **Choose a player and see their rank in all available stats**\n
+                ''')
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -146,13 +215,15 @@ def merge_rank_dfs(_dfs):
 # LOAD IN THE DATA
 year_data_dict, advanced_data_dict = create_year_data_dict(datadir), create_year_data_dict(advancedDir)
 ## get all the unique player names from the year_data_dict
-player_names = pd.Series()
+player_names_df = pd.DataFrame()
 for key in year_data_dict.keys():
-    player_names = pd.concat([player_names, year_data_dict[key]['PLAYER_NAME']])
-player_names = player_names.unique()
+    # add the player name and season to the dataframe
+    player_names_df = pd.concat([player_names_df, year_data_dict[key][['PLAYER_NAME', 'YEAR']].copy()], ignore_index=True)
+player_names = player_names_df['PLAYER_NAME'].unique()
+if go_deeper == False:
+    player_names = player_names_df[player_names_df['YEAR'] == season]['PLAYER_NAME'].unique()
 
 # TOGGLE FOR GP THRESHOLD
-
 st.write('**Toggle to filter by :green[Games Played]**')
 if st.toggle('**GP Threshold**'):
     # add in a slider for the number of games played
@@ -162,6 +233,9 @@ if st.toggle('**GP Threshold**'):
 all_ranks, all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 all_time_ranks, all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 
+# remove _Rank and _Percentile from the avg_df columns
+for df in all_avgs:
+    df = df.drop(columns=[col for col in df.columns if '_Rank' in col or '_Percentile' in col], errors='ignore')
 
 ## TABS START HERE
 tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
@@ -169,40 +243,22 @@ tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
 # TAB 1: PLAYER SEARCH
 with tabs[0]:
     if explanation: 
-        if go_deeper == False:
-            st.write('''
-                    ***Where did Austin Reaves rank in PPG in the current season?***\n
-                    **Below you can choose a player and see their rank in all stats.**\n
-                    ''')
-        else:
-            st.write('''
-                    ***Where did xxx rank in PPG in a given season?***\n
-                    **Choose a player and season below to see their ranks in the given season. \*All Time Ranks are included at the bottom of the page.**\n
-                    ''')
-            st.caption('''
-                    **\*Ranks calculated for data back to the 1996-97 season.**\n
-                    ''')
+        tab1_explanation(go_deeper)
     ## SELECT A PLAYER FROM THE DROPDOWN
-    # make a selectbox for the player names, index at the start_player
     player = st.selectbox('**Select a Player to Load Rank Graphs**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
     player_emoji = annotate_with_emojis(player, emoji_df)
     ## get the data for the player from all years they played in the league
-    player_dfs, player_avg_dfs = [], []
-    for df, avg_df in zip(all_ranks, all_avgs):
-        player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-        player_avg = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
-        player_dfs.append(player_df)
-        player_avg_dfs.append(player_avg)
-    titles = ['Traditional', 'Shooting', 'Advanced']
+    player_dfs, player_avg_dfs = get_rank_player_data(all_ranks, all_avgs, player)
     # reverse the list to get the most recent season first
     season_list = sorted(player_dfs[0]['YEAR'].unique(), reverse=True) 
-    if go_deeper == False:
+    if go_deeper:
         season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
     st.divider()
     st.write(f'**{player_emoji} {season} Season Ranks**')
+    titles = ['Traditional', 'Shooting', 'Advanced']
     for ranks,df,avg_df,title in zip(rank_cols, player_dfs, player_avg_dfs, titles):
         st.expander(f'**{title}**', expanded=False)
-        with st.expander(f':green[**{title}**]', expanded=False):
+        with st.expander(f'**{title}**', expanded=False):
             player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
             season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
             player_gp = player_df['GP'].max()
@@ -210,65 +266,37 @@ with tabs[0]:
                 st.warning(f'{player_emoji} has only played {player_gp} games this season. Please select a lower number of games played.')
                 st.stop()
             player_ranks = transform_ranks_for_plotting(season_df) 
-            fig = create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
-            # setup the hover template with the avg_df values
-            st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{plot_number}')
+            create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
             # show the player data in a table
             season_avg_df = avg_df[avg_df['YEAR'] == season].reset_index(drop=True)
             season_avg_df = season_avg_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP'] + ranks]
             season_avg_df[ranks] = season_avg_df[ranks].round(2)
+            st.dataframe(season_avg_df, use_container_width=True, hide_index=True)
             plot_number += 1
-    if go_deeper == False:
-        st.divider()
-        st.write(f'**{player_emoji} All Time Ranks**')
-        st.expander('**All Time**', expanded=False)
-        with st.expander(':rainbow[**All Time**]', expanded=False):
-            for df,avg_df,title in zip(all_time_ranks,all_time_avgs,titles):
-                player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
-                player_ranks = transform_ranks_for_plotting(player_df) 
-                fig = create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
-                st.plotly_chart(fig, use_container_width=True, key=f'player_rank_bar_graph_{plot_number}')
-                player_avg_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
-                # remove _Percentile and _Rank from the columns
-                player_avg_df = player_avg_df[[col for col in player_avg_df.columns if '_Percentile' not in col and '_Rank' not in col]]
-                # round all but player name and team abbreviation to 2 decimal places
-                cols = player_avg_df.columns.tolist()
-                cols = [col for col in cols if col not in ['PLAYER_NAME', 'TEAM_ABBREVIATION']]
-                player_avg_df[cols] = player_avg_df[cols].round(2)
-                plot_number += 1
+    # OUTPUT THE RANKS FOR THE PLAYER
+    st.expander('**All Time**', expanded=False)
+    with st.expander(':rainbow[**All Time**]', expanded=False):
+        if explanation:
+            st.write(f'*TEAM COLOR IS THE FIRST TEAM PLAYED FOR')
+            st.write(f'')
+        for df,avg_df,title in zip(all_time_ranks,all_time_avgs,titles):
+            player_df = df[df['PLAYER_NAME'] == player].reset_index(drop=True)
+            player_ranks = transform_ranks_for_plotting(player_df) 
+            create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
+            player_avg_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
+            # remove _Percentile and _Rank from the columns
+            #player_avg_df = player_avg_df[[col for col in player_avg_df.columns if '_Percentile' not in col and '_Rank' not in col]]
+            # round all but player name and team abbreviation to 2 decimal places
+            cols = player_avg_df.columns.tolist()
+            cols = [col for col in cols if col not in ['PLAYER_NAME', 'TEAM_ABBREVIATION']]
+            player_avg_df[cols] = player_avg_df[cols].round(2)
+            st.dataframe(player_avg_df, use_container_width=True, hide_index=True)
+            plot_number += 1
 # TAB 2: STAT SEARCH
-## SELECT A STAT TO PLOT
-# TODO: fix the seasonal rank search at some point; the merge here doesn't work because of same cols with diff values
-#season_ranks_df = merge_rank_dfs(all_ranksj
-#season_avgs_df = merge_rank_dfs(all_avgs)
-season_ranks_df, season_avg_df = pd.DataFrame(), pd.DataFrame()
-cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'YEAR', 'SEASON']
-cols_data = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'YEAR', 'SEASON', 'AGE', 'MPG', 'clock', 'FG%', 'FT%', '3P%', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'TOV_PG', 'PF_PG', 'AST_TO']
-for df, avg_df in zip(all_ranks, all_avgs):
-    if season_ranks_df.empty:
-        season_ranks_df = df.copy()
-        season_avg_df = avg_df.copy()
-    else:
-        season_ranks_df.set_index(cols, inplace=True)
-        season_avg_df.set_index(cols, inplace=True)
-        tmp_df = df.copy()
-        tmp_avg_df = avg_df.copy()
-        tmp_df.set_index(cols, inplace=True)
-        tmp_avg_df.set_index(cols, inplace=True)
-        season_ranks_df = season_ranks_df.join(tmp_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
-        season_avg_df = season_avg_df.join(tmp_avg_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
-# remove the _tmp and _tmp_2 columns from the dataframe
-season_avg_df = season_avg_df.loc[:, ~season_avg_df.columns.str.contains('_tmp_2')]
-# remove anything with rank or percentile in the name
-season_avg_df = season_avg_df.loc[:, ~season_avg_df.columns.str.contains('_RANK|_Rank|_Percentile')]
-# remove the AGE_tmp column
-season_avg_df = season_avg_df.loc[:, ~season_avg_df.columns.str.contains('AGE_tmp|MPG_tmp|FG%_tmp|FGM_PG_tmp|FGA_PG_tmp|AST_TO_tmp')]
-# rename the columns to remove the _tmp and _tmp_2 suffixes
-season_avg_df.columns = [col.split('_tmp')[0] for col in season_avg_df.columns]
+# merge dataframes for finding ranks
+season_ranks_df, season_avg_df = join_season_dfs(all_ranks, all_avgs)
 all_time_ranks_df = merge_rank_dfs(all_time_ranks)
 all_time_avgs_df = merge_rank_dfs(all_time_avgs)
-
-
 with tabs[1]:
     if explanation:
         if go_deeper == False:
