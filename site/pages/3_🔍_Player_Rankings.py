@@ -72,26 +72,24 @@ def get_ranks(_data, _stat_list, _season=True):
 
 # get the player rankings for the season
 def get_season_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
-    all_ranks, output_dfs = [], []
+    output_dfs = []
     # go through the columns to rank
     for ranks in _rank_cols:
         # get the player rankings for the season
-        tmp_df, tmp_out_df = pd.DataFrame(), pd.DataFrame()
+        tmp_df = pd.DataFrame()
         for key in _year_data_dict.keys():
             season_df = _year_data_dict[key].copy()
             # to get advanced data
             if 'TS%' in ranks:
                 season_df = _advanced_data_dict[key].copy()
             player_ranks = get_ranks(season_df, ranks)
-            tmp_df = pd.concat([tmp_df, player_ranks], ignore_index=True)
-            tmp_out_df = pd.concat([tmp_out_df, season_df], ignore_index=True)
-        output_dfs.append(tmp_out_df) 
-        all_ranks.append(tmp_df)
-    return all_ranks, output_dfs
+            tmp_df = pd.concat([tmp_df, season_df], ignore_index=True)
+        output_dfs.append(tmp_df) 
+    return output_dfs
 
 # get the all time player rankings
 def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_cols, _check_gp, _gp):
-    all_ranks, output_dfs = [], []
+    output_dfs = []
     for ranks in _rank_cols:
         # get the player rankings for the season
         tmp_df = pd.DataFrame()
@@ -105,10 +103,8 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
         avg_df = tmp_df.groupby('PLAYER_NAME')[ranks].mean().reset_index()
         avg_df['TEAM_ABBREVIATION'] = tmp_df.groupby('PLAYER_NAME')['TEAM_ABBREVIATION'].first().values
         tmp_ranks = get_ranks(avg_df, ranks, _season=False)
-        #st.dataframe(tmp_ranks, use_container_width=True, hide_index=True)
         output_dfs.append(avg_df)
-        all_ranks.append(tmp_ranks)
-    return all_ranks, output_dfs
+    return output_dfs
 
 # transform the ranks for plotting
 def transform_ranks_for_plotting(_df):
@@ -163,26 +159,22 @@ def merge_rank_dfs(_dfs):
     return output_df
 
 # function to join the season ranks and averages dataframes (slightly annoying to do)
-def join_season_dfs(_rank_dfs, _data_dfs):
-    season_ranks_df, season_avg_df = pd.DataFrame(), pd.DataFrame()
+def join_season_dfs(_data_dfs):
+    output_df = pd.DataFrame()
     cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP', 'YEAR', 'SEASON']
-    for df, avg_df in zip(_rank_dfs, _data_dfs):
-        if season_ranks_df.empty:
-            season_ranks_df = df.copy()
-            season_avg_df = avg_df.copy()
+    for avg_df in _data_dfs:
+        if output_df.empty:
+            output_df = avg_df.copy()
         else:
-            season_ranks_df.set_index(cols, inplace=True)
-            season_avg_df.set_index(cols, inplace=True)
-            tmp_df, tmp_avg_df = df.copy(), avg_df.copy()
-            tmp_df.set_index(cols, inplace=True)
+            output_df.set_index(cols, inplace=True)
+            tmp_avg_df = avg_df.copy()
             tmp_avg_df.set_index(cols, inplace=True)
-            season_ranks_df = season_ranks_df.join(tmp_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
-            season_avg_df = season_avg_df.join(tmp_avg_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
+            output_df = output_df.join(tmp_avg_df, lsuffix='_tmp', rsuffix='_tmp_2', how='outer').reset_index()
     # cols to drop from the ranks df,  
-    contain_cols = '_tmp_2|_RANK|_Rank|_Percentile|AGE_tmp|MPG_tmp|FG%_tmp|FGM_PG_tmp|FGA_PG_tmp|AST_TO_tmp'
-    season_avg_df = season_avg_df.loc[:, ~season_avg_df.columns.str.contains(contain_cols)]
-    season_avg_df.columns = [col.split('_tmp')[0] for col in season_avg_df.columns]
-    return season_ranks_df, season_avg_df
+    contain_cols = '_tmp_2|AGE_tmp|MPG_tmp|FG%_tmp|FGM_PG_tmp|FGA_PG_tmp|AST_TO_tmp'
+    output_df = output_df.loc[:, ~output_df.columns.str.contains(contain_cols)]
+    output_df.columns = [col.split('_tmp')[0] for col in output_df.columns]
+    return output_df 
 
 def get_rank_player_data(_all_data, _player):
     player_dfs, player_avg_dfs = [], []
@@ -229,12 +221,8 @@ if st.toggle('**GP Threshold**'):
     gp = st.slider('Number of games played', 0, 82, 65)
     check_gp = True
 # GET RANKINGS FOR ALL PLAYERS
-all_ranks, all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
-all_time_ranks, all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
-
-# remove _Rank and _Percentile from the avg_df columns
-for df in all_avgs:
-    df = df.drop(columns=[col for col in df.columns if '_Rank' in col or '_Percentile' in col], errors='ignore')
+all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 
 ## TABS START HERE
 tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
@@ -293,8 +281,7 @@ with tabs[0]:
             plot_number += 1
 # TAB 2: STAT SEARCH
 # merge dataframes for finding ranks
-season_ranks_df, season_avg_df = join_season_dfs(all_ranks, all_avgs)
-all_time_ranks_df = merge_rank_dfs(all_time_ranks)
+season_avg_df = join_season_dfs(all_avgs)
 all_time_avgs_df = merge_rank_dfs(all_time_avgs)
 with tabs[1]:
     if explanation:
@@ -302,7 +289,7 @@ with tabs[1]:
             st.write('''
                     **Choose a stat to see where the player ranks in the league this season.**\n
                     ''')
-    all_rank_cols = pd.concat(all_ranks, ignore_index=True)
+    all_rank_cols = pd.concat(all_avgs, ignore_index=True)
     stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
     # remove rank from the stat list
     stat_list = [stat.split('_Rank')[0] for stat in stat_list]
@@ -318,22 +305,22 @@ with tabs[1]:
                         ''')
         if all_time == False:
             season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
-            rank_df = season_ranks_df
+            rank_df = season_avg_df
             rank_df = rank_df[rank_df['YEAR'] == season]
             data_df = season_avg_df
             data_df = data_df[data_df['YEAR'] == season]
         else:
-            rank_df = all_time_ranks_df
+            rank_df = all_time_avgs_df
             data_df = all_time_avgs_df
     else:
         # get the current season data
-        rank_df = season_ranks_df
+        rank_df = season_avg_df
         rank_df = rank_df[rank_df['YEAR'] == season]
         data_df = season_avg_df
         data_df = data_df[data_df['YEAR'] == season]
     # keep only the rank column
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
-    rank_df = rank_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', rank, percentile]]
+    #rank_df = rank_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', rank, percentile]]
     # if the value in the stat is not unique, make it unique
     # get a list of the number of ranks in the league
     rank_list = sorted(rank_df[rank].unique(), reverse=False)
@@ -344,7 +331,7 @@ with tabs[1]:
     player = rank_df[rank_df[rank] == rank_num]['PLAYER_NAME'].values[0]
     player_emoji = annotate_with_emojis(player, emoji_df)
     # get the actual stat value for the player
-    stat_value = data_df[data_df['PLAYER_NAME'] == player][stat].values[0]
+    stat_value = rank_df[rank_df['PLAYER_NAME'] == player][stat].values[0]
     # add the values to the df 
     tmp_df = pd.DataFrame({'PLAYER_NAME': [player], 'RANK': [rank_num], 'STAT': [stat], 'VALUE': [stat_value], 'SEASON': [season]})
     if go_deeper:
