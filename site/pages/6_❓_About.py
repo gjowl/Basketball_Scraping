@@ -93,6 +93,7 @@ st.write(
     🏀 **Scatterplot of data where you highlight players who are in their first, second, third etc. years in the league?**
     🏀 **Al Horford vs Kevin Love vs Myles Turner vs Thad Young vs Brook Lopez**\n
     🏀 **TJ McConnell vs Jose Alvarado vs Andre Miller**
+    🏀**Playoff stat for all pages?**\n
     """
 )
 # Add in social at the bottom
