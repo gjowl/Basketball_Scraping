@@ -187,7 +187,7 @@ def get_rank_player_data(_all_data, _player):
 def tab1_explanation(_go_deeper):
     if _go_deeper:
         st.write('''
-                **Choose a player and season below to see their ranks in the given season. \*All Time Ranks are included at the bottom of the page**\n
+                **Choose a player and season below to see their \*ranks in the given season**\n
                 ''')
         st.caption('''
                 **\*Ranks calculated for data back to the 1996-97 season**\n
@@ -196,6 +196,11 @@ def tab1_explanation(_go_deeper):
         st.write('''
                 **Choose a player and see their rank in all available stats**\n
                 ''')
+
+@st.fragment
+def gp_check(_input_gp, _player_gp, player):
+    if _input_gp > _player_gp:
+        st.warning(f'{player} has only played {player_gp} games this season. Please select a lower number of games played.')
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -229,6 +234,7 @@ tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
 
 # TAB 1: PLAYER SEARCH
 with tabs[0]:
+    # START HERE: Turn this into a function that can be rerun with a button, potentially a fragment
     if explanation: 
         tab1_explanation(go_deeper)
     ## SELECT A PLAYER FROM THE DROPDOWN
@@ -244,19 +250,20 @@ with tabs[0]:
     st.write(f'**{player_emoji} {season} Season Ranks**')
     titles = ['Traditional', 'Shooting', 'Advanced']
     for ranks,avg_df,title in zip(rank_cols, player_avg_dfs, titles):
+        player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
+        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+        player_gp = season_df['GP'].max()
+        if gp > player_gp:
+            st.button('**Rerun**', on_click=gp_check, args=(gp, player_gp, player), key=f'gp_check_{plot_number}', help='Fragment rerun')
+        if gp > player_gp:
+            st.warning(f'{player_emoji} has only played {player_gp} games this season. Please select a lower number of games played.')
+
         st.expander(f'**{title}**', expanded=False)
         with st.expander(f'**{title}**', expanded=False):
-            player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
-            season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-            player_gp = player_df['GP'].max()
-            if gp > player_gp:
-                st.warning(f'{player_emoji} has only played {player_gp} games this season. Please select a lower number of games played.')
-                st.stop()
             player_ranks = transform_ranks_for_plotting(season_df) 
             create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
             season_df = season_df[[col for col in season_df.columns if '_Percentile' not in col and '_Rank' not in col]]
             # show the player data in a table
-            #season_df = avg_df[avg_df['YEAR'] == season].reset_index(drop=True)
             season_df = season_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', 'GP'] + ranks]
             season_df[ranks] = season_df[ranks].round(2)
             st.dataframe(season_df, use_container_width=True, hide_index=True)
@@ -307,21 +314,14 @@ with tabs[1]:
             season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
             rank_df = season_avg_df
             rank_df = rank_df[rank_df['YEAR'] == season]
-            data_df = season_avg_df
-            data_df = data_df[data_df['YEAR'] == season]
         else:
             rank_df = all_time_avgs_df
-            data_df = all_time_avgs_df
     else:
         # get the current season data
         rank_df = season_avg_df
         rank_df = rank_df[rank_df['YEAR'] == season]
-        data_df = season_avg_df
-        data_df = data_df[data_df['YEAR'] == season]
     # keep only the rank column
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
-    #rank_df = rank_df[['PLAYER_NAME', 'TEAM_ABBREVIATION', rank, percentile]]
-    # if the value in the stat is not unique, make it unique
     # get a list of the number of ranks in the league
     rank_list = sorted(rank_df[rank].unique(), reverse=False)
     # convert the rank list to a list of int
@@ -346,20 +346,15 @@ with tabs[1]:
         st.write(f'**{player_emoji}** averaged :green[**{round(stat_value,2)}**  **{stat}**], which is :violet[**#{rank_num}**] in the :grey[**{season} season**].')
     st.expander(f'**{stat} {season} Data**', expanded=False)
     with st.expander(f':green[**{stat} {season} Data**]', expanded=False):
-        cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', rank]
-        cols_data = ['PLAYER_NAME', 'TEAM_ABBREVIATION', stat]
-        data_df = data_df[cols_data]
+        cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', rank, stat]
         rank_df = rank_df[cols]
-        output_df = pd.merge(data_df, rank_df, on=['PLAYER_NAME', 'TEAM_ABBREVIATION'])
-        output_df = output_df.sort_values(by=rank, ascending=True).reset_index(drop=True)
+        output_df = rank_df
+        #output_df = pd.merge(data_df, rank_df, on=['PLAYER_NAME', 'TEAM_ABBREVIATION'])
+        #output_df = output_df.sort_values(by=rank, ascending=True).reset_index(drop=True)
         st.dataframe(output_df, use_container_width=True, hide_index=True)
-    # TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
 
-#if st.button(f'Show All {player} Data'):
-#    # show all the data with no scroll bar
-#    player_df = get_player_data(year_data_dict, player)
-#    st.dataframe(player_df, use_container_width=True, hide_index=True)
-#    st.button('Hide Data', key=f'hide_{player}_data')
+# TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
+
 # an interesting alternate idea (or maybe concurrent) is to basically make the website a scrolling timeline of the player: Kind of like the spotify wrapped, but a timeline of the player with 
 # their most important stats and their overall impact on the game? Would some sort of impact on the game metric be interesting? How would I define that just using stats?
 # I think I have to start with the most impactful players: Steph is an outlier in 3pt shooting all time. But whenever it started (so he has a large difference in 3PAs to how quickly it gets closer)
