@@ -239,8 +239,8 @@ if go_deeper == False:
 #    gp = st.slider('Number of games played', 0, 82, 65)
 #    check_gp = True
 # GET RANKINGS FOR ALL PLAYERS
-all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
-all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
 
 ## TABS START HERE
 tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
@@ -254,7 +254,7 @@ with tabs[0]:
     player = st.selectbox('**Select a Player to Load Rank Graphs**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
     player_emoji = annotate_with_emojis(player, emoji_df)
     ## get the data for the player from all years they played in the league
-    player_rank_dfs = get_rank_player_data(all_avgs, player)
+    player_rank_dfs = get_rank_player_data(season_rank_list, player)
     # reverse the list to get the most recent season first
     season_list = sorted(player_rank_dfs[0]['YEAR'].unique(), reverse=True) 
     if go_deeper:
@@ -265,8 +265,8 @@ with tabs[0]:
             player_gp = player_rank_dfs[0][player_rank_dfs[0]['YEAR'] == season]['GP'].max()
             if player_gp < gp:
                 st.warning(f'{player_emoji} only played {player_gp} games in the {season} season. Ranks will be shown for {player_gp} games played.')
-                all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
-                all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
+                season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
+                all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
     st.divider()
     st.write(f'**{player_emoji} {season} Season Ranks**')
     titles = ['Traditional', 'Shooting', 'Advanced']
@@ -290,7 +290,7 @@ with tabs[0]:
         if explanation:
             st.write(f'*TEAM COLOR IS THE FIRST TEAM PLAYED FOR')
             st.write(f'')
-        for avg_df,title in zip(all_time_avgs,titles):
+        for avg_df,title in zip(all_rank_list,titles):
             player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
             create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
@@ -315,15 +315,15 @@ with tabs[0]:
         st.dataframe(player_df, use_container_width=True, hide_index=True)
 # TAB 2: STAT SEARCH
 # merge dataframes for finding ranks
-season_avg_df = join_season_dfs(all_avgs)
-all_time_avgs_df = merge_rank_dfs(all_time_avgs)
+season_avg_df = join_season_dfs(season_rank_list)
+all_rank_list_df = merge_rank_dfs(all_rank_list)
 with tabs[1]:
     if explanation:
         if go_deeper == False:
             st.write('''
                     **Choose a stat to see where the player ranks in the league this season.**\n
                     ''')
-    all_rank_cols = pd.concat(all_avgs, ignore_index=True)
+    all_rank_cols = pd.concat(season_rank_list, ignore_index=True)
     stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
     # remove rank from the stat list
     stat_list = [stat.split('_Rank')[0] for stat in stat_list]
@@ -341,10 +341,11 @@ with tabs[1]:
                         **\*Ranks calculated for data back to the 1996-97 season.**\n
                         ''')
         # get the years in the league for each player
-        player_years = all_avgs[0][['PLAYER_NAME', 'YEAR']].copy()
+        player_years = season_rank_list[0][['PLAYER_NAME', 'YEAR']].copy()
         count_df = player_years.groupby('PLAYER_NAME')['YEAR'].count().reset_index()
         count_df = count_df.rename(columns={'YEAR': 'YEARS_IN_LEAGUE'})
         player_years = pd.merge(player_years, count_df, on='PLAYER_NAME', how='left')
+        st.dataframe(player_years, use_container_width=True, hide_index=True)
         max_years = player_years['YEARS_IN_LEAGUE'].max()
         check_gp = st.checkbox('**:green[Games Played] Filter**', value=False, key=f'check_gp_{plot_number}')
         if check_gp:
@@ -357,33 +358,33 @@ with tabs[1]:
                 # get the players who have played at least years_in_league seasons
                 tmp_player_years = player_years[player_years['YEARS_IN_LEAGUE'] >= years_in_league]
             # rerun the ranking with the new gp and years in league filters
-            all_avgs = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
-            tmp_all_time_avgs = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp, years_in_league)
+            season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp)
+            tmp_all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp, years_in_league)
             # merge the dataframes together
-            season_avg_df = join_season_dfs(all_avgs)
-            tmp_all_time_avgs_df = merge_rank_dfs(tmp_all_time_avgs)
-            if tmp_all_time_avgs_df.empty:
-                st.warning(f'No players fit these parameters! Searching all time rankings')
+            season_avg_df = join_season_dfs(season_rank_list)
+            if all_time:
+                tmp_all_rank_list_df = merge_rank_dfs(tmp_all_rank_list)
+                if tmp_all_rank_list_df.empty:
+                    st.warning(f'No players fit these parameters! Searching all time rankings')
+                else:
+                    all_rank_list_df = tmp_all_rank_list_df.copy()
+                    #st.dataframe(all_rank_list_df, use_container_width=True, hide_index=True)
+                    # update the player years dataframe
+                    player_years = all_rank_list_df[['PLAYER_NAME', 'YEARS_IN_LEAGUE']].copy()
+                    #player_years = tmp_player_years.copy()
+                rank_df = all_rank_list_df
+                st.write(len(rank_df), 'players fit these parameters')
+                st.write(len(player_years), 'players fit these parameters')
+                st.dataframe(rank_df, use_container_width=True, hide_index=True)
+                st.dataframe(player_years, use_container_width=True, hide_index=True)
+                # add the years in league column to the dataframe
+                rank_df['YEARS_IN_LEAGUE'] = player_years[player_years['PLAYER_NAME'].isin(rank_df['PLAYER_NAME'])]['YEARS_IN_LEAGUE'].values
             else:
-                all_time_avgs_df = tmp_all_time_avgs_df.copy()
-                # update the player years dataframe
-                player_years = all_time_avgs_df[['PLAYER_NAME', 'YEARS_IN_LEAGUE']].copy()
-            rank_df = all_time_avgs_df
-            # add the years in league column to the dataframe
-            rank_df['YEARS_IN_LEAGUE'] = player_years[player_years['PLAYER_NAME'].isin(rank_df['PLAYER_NAME'])]['YEARS_IN_LEAGUE'].values[0]
-            if all_time == False:
                 rank_df = season_avg_df
                 # add the years in league column to the dataframe
                 rank_df = rank_df[rank_df['YEAR'] == season]
-                # get the players who have played at least years_in_league seasons
-                rank_df['YEARS_IN_LEAGUE'] = player_years[player_years['PLAYER_NAME'].isin(rank_df['PLAYER_NAME'])]['YEARS_IN_LEAGUE'].values[0]
-                #tmp_player_years = tmp_player_years[tmp_player_years['PLAYER_NAME'].isin(rank_df['PLAYER_NAME'])]
-                # remove duplicates from the dataframe
-                #tmp_player_years = tmp_player_years.drop_duplicates(subset=['PLAYER_NAME'], keep='first')
-                #st.write(f'{len(tmp_player_years)} league.')
-                #st.dataframe(tmp_player_years, use_container_width=True, hide_index=True)
-                #rank_df['YEARS_IN_LEAGUE'] = tmp_player_years[tmp_player_years['PLAYER_NAME'].isin(rank_df['PLAYER_NAME'])]['YEARS_IN_LEAGUE'].values
-                player_years = tmp_player_years.copy()
+                player_years = player_years[player_years['YEAR'] == season]
+                st.dataframe(player_years, use_container_width=True, hide_index=True)
         else:
             rank_df = season_avg_df
             rank_df = rank_df[rank_df['YEAR'] == season]
