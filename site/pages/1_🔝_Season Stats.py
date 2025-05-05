@@ -241,7 +241,7 @@ if go_deeper == True:
         st.write(f'''
                 The :blue[**{stat}**] vs :red[**{y_axis}**] scatter plot shows the distribution of players in the league for the :green[**{season} season**]. \n
                 The :violet[{descriptor} {num_players}] players are highlighted by their team colors in the scatter plot, and all other players are plotted in gray. \n
-                The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
+                The red and blue dashed lines represent the :green[**{season} season**] averages: \n 
                 🏀 **:red[Avg {stat} = {x_avg}]** \n
                 🏀 **:blue[Avg {y_axis} = {y_avg}]** \n
                 Typically, the best players are found in the top right quadrant, being above average for both stats. \n
@@ -251,7 +251,7 @@ if go_deeper == True:
     with st.expander(f'**{expander_color}[{descriptor} Players Scatter Data]**', expanded=False):
         st.write(f'''
             The :blue[**x-axis**] is the :blue[**{stat}**] and the :red[**y-axis**] is the :red[**{y_axis}**], with the **{season} season** average plotted along the axes in red \n
-            The red and blue dotted lines represent the :green[**{season} season**] averages: \n 
+            The red and blue dashed lines represent the :green[**{season} season**] averages: \n 
             🏀 **:red[Avg {stat} = {x_avg}]** \n
             🏀 **:blue[Avg {y_axis} = {y_avg}]** \n
              ''')
