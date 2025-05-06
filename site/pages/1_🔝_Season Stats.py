@@ -2,6 +2,7 @@ import streamlit as st
 import os, pandas as pd
 import plotly.express as px
 from functions import sort_and_show_data, change_to_team_colors,plot_quadrant_scatter, create_year_data_dict, annotate_with_emojis,emoji_check
+import random
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Top Stats',
@@ -23,7 +24,9 @@ colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
+example_file = '/mnt/d/github/Basketball_Scraping/site/examples/season_stats_examples.csv'
 stat_options = ['MPG', 'PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+advanced_stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
 expander_color = ':green'
 stat_color = ':blue'
 top_players_color = ':violet'
@@ -42,9 +45,47 @@ team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
+example_df = pd.read_csv(example_file, sep='|')
+
+
+def get_session_state_example(example=None):
+        st.session_state['Example'] = example
+        # get the players for the example
+        season = example_df[example_df['Question'] == example]['Season'].values[0]
+        st.session_state['season_selectbox'] = season 
+        # get the stats for the example
+        stat = example_df[example_df['Question'] == example]['Stat'].values[0]
+        num_players = int(example_df[example_df['Question'] == example]['Number of Players'].values[0])
+        #age_range = example_df[example_df['Question'] == example]['Age Range'].tolist()
+        #st.session_state['age_range'] = age_range
+        st.session_state['num_players'] = num_players
+        if stat in advanced_stat_options:
+            st.session_state['advanced_toggle'] = True
+        else:
+            st.session_state['advanced_toggle'] = False
+        st.session_state['stat_selectbox'] = stat
 
 # SESSION STATE
 st.session_state['Emojis Unlocked'] = False
+
+# READ IN THE EXAMPLES
+if example_df.empty == False:
+    examples = example_df['Question'].tolist()
+    season = example_df['Season'].values[0]
+    #stats = example_df['Stats'].tolist()
+    #stats = [stat.split(', ') for stat in stats]
+    #example_df['Stats'] = stats
+    stat = example_df['Stat'].values[0]
+    #age_range = example_df['Age Range'].tolist()
+    #age_range =  [age.split(', ') for age in age_range] 
+    #example_df['Age Range'] = age_range
+
+    # pick a random number between 0 and the length of the example
+    example_index = 0
+    if 'Example' not in st.session_state:
+        random_example = random.choice(examples)
+        example_index = examples.index(random_example)
+        get_session_state_example(random_example)
 
 # CHECKBOX FOR MORE OPTIONS
 go_deeper_variable_color = ':grey'
@@ -56,18 +97,28 @@ with cols[0]:
 with cols[1]:
     explanation = st.checkbox(f'**:grey[Explanations]**', value=True)
 
+# GET THE EXAMPLE
+if go_deeper:
+    example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
+    if st.session_state['example_selectbox'] != st.session_state['Example']:
+        get_session_state_example(st.session_state['example_selectbox'])
+    if st.button('**Click to see a random example**', key='example_checkbox'):
+        random_example = random.choice(examples)
+        example_index = examples.index(random_example)
+        get_session_state_example(random_example)
+        st.write(st.session_state['Example'])
+        #st.session_state
+
 # INTRO BLURB
 if explanation == True:
     if go_deeper == False:
         st.write('''
-                ***Who averaged the most points in the 2024-25 season? What about the year before that? Before that?***\n
                 **Pick the :violet[number of players] and the stat you want to see, and the top players will be plotted in a bar graph.**\n
                 ***Data from present to the 1996-97 season.***\n
                 \n
         ''')
     else:
         st.write(f'''
-                ***What's the relationship between PPG and APG? TS% and OFF_RATING? SPG and FT%?***\n
                 **Pick the :violet[number of players], :green[games played], and the :green[age range] of players.**\n
                 **Then pick two stats you want to graph, and the top players will be plotted in scatterplots.**\n
                 ***Data from present to the 1996-97 season.***\n
@@ -79,16 +130,16 @@ st.divider()
 if go_deeper == False:
     if explanation == True:
         st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-    if st.toggle('**Advanced**'):
+    if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
         datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-        stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+        stat_options = advanced_stat_options
         advanced = True
 if go_deeper == True:
     if explanation == True:
         st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-    if st.toggle('**Advanced**'):
+    if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
         datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-        stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+        stat_options = advanced_stat_options
         advanced = True
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
     with stat_explanation:
@@ -111,13 +162,12 @@ year_data_dict = create_year_data_dict(datadir)
 year_data_dict = {k: year_data_dict[k] for k in sorted(year_data_dict.keys(), reverse=True)}
 left, right = st.columns(2)
 with left:
-    season = st.selectbox('**Season**', year_data_dict.keys(), index=0, placeholder='Season...')
+    season = st.selectbox('**Season**', year_data_dict.keys(), index=0, placeholder='Season...', key='season_selectbox')
 if season is None:
     st.warning('*Please select a season (data back to the 1996-97 season)*')
     st.stop()
 data = year_data_dict[season]
 max_gp = data['GP'].max()
-
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -129,12 +179,12 @@ max_gp = data['GP'].max()
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 if go_deeper == True:
     max_players = 100
-num_players = st.slider('***Number of players to show***', 1, max_players, 10)
+num_players = st.slider('***Number of players to show***', 1, max_players, 10, key='num_players')
 num_gp = default_num_gp 
 if go_deeper == True:
     num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp)
     min_age, max_age = data['AGE'].min(), data['AGE'].max()
-    ages = st.slider('***Age Range***', min_age, max_age, (min_age, max_age), format='%d')
+    ages = st.slider('***Age Range***', min_age, max_age, (min_age, max_age), format='%d', key='age_range')
     data = data[(data['AGE'] >= ages[0]) & (data['AGE'] <= ages[1])]
     go_deeper = True
 st.divider()
@@ -155,7 +205,7 @@ if go_deeper == True and explanation == True:
 elif explanation == True:
     st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least :grey[**{num_gp} games**]')
 with right:
-    stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...')
+    stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...', key='stat_selectbox')
 if stat is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
@@ -302,3 +352,4 @@ if go_deeper == True and clicked == True and explanation == True:
             "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found the emojis"\n
             These are all the emojis present in data for the **:green[{season} season]** :D\n
             ''')
+st.session_state

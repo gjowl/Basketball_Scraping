@@ -28,23 +28,12 @@ emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
 examples = '/mnt/d/github/Basketball_Scraping/site/examples/player_comparison_examples.csv'
 stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
+advanced_stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
 advanced = False
 go_deeper = False
 explanations = True
 plot_number = 0
 
-def get_session_state_example(example=None):
-    if example is None:
-        example = random.choice(examples)
-        st.session_state['Players'] = examples_df[examples_df['Question'] == example]['Players'].values[0]
-    else:
-        st.session_state['Example'] = example
-        # get the players for the example
-        players = examples_df[examples_df['Question'] == example]['Players'].values[0]
-        st.session_state['Players'] = players
-        # get the stats for the example
-        stats = examples_df[examples_df['Question'] == example]['Stats'].values[0]
-        st.session_state['Stats'] = stats
 
 # READ IN THE TEAM COLORS
 team_colors = pd.read_csv(colors)
@@ -53,40 +42,47 @@ emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 examples_df = pd.read_csv(examples, sep='|')
 
-# SESSION STATE DEFAULTS
+# INITIAL SESSION STATE DEFAULTS
 st.session_state['Player 1'] = 'LeBron James'
 st.session_state['Player 2'] = 'Stephen Curry'
 st.session_state['Stat'] = 'PPG'
 st.session_state['Players'] = ['Stephen Curry', 'Chris Paul', 'Steve Nash']
 st.session_state['Stat'] = 'PPG'
 st.session_state['Stats'] = ['PPG', '3P%', 'FG%']
+#st.session_state['compare_years'] = True
+#st.session_state['advanced'] = False
+
+def get_session_state_example(example=None):
+        st.session_state['Example'] = example
+        # get the players for the example
+        players = examples_df[examples_df['Question'] == example]['Players'].values[0]
+        st.session_state['Players'] = players
+        # get the stats for the example
+        stats = examples_df[examples_df['Question'] == example]['Stats'].values[0]
+        st.session_state['Stats'] = stats
+        if len(players) == 2 and len(stats) == 1:
+            st.session_state['player_1'] = players[0]
+            st.session_state['player_2'] = players[1]
+            st.session_state['Stat'] = stats[0]
+        if stats[0] in advanced_stat_options:
+            st.session_state['advanced'] = True
+        #st.session_state['compare_years'] = examples_df[examples_df['Question'] == example]['compare_years'].values[0]
+        #st.session_state['advanced'] = examples_df[examples_df['Question'] == example]['advanced'].values[0]    
 
 # READ IN THE EXAMPLES
-examples = examples_df['Question'].tolist()
-players, stats = examples_df['Players'].tolist(), examples_df['Stats'].tolist()
-players, stats = [player.split(', ') for player in players], [stat.split(', ') for stat in stats] 
-examples_df['Players'], examples_df['Stats'] = players, stats
-# pick a random question from the examples
+if examples_df.empty == False:
+    examples = examples_df['Question'].tolist()
+    players, stats = examples_df['Players'].tolist(), examples_df['Stats'].tolist()
+    players, stats = [player.split(', ') for player in players], [stat.split(', ') for stat in stats] 
+    examples_df['Players'], examples_df['Stats'] = players, stats
+    # pick a random question from the examples
 
-# pick a random number between 0 and the length of the examples
-example_index = 0
-if 'Example' not in st.session_state:
-    random_example = random.choice(examples)
-    example_index = examples.index(random_example)
-    get_session_state_example(random_example)
-
-#get_session_state_example(random_example)
-
-# GET THE EXAMPLE
-example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
-if st.session_state['example_selectbox'] != st.session_state['Example']:
-    get_session_state_example(st.session_state['example_selectbox'])
-if st.button('**Click to see a random example**', key='example_checkbox'):
-    random_example = random.choice(examples)
-    example_index = examples.index(random_example)
-    get_session_state_example(random_example)
-    st.write(st.session_state['Example'])
-    #st.session_state
+    # pick a random number between 0 and the length of the examples
+    example_index = 0
+    if 'Example' not in st.session_state:
+        random_example = random.choice(examples)
+        example_index = examples.index(random_example)
+        get_session_state_example(random_example)
 
 # FUNCTIONS
 graph_colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#FF4500', '#FFD700', '#00FF00']
@@ -147,12 +143,28 @@ with col1:
 with col2:
     explanations = st.checkbox(':grey[**Explanations**]', value=True, key='explanations')
 
+# GET THE EXAMPLE
+if go_deeper:
+    example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
+    if st.session_state['example_selectbox'] != st.session_state['Example']:
+        get_session_state_example(st.session_state['example_selectbox'])
+    if st.button('**Click to see a random example**', key='example_checkbox'):
+        random_example = random.choice(examples)
+        example_index = examples.index(random_example)
+        get_session_state_example(random_example)
+        st.write(st.session_state['Example'])
+        #st.session_state
+
+#get_session_state_example(random_example)
+
+
+
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
 if explanations:
     st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-if st.toggle('**Advanced**'):
+if st.toggle('**Advanced**', key='advanced', value=False):
     datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-    stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+    stat_options = advanced_stat_options
     advanced = True
 if go_deeper:
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
@@ -203,14 +215,11 @@ player_names_count = player_names['PLAYER_NAME'].value_counts()
 if explanations:
     if go_deeper:
         st.write('''
-                ***Who was the best 3 point shooter over the first and last 5 years of their career? Aaron Gordon, Jerami Grant, Paul Millsap?***\n
                 **Now you can select up to :green[10 players] and :green[multiple stats] to plot**\n
                 **You can also look at stints of careers by adjusting the :green[year] range**\n
                 ''')
     else:
         st.write('''
-                ***Who averaged more points in their career? Lebron or Kobe? Who was more efficient?***\n
-                ***Who had a better 3P% throughout their career? CP3 or Nash? Who averaged more assists?***\n
                 **Pick :grey[2 players] and :grey[1 stat] to plot on a line graph over time**\n
                  ''')
 st.divider()
