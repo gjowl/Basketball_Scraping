@@ -4,6 +4,7 @@ import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
 from functions import create_year_data_dict, emoji_check, annotate_with_emojis, set_axis_text
+import random
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Comparison',
@@ -25,17 +26,60 @@ colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
+examples = '/mnt/d/github/Basketball_Scraping/site/examples/player_comparison_examples.csv'
 stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 advanced = False
 go_deeper = False
 explanations = True
 plot_number = 0
 
+def get_session_state_example(example=None):
+    if example is None:
+        example = random.choice(examples)
+        st.session_state['Example'] = example
+        st.session_state['Players'] = examples_df[examples_df['Question'] == example]['Players'].values[0]
+    else:
+        st.session_state['Example'] = example
+        # get the players for the example
+        players = examples_df[examples_df['Question'] == example]['Players'].values[0]
+        st.session_state['Players'] = players
+        # get the stats for the example
+        stats = examples_df[examples_df['Question'] == example]['Stats'].values[0]
+        st.session_state['Stats'] = stats
+
 # READ IN THE TEAM COLORS
 team_colors = pd.read_csv(colors)
 option_df = pd.read_csv(options)
 emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
+examples_df = pd.read_csv(examples, sep='|')
+
+# SESSION STATE DEFAULTS
+st.session_state['Player 1'] = 'LeBron James'
+st.session_state['Player 2'] = 'Stephen Curry'
+st.session_state['Stat'] = 'PPG'
+st.session_state['Players'] = ['Stephen Curry', 'Chris Paul', 'Steve Nash']
+st.session_state['Stat'] = 'PPG'
+st.session_state['Stats'] = ['PPG', '3P%', 'FG%']
+
+# READ IN THE EXAMPLES
+examples = examples_df['Question'].tolist()
+players = examples_df['Players'].tolist()
+players = [player.split(', ') for player in players]
+stats = examples_df['Stats'].tolist()
+stats = [stat.split(', ') for stat in stats]
+examples_df['Players'] = players
+examples_df['Stats'] = stats
+random_example = random.choice(examples)
+example_index = examples.index(random_example)
+
+# GET THE EXAMPLE
+st.session_state['Example'] = st.selectbox('**Examples**', examples, index=example_index)
+#get_session_state_example(st.session_state['Example'])
+    
+if st.button('**Click to see an example**', key='example_checkbox'):
+    get_session_state_example(st.session_state['Example'])
+    #st.session_state
 
 # FUNCTIONS
 graph_colors = ['#F27522', 'lightgrey', '#4082de', '#ADD8E6', '#F08080', '#FFA07A', '#FFE4B5', '#FF4500', '#FFD700', '#00FF00']
@@ -118,7 +162,6 @@ if go_deeper:
                 else:
                     st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
 
-
 # INITIAL DATA PROCESSING
 year_data_dict = create_year_data_dict(datadir)
 
@@ -176,7 +219,7 @@ else:
 # TODO: write a way that outputs the most important takeaway from the data
 player_dfs = []
 if go_deeper:
-    players = st.multiselect('**Select Players to Compare**', player_names_count.index.tolist(), default=['Stephen Curry', 'Steve Nash', 'Chris Paul'], key='players')
+    players = st.multiselect('**Select Players to Compare**', player_names_count.index.tolist(), default=st.session_state['Players'], key='players')
     # check if the players list is longer than 10
     if len(players) > 10:
         st.warning('*> 10 players may result in crashing, please select fewer players to compare*')
@@ -196,7 +239,7 @@ if go_deeper:
     cols = player_dfs[0].columns.tolist()
     stat_options = [col for col in stat_options if col in cols]
     if advanced == False:
-        stats = st.multiselect('**Select Stats to Compare**', stat_options, default=['PPG', '3P%', 'FG%'], key='stats')
+        stats = st.multiselect('**Select Stats to Compare**', stat_options, default=st.session_state['Stats'], key='stats')
     else:
         cols = player_dfs[0].columns.tolist()
         # remove columns that have _RANK in them
@@ -209,15 +252,21 @@ if go_deeper:
         # choose the year range to plot
         year_range = st.slider('**Select Year Range**', min_value=0, max_value=max_years, value=(0, max_years), key='year_range')
 else:
-    player_1 = st.selectbox('**Player 1**', player_names_count.index.tolist(), index=0, key='player_1')
-    player_names_2 = player_names_count[player_names_count.index != player_1].index.tolist()
-    player_2 = st.selectbox('**Player 2**', player_names_2, index=1, key='player_2')
+    # ADD IN PLAYER SELECTION BOXES
+    left, right = st.columns(2)
+    # get the index for player 1 and player 2
+    player_1_index, player_2_index = player_names_count.index.get_loc(st.session_state['Player 1']), player_names_count.index.get_loc(st.session_state['Player 2'])
+    with left:
+        player_1 = st.selectbox('**Player 1**', player_names_count.index.tolist(), index=player_1_index, key='player_1')
+    with right:
+        player_2 = st.selectbox('**Player 2**', player_names_count.index.tolist(), index=player_2_index, key='player_2')
     players = [player_1, player_2]
     for player in players:
         player_df = player_names[player_names['PLAYER_NAME'] == player].reset_index(drop=True)
         player_df['#YEARS IN LEAGUE'] = player_df['SEASON'].astype(int) - player_df['SEASON'].astype(int).min()
         player_dfs.append(player_df)
-    stat1 = st.selectbox('**Select Stat**', stat_options, index=0, key='stat')
+    stat1_index = stat_options.index(st.session_state['Stat'])
+    stat1 = st.selectbox('**Select Stat**', stat_options, index=stat1_index, key='stat')
     stats = [stat1]
 
 ## TOGGLE TO PLOT BY YEARS IN LEAGUE OR SEASON
@@ -295,6 +344,8 @@ if go_deeper and sum >= 8 and explanations == False:
                 player_emoji_list.append(player_emoji)
             st.write(f"{' | '.join(player_emoji_list)}")
 
+# examples
+st.dataframe(examples_df, use_container_width=True, hide_index=True)
 ## Some fun player comparison examples that you NEED to be able to do for this website to work out:
 ## - Nash vs Steph
 ## - MKG vs Haywood Highsmith
