@@ -64,21 +64,21 @@ st.session_state['Stats'] = ['PPG', '3P%', 'FG%']
 
 # READ IN THE EXAMPLES
 examples = examples_df['Question'].tolist()
-players = examples_df['Players'].tolist()
-players = [player.split(', ') for player in players]
-stats = examples_df['Stats'].tolist()
-stats = [stat.split(', ') for stat in stats]
-examples_df['Players'] = players
-examples_df['Stats'] = stats
+players, stats = examples_df['Players'].tolist(), examples_df['Stats'].tolist()
+players, stats = [player.split(', ') for player in players], [stat.split(', ') for stat in stats] 
+examples_df['Players'], examples_df['Stats'] = players, stats
+# pick a random question from the examples
+
+# pick a random number between 0 and the length of the examples
 random_example = random.choice(examples)
 example_index = examples.index(random_example)
 
 # GET THE EXAMPLE
-st.session_state['Example'] = st.selectbox('**Examples**', examples, index=example_index)
+example = st.selectbox('**Examples**', examples, index=example_index)
 #get_session_state_example(st.session_state['Example'])
     
 if st.button('**Click to see an example**', key='example_checkbox'):
-    get_session_state_example(st.session_state['Example'])
+    get_session_state_example(example)
     #st.session_state
 
 # FUNCTIONS
