@@ -36,7 +36,6 @@ plot_number = 0
 def get_session_state_example(example=None):
     if example is None:
         example = random.choice(examples)
-        st.session_state['Example'] = example
         st.session_state['Players'] = examples_df[examples_df['Question'] == example]['Players'].values[0]
     else:
         st.session_state['Example'] = example
@@ -70,15 +69,23 @@ examples_df['Players'], examples_df['Stats'] = players, stats
 # pick a random question from the examples
 
 # pick a random number between 0 and the length of the examples
-random_example = random.choice(examples)
-example_index = examples.index(random_example)
+example_index = 0
+if 'Example' not in st.session_state:
+    random_example = random.choice(examples)
+    example_index = examples.index(random_example)
+    get_session_state_example(random_example)
+
+#get_session_state_example(random_example)
 
 # GET THE EXAMPLE
-example = st.selectbox('**Examples**', examples, index=example_index)
-#get_session_state_example(st.session_state['Example'])
-    
-if st.button('**Click to see an example**', key='example_checkbox'):
-    get_session_state_example(example)
+example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
+if st.session_state['example_selectbox'] != st.session_state['Example']:
+    get_session_state_example(st.session_state['example_selectbox'])
+if st.button('**Click to see a random example**', key='example_checkbox'):
+    random_example = random.choice(examples)
+    example_index = examples.index(random_example)
+    get_session_state_example(random_example)
+    st.write(st.session_state['Example'])
     #st.session_state
 
 # FUNCTIONS
