@@ -43,6 +43,9 @@ option_df = pd.read_csv(options)
 emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 
+# SESSION STATE
+st.session_state['Emojis Unlocked'] = False
+
 # CHECKBOX FOR MORE OPTIONS
 go_deeper_variable_color = ':grey'
 cols = st.columns(2)
@@ -106,12 +109,15 @@ if go_deeper == True:
 year_data_dict = create_year_data_dict(datadir)
 # flip the dict to get the most recent season first
 year_data_dict = {k: year_data_dict[k] for k in sorted(year_data_dict.keys(), reverse=True)}
-season = st.selectbox('**Season**', year_data_dict.keys(), index=0, placeholder='Season...')
+left, right = st.columns(2)
+with left:
+    season = st.selectbox('**Season**', year_data_dict.keys(), index=0, placeholder='Season...')
 if season is None:
     st.warning('*Please select a season (data back to the 1996-97 season)*')
     st.stop()
 data = year_data_dict[season]
 max_gp = data['GP'].max()
+
 
 # MAIN
 ## PAGE SETUP BELOW
@@ -145,10 +151,11 @@ if go_deeper == True:
 stat_options = [col for col in stat_options if col in cols]
 if go_deeper == True and explanation == True:
     stat_options = [col for col in stat_options if col in cols]
-    st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
+    st.write(f'Choose a second stat to plot the :violet[**{descriptor} {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
 elif explanation == True:
     st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least :grey[**{num_gp} games**]')
-stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...')
+with right:
+    stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...')
 if stat is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
@@ -160,7 +167,7 @@ if go_deeper == True:
     # find y_axis in the stat_options_2 list and set it to the index of the stat
     default_index = stat_options_2.index(y_axis)
     #st.write(f'**Choose a second stat to plot**')
-    stat_2 = st.selectbox('**Stat 2**', stat_options_2, index=default_index, placeholder='Statistic...')
+    stat_2 = st.selectbox('**y-axis**', stat_options_2, index=default_index, placeholder='Statistic...')
     y_axis = stat_2
 
 ### FILTERING/DATA PREPROCESSING
@@ -277,6 +284,10 @@ with st.expander(f'**Show All Data**', expanded=False):
 
 ## ADD IN THE EMOJIS
 if go_deeper == True and clicked == True and explanation == True:
+    if st.session_state['Emojis Unlocked'] == False:
+        st.session_state['Emojis Unlocked'] = True
+        st.toast('**Emojis Unlocked!**')
+        st.toast("おめでとうございます,絵文字を見つけました")
     st.expander('**Emojis**', expanded=False)
     with st.expander(f':rainbow[**Emojis**]', expanded=False):
         if len(emoji_df) > 0:
@@ -288,7 +299,6 @@ if go_deeper == True and clicked == True and explanation == True:
             st.write(f'{" | ".join(player_emoji_list)}')
         if num_gp == 1 and min_age == ages[0] and max_age == ages[1]:
             st.write(f'''
-            "おめでとうございます,絵文字を見つけました"\n
             "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found the emojis"\n
             These are all the emojis present in data for the **:green[{season} season]** :D\n
             ''')

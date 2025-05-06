@@ -261,10 +261,12 @@ with tabs[0]:
     titles = ['Traditional', 'Shooting', 'Advanced']
 
     # START HERE: Turn this into a function that can be rerun with a button, potentially a fragment
+    left, right = st.columns(2)
     if explanation: 
         tab1_explanation(go_deeper)
     ## SELECT A PLAYER FROM THE DROPDOWN
-    player = st.selectbox('**Select a Player to Load Rank Graphs**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
+    with left:
+        player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
     player_emoji = annotate_with_emojis(player, emoji_df)
     ## get the data for the player from all years they played in the league
     player_rank_dfs = get_rank_player_data(season_rank_list, player)
@@ -274,14 +276,15 @@ with tabs[0]:
 
     # go deeper into the stats
     if go_deeper:
+        # add a season select box to choose the season to show the ranks for
+        with right:
+            season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
         # output the player data into an expander to help inform the user to choose what season to select
         st.expander(f'**{[player]} Data**', expanded=False)
         with st.expander(f'**{player} Data**', expanded=False):
             # merge the dataframes together
             player_df = join_season_dfs(player_rank_dfs)
             st.dataframe(player_df, use_container_width=True, hide_index=True)
-        # add a season select box to choose the season to show the ranks for
-        season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
         # remove players who have played less than the minimum games played in the season
         check_gp = st.checkbox('**:green[Games Played] Filter**', value=False)
         if check_gp:
@@ -345,7 +348,10 @@ with tabs[1]:
     stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
     # remove rank from the stat list
     stat_list = [stat.split('_Rank')[0] for stat in stat_list]
-    stat = st.selectbox('**Select a Stat**', stat_list, index=1, placeholder='Stat Name...')
+
+    left, right = st.columns(2)
+    with left:
+        stat = st.selectbox('**Select a Stat**', stat_list, index=1, placeholder='Stat Name...')
 
     # go deeper into the stats
     if go_deeper:
@@ -421,7 +427,8 @@ with tabs[1]:
     rank_list = sorted(rank_df[rank].unique(), reverse=False)
     # convert the rank list to a list of int
     rank_list = [int(rank) for rank in rank_list if str(rank) != 'nan']
-    rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...')
+    with right:
+        rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...')
     # get the x ranked player
     player = rank_df[rank_df[rank] == rank_num]['PLAYER_NAME'].values[0]
     player_emoji = annotate_with_emojis(player, emoji_df)
@@ -457,7 +464,6 @@ with tabs[1]:
 
 # TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
 
-# an interesting alternate idea (or maybe concurrent) is to basically make the website a scrolling timeline of the player: Kind of like the spotify wrapped, but a timeline of the player with 
-# their most important stats and their overall impact on the game? Would some sort of impact on the game metric be interesting? How would I define that just using stats?
-# I think I have to start with the most impactful players: Steph is an outlier in 3pt shooting all time. But whenever it started (so he has a large difference in 3PAs to how quickly it gets closer)
-# could look at something like that? As if the player is a trendsetter if they are an outlier in a stat and the rest of the league (or at least a certain number of players follows suit?)
+# TODO: add secret emojis here (really hard ones to find; need to do x searches, hit certain buttons, etc.)
+
+
