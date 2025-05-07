@@ -96,18 +96,25 @@ with cols[0]:
 with cols[1]:
     explanation = st.checkbox(f'**:grey[Explanations]**', value=True)
 
-# GET THE EXAMPLE
+# GET THE EXAMPLE: FIXED THIS ON 2025-05-06 TO WORK MORE SEEMLESSLY
 if go_deeper:
-    example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
-    if st.session_state['example_selectbox'] != st.session_state['Example']:
-        get_session_state_example(st.session_state['example_selectbox'])
-    if st.button('**Click to see a random example**', key='example_checkbox'):
-        random_example = random.choice(examples)
-        example_index = examples.index(random_example)
-        get_session_state_example(random_example)
-        st.session_state['example_selectbox'] = random_example
-        st.header(st.session_state['Example'])
-        #st.session_state
+    left, right = st.columns(2, vertical_alignment='bottom')
+    with right:
+        random_example = None
+        if st.button('**Click to see an example**', key='example_checkbox'):
+            random_example = random.choice(examples)
+            example_index = examples.index(random_example)
+            #get_session_state_example(random_example)
+            st.session_state['example_selectbox'] = random_example
+            #st.session_state
+        if 'index' not in st.session_state:
+            st.session_state['index'] = None 
+        if random_example is not None:
+            st.session_state['index'] = examples.index(random_example)
+    with left:
+        example = st.selectbox('**Examples**', examples, index=st.session_state['index'], placeholder='pick something', key='example_selectbox')
+        if st.session_state['example_selectbox'] != st.session_state['Example'] and st.session_state['index'] != None:
+            get_session_state_example(st.session_state['example_selectbox'])
 
 # INTRO BLURB
 if explanation == True:

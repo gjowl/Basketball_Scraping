@@ -145,15 +145,23 @@ with col2:
 
 # GET THE EXAMPLE
 if go_deeper:
-    example = st.selectbox('**Examples**', examples, index=example_index, key='example_selectbox')
-    if st.session_state['example_selectbox'] != st.session_state['Example']:
-        get_session_state_example(st.session_state['example_selectbox'])
-    if st.button('**Click to see a random example**', key='example_checkbox'):
-        random_example = random.choice(examples)
-        example_index = examples.index(random_example)
-        get_session_state_example(random_example)
-        st.write(st.session_state['Example'])
-        #st.session_state
+    left, right = st.columns(2, vertical_alignment='bottom') 
+    random_example = None
+    with right:
+        if st.button('**Click to see an example**', key='example_checkbox'):
+            random_example = random.choice(examples)
+            example_index = examples.index(random_example)
+            get_session_state_example(random_example)
+        if 'index' not in st.session_state:
+            st.session_state['index'] = None 
+        if random_example is not None:
+            st.session_state['index'] = examples.index(random_example)
+    with left:
+        example = st.selectbox('**Examples**', examples, index=st.session_state['index'], placeholder='pick something', key='example_selectbox')
+        if st.session_state['example_selectbox'] != st.session_state['Example']:
+            get_session_state_example(st.session_state['example_selectbox'])
+    st.divider()
+    
 
 #get_session_state_example(random_example)
 
