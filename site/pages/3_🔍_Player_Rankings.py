@@ -4,6 +4,7 @@ import plotly.express as px
 import matplotlib.pyplot as mp
 import plotly.graph_objects as go
 from functions import emoji_check, annotate_with_emojis, create_year_data_dict
+import random
 
 # SET PAGE CONFIG
 st.set_page_config(page_title='Player Rankings',
@@ -256,54 +257,68 @@ all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict,
 tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
 
 # TAB 1: PLAYER SEARCH
+found_emojis = pd.DataFrame()
 with tabs[0]:
     # variables
     titles = ['Traditional', 'Shooting', 'Advanced']
 
     # START HERE: Turn this into a function that can be rerun with a button, potentially a fragment
-    left, right = st.columns(2)
+    left, right = st.columns(2, vertical_alignment='bottom')
     if explanation: 
         tab1_explanation(go_deeper)
     ## SELECT A PLAYER FROM THE DROPDOWN
+    if go_deeper == False:
+        with right:
+            if st.button('**Random Player**', key=f'random_player'):
+                player_index = random.randint(0, len(player_names)-1)
+                player = player_names[player_index]
+                st.session_state['player'] = player
     with left:
-        player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...')
-    player_emoji = annotate_with_emojis(player, emoji_df)
-    ## get the data for the player from all years they played in the league
-    player_rank_dfs = get_rank_player_data(season_rank_list, player)
+        player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...', key=f'player')
     
-    # reverse the list to get the most recent season first
-    season_list = sorted(player_rank_dfs[0]['YEAR'].unique(), reverse=True) 
+    player_emoji = annotate_with_emojis(player, emoji_df)
+    if player_emoji != player:
+        found_emojis['PLAYER_NAME'] = player_emoji
+        with st.sidebar:
+            st.caption(player_emoji)
+            #player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...', key=f'player_sidebar')
+    # if thep player has an emoji, output it to the bottom right corner
+    #if player_emoji != player:
+    with st.status(f'**loading...**') as status:
+        st.write(f'calculating ranks for **{player_emoji}**...')
+        ## get the data for the player from all years they played in the league
+        player_rank_dfs = get_rank_player_data(season_rank_list, player)
+    
+        # reverse the list to get the most recent season first
+        season_list = sorted(player_rank_dfs[0]['YEAR'].unique(), reverse=True) 
+        status.update(label=f'**{player_emoji}** ranks calculated!', state='complete')
 
     # go deeper into the stats
     if go_deeper:
         # add a season select box to choose the season to show the ranks for
         with right:
             season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
-        # output the player data into an expander to help inform the user to choose what season to select
-        st.expander(f'**{[player]} Data**', expanded=False)
-        with st.expander(f'**{player} Data**', expanded=False):
-            # merge the dataframes together
-            player_df = join_season_dfs(player_rank_dfs)
-            st.dataframe(player_df, use_container_width=True, hide_index=True)
         # remove players who have played less than the minimum games played in the season
         check_gp = st.checkbox('**:green[Games Played] Filter**', value=False)
         if check_gp:
             gp = st.slider('Number of games played', 0, 82, 65)
             player_gp = player_rank_dfs[0][player_rank_dfs[0]['YEAR'] == season]['GP'].max()
             if player_gp < gp:
-                st.warning(f'{player_emoji} only played {player_gp} games in the {season} season. Ranks will be calculated using {player_gp} as the minimum games played to filter in the season.')
-                season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
-                all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
+                st.warning(f'{player_emoji} only played {player_gp} games in the {season} season.')
+                with st.status(f'**loading ranks for players who played <= {player_gp} games...**') as status:
+                    st.write(f'loading ranks for **{player_emoji}**...')
+                    season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
+                    all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
+                    status.update(label=f'**Ranks Loaded!**', state='complete')
     st.divider()
 
     # plot the player ranks for the season as bar graphs
-    st.write(f'**{player_emoji} {season} Season Ranks**')
-    for ranks,rank_df,title in zip(rank_cols, player_rank_dfs, titles):
-        player_df = rank_df[rank_df['PLAYER_NAME'] == player].reset_index(drop=True)
-        season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
-        player_gp = season_df['GP'].max()
-        st.expander(f'**{title}**', expanded=False)
-        with st.expander(f'**{title}**', expanded=False):
+    st.expander(f'**{player_emoji}**', expanded=False)
+    with st.expander(f'**{player_emoji} {season} Season Ranks**', expanded=False):
+        for ranks,rank_df,title in zip(rank_cols, player_rank_dfs, titles):
+            player_df = rank_df[rank_df['PLAYER_NAME'] == player].reset_index(drop=True)
+            season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
+            player_gp = season_df['GP'].max()
             player_ranks = transform_ranks_for_plotting(season_df) 
             create_player_rank_bar_graph(season_df, player_ranks, player, title, team_colors) 
             season_df = season_df[[col for col in season_df.columns if '_Percentile' not in col and '_Rank' not in col]]
