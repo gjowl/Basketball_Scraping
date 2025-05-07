@@ -47,7 +47,6 @@ emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 example_df = pd.read_csv(example_file, sep='|')
 
-
 def get_session_state_example(example=None):
         st.session_state['Example'] = example
         # get the players for the example
@@ -56,8 +55,10 @@ def get_session_state_example(example=None):
         # get the stats for the example
         stat = example_df[example_df['Question'] == example]['Stat'].values[0]
         num_players = int(example_df[example_df['Question'] == example]['Number of Players'].values[0])
-        #age_range = example_df[example_df['Question'] == example]['Age Range'].tolist()
-        #st.session_state['age_range'] = age_range
+        age_range = example_df[example_df['Question'] == example]['Age Range'].values[0]
+        age_range = [int(age_range[0]), int(age_range[1])]
+        #st.write(st.session_state['age_range'])
+        st.session_state['age_range'] = age_range
         st.session_state['num_players'] = num_players
         if stat in advanced_stat_options:
             st.session_state['advanced_toggle'] = True
@@ -66,19 +67,17 @@ def get_session_state_example(example=None):
         st.session_state['stat_selectbox'] = stat
 
 # SESSION STATE
-st.session_state['Emojis Unlocked'] = False
+if 'Emojis Unlocked' not in st.session_state:
+    st.session_state['Emojis Unlocked'] = False
 
 # READ IN THE EXAMPLES
 if example_df.empty == False:
     examples = example_df['Question'].tolist()
     season = example_df['Season'].values[0]
-    #stats = example_df['Stats'].tolist()
-    #stats = [stat.split(', ') for stat in stats]
-    #example_df['Stats'] = stats
     stat = example_df['Stat'].values[0]
-    #age_range = example_df['Age Range'].tolist()
-    #age_range =  [age.split(', ') for age in age_range] 
-    #example_df['Age Range'] = age_range
+    age_range = example_df['Age Range'].tolist()
+    age_range = [age.split(', ') for age in age_range] 
+    example_df['Age Range'] = age_range
 
     # pick a random number between 0 and the length of the example
     example_index = 0
@@ -106,7 +105,8 @@ if go_deeper:
         random_example = random.choice(examples)
         example_index = examples.index(random_example)
         get_session_state_example(random_example)
-        st.write(st.session_state['Example'])
+        st.session_state['example_selectbox'] = random_example
+        st.header(st.session_state['Example'])
         #st.session_state
 
 # INTRO BLURB
@@ -143,7 +143,7 @@ if go_deeper == True:
         advanced = True
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
     with stat_explanation:
-        clicked = st.checkbox('**click me :D**', value=False, key='click_me')
+        click_me = st.checkbox('**click me :D**', value=False, key='click_me')
         stat_types = stat_df['Type'].unique()
         for type in stat_types:
             stat_type_df = stat_df[stat_df['Type'] == type]
@@ -194,8 +194,8 @@ if len(data) < num_players:
     num_players = len(data)
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
-if go_deeper == True:
-    flip_top = st.toggle(f'{go_deeper_variable_color}[**Bottom Players**]', value=False, key='bottom_players')
+if go_deeper == True and click_me == True:
+    flip_top = st.toggle(f'{go_deeper_variable_color}[**Flip Top**]', value=False, key='flip_top')
     if flip_top == True:
         descriptor = 'Bottom'
 stat_options = [col for col in stat_options if col in cols]
@@ -241,10 +241,10 @@ data[f'Percentile'] = data[stat].rank(pct=True)
 
 # BAR GRAPH PLOT AND OUTPUTS
 top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, flip_top, num_players) # plots the top player bar graph and scatter plot
+st.plotly_chart(bar_graph, use_container_width=True)
+output_df = top_players.copy()
+output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
 if go_deeper == False:
-    st.plotly_chart(bar_graph, use_container_width=True)
-    output_df = top_players.copy()
-    output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
     top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
     if top_players_by_age.empty:
         st.write('**No players found with the selected filters, try lowering the number of GP!**')
@@ -304,7 +304,7 @@ if go_deeper == True:
                 Typically, the best players are found in the top right quadrant, being above average for both stats. \n
                 Hover over a point to see the player name, team, and the **:green[**{season} season**]** averages ! \n
                  ''')
-    st.expander(f'**{descriptor} Players Scatter Data**', expanded=False)
+    st.expander(f'**{descriptor} Players Data**', expanded=False)
     with st.expander(f'**{expander_color}[{descriptor} Players Scatter Data]**', expanded=False):
         st.write(f'''
             The :blue[**x-axis**] is the :blue[**{stat}**] and the :red[**y-axis**] is the :red[**{y_axis}**], with the **{season} season** average plotted along the axes in red \n
@@ -333,10 +333,10 @@ with st.expander(f'**Show All Data**', expanded=False):
         st.dataframe(data, use_container_width=True, hide_index=True)
 
 ## ADD IN THE EMOJIS
-if go_deeper == True and clicked == True and explanation == True:
+if go_deeper == True and click_me == True and explanation == True:
     if st.session_state['Emojis Unlocked'] == False:
         st.session_state['Emojis Unlocked'] = True
-        st.toast('**Emojis Unlocked!**')
+        st.toast('**Emojis Unlocked! Check the bottom of the page :D**')
         st.toast("おめでとうございます,絵文字を見つけました")
     st.expander('**Emojis**', expanded=False)
     with st.expander(f':rainbow[**Emojis**]', expanded=False):
@@ -352,4 +352,3 @@ if go_deeper == True and clicked == True and explanation == True:
             "O-me-de-tou-go-za-i-mas,E-mo-ji o mi-tsu-ke-ma-shi-ta" - "Congrats, you found the emojis"\n
             These are all the emojis present in data for the **:green[{season} season]** :D\n
             ''')
-st.session_state
