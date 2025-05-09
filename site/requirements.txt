@@ -112,8 +112,6 @@ simplejson==3.16.0
 six==1.14.0
 sklearn==0.0
 smmap==5.0.1
-sos==4.4
-spotipy==2.24.0
 ssh-import-id==5.10
 streamlit==1.40.1
 streamlit-searchbox==0.1.17
