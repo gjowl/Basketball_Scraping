@@ -102,6 +102,11 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0, colors=graph_co
             fig = px.scatter(player_df, x=_xaxis, y=_yaxis, hover_name='PLAYER_NAME')
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
             #fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='lines', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
+            # for each point in the scatterplot, add a line to the plot
+            for i in range(len(player_df) - 1):
+                fig.add_trace(go.Scatter(x=[player_df[_xaxis].iloc[i], player_df[_xaxis].iloc[i + 1]], y=[player_df[_yaxis].iloc[i], player_df[_yaxis].iloc[i + 1]], mode='lines', line=dict(color=color, width=2), showlegend=False))
+            # combine into one line
+            #fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='lines', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
         else:
             # add in the hover template for the first player
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
