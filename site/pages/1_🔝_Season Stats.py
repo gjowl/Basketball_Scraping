@@ -13,14 +13,14 @@ st.set_page_config(page_title='Top Stats',
 st.title('🔝Season Stats')
 
 # VARIABLES 
-#cwd = os.getcwd()
+cwd = os.getcwd()
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
 datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
 contains = '2023-24_boxscore' # file you want to read
-colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
+colors = f'{cwd}/site/team_colors_hex.csv'
 options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
 emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
 stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
