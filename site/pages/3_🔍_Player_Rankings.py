@@ -110,6 +110,8 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
             tmp_df = pd.concat([tmp_df, season_df], ignore_index=True)
         # get the mean for each stat in the rank list
         avg_df = tmp_df.groupby('PLAYER_NAME')[ranks].mean().reset_index()
+        # sort by SEASON
+        avg_df = avg_df.sort_values(by='SEASON', ascending=True).reset_index(drop=True)
         # replace team abbreviation with the first team played for
         avg_df['TEAM_ABBREVIATION'] = tmp_df.groupby('PLAYER_NAME')['TEAM_ABBREVIATION'].first().values
         # internally rids of players who have not had enough years in the league
