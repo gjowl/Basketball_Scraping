@@ -68,6 +68,8 @@ def get_session_state_example(example=None):
 # SESSION STATE
 if 'Emojis Unlocked' not in st.session_state:
     st.session_state['Emojis Unlocked'] = False
+if 'flip_top' not in st.session_state:
+    st.session_state['flip_top'] = False
 
 # READ IN THE EXAMPLES
 if example_df.empty == False:
@@ -235,7 +237,7 @@ st.divider()
 data[f'Percentile'] = data[stat].rank(pct=True)
 
 ## BAR GRAPH PLOT AND OUTPUTS
-top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, flip_top, num_players) # plots the top player bar graph and scatter plot
+top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, st.session_state['flip_top'], num_players) # plots the top player bar graph and scatter plot
 st.plotly_chart(bar_graph, use_container_width=True)
 output_df = top_players.copy()
 output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
