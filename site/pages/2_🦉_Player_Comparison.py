@@ -61,10 +61,10 @@ def get_session_state_example(example=None):
     if len(players) == 2 and len(stats) == 1:
         st.session_state['player_1'] = players[0]
         st.session_state['player_2'] = players[1]
-        st.session_state['Stats'] = stats[0]
+        st.session_state['Stat'] = stats[0]
     if stats[0] in advanced_stat_options:
         st.session_state['advanced'] = True
-        st.session_state['Stats'] = stats[0]
+        st.session_state['Stat'] = stats[0]
     #st.session_state['compare_years'] = examples_df[examples_df['Question'] == example]['compare_years'].values[0]
     #st.session_state['advanced'] = examples_df[examples_df['Question'] == example]['advanced'].values[0]    
 
@@ -214,7 +214,7 @@ if st.session_state['explanations'] == True:
 if st.toggle('**Advanced**', key='advanced', value=False):
     datadir = advanced_datadir
     stat_options = advanced_stat_options
-    st.session_state['Stats'] = 'TS%' 
+    st.session_state['Stat'] = 'TS%' 
 if st.session_state['go_deeper'] == True:
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
     with stat_explanation:
@@ -314,7 +314,7 @@ else:
         player_dfs.append(player_df)
     # get the stat to plot
     stat1_index = stat_options.index(st.session_state['Stat'])
-    stat1 = st.selectbox('**Select Stat**', stat_options, index=stat1_index, key='stat')
+    stat1 = st.selectbox('**Select Stat**', stat_options, index=stat1_index, key='Stat')
     stats = [stat1]
 
 # ADD TO THE LIST OF COLUMNS TO KEEP
