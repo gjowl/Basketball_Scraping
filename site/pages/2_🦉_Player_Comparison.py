@@ -197,7 +197,8 @@ if go_deeper:
         if st.button('**Click to see an example**', key='example_checkbox'):
             random_example = random.choice(examples)
             example_index = examples.index(random_example)
-            get_session_state_example(random_example)
+            #get_session_state_example(random_example)
+            st.session_state['example_selectbox'] = random_example
         if 'index' not in st.session_state:
             st.session_state['index'] = None 
         if random_example is not None:
