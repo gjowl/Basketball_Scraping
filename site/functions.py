@@ -13,7 +13,7 @@ def change_to_team_colors(_fig, _data, team_colors):
         color1 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 1'].values[0]
         _fig.data[i].marker.color = color1
         color2 = team_colors[team_colors['TEAM_ABBREVIATION'] == team]['Color 2'].values[0]
-        # change the color of the circle outline to be the same as the team color
+        # change the color of the outline to be the same as the team color
         _fig.data[i].marker.line.color = color2
 
 # sort and show the data
@@ -21,15 +21,20 @@ def sort_and_show_data(_data, _col1, _team_colors, _descriptor, _sort_bottom=Fal
     # sort the data by the stat
     top = _data.sort_values(by=_col1, ascending=_sort_bottom).head(n)
     top = top.reset_index(drop=True)
-    # show the data in a bar graph with player names and the stat above the bar
+    # add the player name and team abbreviation to the hover template
+    hovertemplate = [f'{top["TEAM_ABBREVIATION"][i]} | {top["PLAYER_NAME"][i]}<extra></extra>' for i in range(len(top))]
     fig = px.bar(top, x='PLAYER_NAME', y=_col1, color='PLAYER_NAME', title=f'{_descriptor} {n} Players - {_col1}', labels={'x': 'Player Name', 'y': _col1})
+    for i in range(len(top)):
+        # add the hover template to the bar
+        fig.data[i].hovertemplate = hovertemplate[i]
     fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
     # fit the figure to the screen
     fig.update_layout(yaxis=dict(range=[0, top[_col1].max() * 1.1]), xaxis=dict(tickmode='linear', tick0=0, dtick=1))
     # remove the legend
+    fig.update_traces(marker=dict(line=dict(width=4, color='black')))
     fig.update_layout(showlegend=False)
-    # make spec for vega-lite charts
     change_to_team_colors(fig, top, _team_colors)
+    # set the surrounding lines to be bigger
     set_axis_text(fig)
     #st.plotly_chart(fig, use_container_width=True)
     return top, fig
@@ -66,8 +71,8 @@ def plot_quadrant_scatter(_data, _col1, _col2, _top, _team_colors):
         # change the zorder to be higher than the rest of the points
         fig.data[player_index].marker.line.width = 3
         fig.data[player_index].marker.size = 15
+        #fig.data[player_index].hovertemplate = hovertemplate[player_index]
         # TODO: bring the point in front of others instead of just making bigger like above
-        # bring the index point to the front
     # write the average above the yaxis line
     max_x = _data[_col1].max()
     max_y = _data[_col2].max()
