@@ -12,8 +12,9 @@ st.set_page_config(page_title='Blue Moons!',
 st.title('🔵 Blue Moons')
 
 # read through the leaders directory and get the csv files
-leaders_dir = '/mnt/d/github/Basketball_Scraping/site/leaders/'
-emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
+cwd = os.getcwd()
+leaders_dir = f'{cwd}/site/leaders/'
+emoji_file = f'{cwd}/site/emoji_players.csv'
 emoji_df = pd.read_csv(emoji_file)
 
 # Page Setup
