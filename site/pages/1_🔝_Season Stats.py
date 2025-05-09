@@ -34,6 +34,7 @@ top_players_color = ':violet'
 default_num_gp = 65
 max_players = 30
 descriptor = 'Top'
+flip_top = False
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
@@ -68,8 +69,6 @@ def get_session_state_example(example=None):
 # SESSION STATE
 if 'Emojis Unlocked' not in st.session_state:
     st.session_state['Emojis Unlocked'] = False
-if 'flip_top' not in st.session_state:
-    st.session_state['flip_top'] = False
 
 # READ IN THE EXAMPLES
 if example_df.empty == False:
@@ -237,7 +236,7 @@ st.divider()
 data[f'Percentile'] = data[stat].rank(pct=True)
 
 ## BAR GRAPH PLOT AND OUTPUTS
-top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, st.session_state['flip_top'], num_players) # plots the top player bar graph and scatter plot
+top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, flip_top, num_players) # plots the top player bar graph and scatter plot
 st.plotly_chart(bar_graph, use_container_width=True)
 output_df = top_players.copy()
 output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
@@ -283,12 +282,12 @@ if st.session_state['go_deeper'] == False:
 
 # MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
 if st.session_state['go_deeper'] == True:
-    data = data.sort_values(by=y_axis, ascending=st.session_state['flip_top'])
+    data = data.sort_values(by=y_axis, ascending=flip_top)
     data.reset_index(drop=True, inplace=True)
     # plot the quadrant graph with the stat vs the y_axis
     plot_quadrant_scatter(data, stat, y_axis, top_players, team_colors)
     scatter_data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
-    scatter_data.sort_values(by=stat, ascending=st.session_state['flip_top'], inplace=True)
+    scatter_data.sort_values(by=stat, ascending=flip_top, inplace=True)
     x_avg, y_avg = round(data[stat].mean(),2), round(data[y_axis].mean(),2)
 
     # if explanations is true, show the explanation for the scatter plot
@@ -327,7 +326,7 @@ st.expander('**Show All Data**', expanded=False)
 with st.expander(f'**Show All Data**', expanded=False):
     if st.toggle('**Simplified Data**', key='show_all_data', value=True):
         data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
-        data.sort_values(by=stat, ascending=st.session_state['flip_top'], inplace=True)
+        data.sort_values(by=stat, ascending=flip_top, inplace=True)
         st.dataframe(data, use_container_width=True, hide_index=True)
     else:
         st.dataframe(data, use_container_width=True, hide_index=True)
