@@ -19,7 +19,6 @@ cycler==0.11.0
 dbus-python==1.2.16
 distlib==0.3.6
 distro==1.4.0
-distro-info==0.23+ubuntu1.1
 dnachisel==3.2.9
 docker==4.1.0
 docker-compose==1.25.0
@@ -97,10 +96,8 @@ PyQt5-Qt5==5.15.2
 PyQt5-sip==12.11.0
 pyrsistent==0.15.5
 pyserial==3.4
-python-apt==2.0.1+ubuntu0.20.4.1
 python-codon-tables==0.1.12
 python-dateutil==2.8.2
-python-debian==0.1.36+ubuntu1.1
 pytz==2022.1
 PyYAML==5.3.1
 redis==5.2.0
