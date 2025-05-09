@@ -19,6 +19,7 @@ cwd = os.getcwd()
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
 datadir = f'{cwd}/site/NBA_API_DATA/BOXSCORES'
+advanced_datadir = f'{cwd}/site/NBA_API_DATA/ADVANCED'
 contains = '2023-24_boxscore' # file you want to read
 colors = f'{cwd}/site/team_colors_hex.csv'
 options = f'{cwd}/site/options.csv'
@@ -158,7 +159,7 @@ if st.session_state['go_deeper'] == True:
 if st.session_state['explanations'] == True:
     st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
 if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
-    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    datadir = advanced_datadir
     stat_options = advanced_stat_options
 
 # LOAD IN THE DATA

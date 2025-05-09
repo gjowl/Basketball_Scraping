@@ -15,17 +15,18 @@ st.set_page_config(page_title='Player Rankings',
 st.title('🔍 Player Rankings')
 
 # VARIABLES 
-#cwd = os.getcwd()
+cwd = os.getcwd()
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
-advancedDir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+datadir = f'{cwd}/site/NBA_API_DATA/BOXSCORES'
+advanced_datadir = f'{cwd}/site/NBA_API_DATA/ADVANCED'
 contains = '2023-24_boxscore' # file you want to read
-colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
-options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
-emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
+colors = f'{cwd}/site/team_colors_hex.csv'
+options = f'{cwd}/site/options.csv'
+emoji_file = f'{cwd}/site/emoji_players.csv'
+stat_file = f'{cwd}/site/stats.csv'
 go_deeper = False
 all_time = True
 season = '2024-25'
@@ -235,7 +236,7 @@ def tab1_explanation():
 ## BUTTON TO SHOW PLAYER DATA
 
 # LOAD IN THE DATA
-year_data_dict, advanced_data_dict = create_year_data_dict(datadir), create_year_data_dict(advancedDir)
+year_data_dict, advanced_data_dict = create_year_data_dict(datadir), create_year_data_dict(advanced_datadir)
 ## get all the unique player names from the year_data_dict
 player_names_df = pd.DataFrame()
 for key in year_data_dict.keys():
@@ -331,7 +332,7 @@ with tabs[0]:
             st.dataframe(season_df, use_container_width=True, hide_index=True)
             plot_number += 1
     my_bar.progress(90, text='Loading...')
-    
+
     # OUTPUT THE ALL TIME RANKS FOR THE PLAYER INTO AN EXPANDER
     st.expander('**All Time**', expanded=False)
     with st.expander(':rainbow[**All Time**]', expanded=False):

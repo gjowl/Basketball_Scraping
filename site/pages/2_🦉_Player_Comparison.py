@@ -15,18 +15,19 @@ st.set_page_config(page_title='Player Comparison',
 st.title('🦉 Player Comparison')
 
 # VARIABLES 
-#cwd = os.getcwd()
+cwd = os.getcwd()
 #data = pd.read_csv(f'{cwd}/example_data.csv')
 #datadir = 'H:/NBA_API_DATA/BOXSCORES/2024-12-12'
 #datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/2024-12-20'
 #contains = 'all_game' # file you want to read
-datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/OLD'
+datadir = f'{cwd}/site/NBA_API_DATA/BOXSCORES'
+advanced_datadir = f'{cwd}/site/NBA_API_DATA/ADVANCED'
 contains = '2023-24_boxscore' # file you want to read
-colors = '/mnt/d/github/Basketball_Scraping/site/team_colors_hex.csv'
-options = '/mnt/d/github/Basketball_Scraping/site/options.csv'
-emoji_file = '/mnt/d/github/Basketball_Scraping/site/emoji_players.csv'
-stat_file = '/mnt/d/github/Basketball_Scraping/site/stats.csv'
-examples = '/mnt/d/github/Basketball_Scraping/site/examples/player_comparison_examples.csv'
+colors = f'{cwd}/site/team_colors_hex.csv'
+options = f'{cwd}/site/options.csv'
+emoji_file = f'{cwd}/site/emoji_players.csv'
+stat_file = f'{cwd}/site/stats.csv'
+examples = f'{cwd}/site/examples/player_comparison_examples.csv'
 stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 advanced_stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
 xaxis = 'SEASON'
@@ -206,7 +207,7 @@ if go_deeper:
 if st.session_state['explanations'] == True:
     st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
 if st.toggle('**Advanced**', key='advanced', value=False):
-    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    datadir = advanced_datadir
     stat_options = advanced_stat_options
     advanced = True
 if st.session_state['go_deeper'] == True:
