@@ -1,7 +1,6 @@
 import streamlit as st
 import os, pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as mp
 import plotly.graph_objects as go
 from functions import emoji_check, annotate_with_emojis, create_year_data_dict
 import random
