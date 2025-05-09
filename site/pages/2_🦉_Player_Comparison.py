@@ -61,10 +61,10 @@ def get_session_state_example(example=None):
     if len(players) == 2 and len(stats) == 1:
         st.session_state['player_1'] = players[0]
         st.session_state['player_2'] = players[1]
-        st.session_state['Stat'] = stats[0]
+        st.session_state['Stats'] = stats[0]
     if stats[0] in advanced_stat_options:
         st.session_state['advanced'] = True
-        st.session_state['stat'] = 'TS%'
+        st.session_state['Stats'] = stats[0]
     #st.session_state['compare_years'] = examples_df[examples_df['Question'] == example]['compare_years'].values[0]
     #st.session_state['advanced'] = examples_df[examples_df['Question'] == example]['advanced'].values[0]    
 
@@ -214,7 +214,7 @@ if st.session_state['explanations'] == True:
 if st.toggle('**Advanced**', key='advanced', value=False):
     datadir = advanced_datadir
     stat_options = advanced_stat_options
-    advanced = True
+    st.session_state['Stats'] = 'TS%' 
 if st.session_state['go_deeper'] == True:
     stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
     with stat_explanation:
@@ -285,10 +285,10 @@ if go_deeper:
     ## SELECT STATS TO PLOT 
     # if advanced is False, pick from the traditional stats
     if st.session_state['advanced'] == False:
-        stats = st.multiselect('**Select Stats to Compare**', stat_options, default=st.session_state['Stats'], key='stats')
+        stats = st.multiselect('**Select Stats to Compare**', stat_options, default=st.session_state['Stats'], key='Stats')
     # if advanced is True, pick from the advanced stats
     else:
-        stats = st.multiselect('**Select Stats to Compare**', advanced_stat_options, default=['TS%', 'USG%', 'AST%'], key='stats')
+        stats = st.multiselect('**Select Stats to Compare**', advanced_stat_options, default=['TS%', 'USG%', 'AST%'], key='Stats')
 
     ## CHOOSE TO PLOT BY YEARS IN LEAGUE OR SEASON
     if st.session_state['explanations'] == True:
