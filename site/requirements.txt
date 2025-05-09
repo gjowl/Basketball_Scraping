@@ -120,7 +120,6 @@ threadpoolctl==3.1.0
 toml==0.10.2
 tornado==6.4.2
 tqdm==4.64.1
-typing-extensions==4.12.2
 ufw==0.36
 unattended-upgrades==0.1
 unzip==1.0.0
