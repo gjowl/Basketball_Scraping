@@ -339,8 +339,6 @@ with tabs[0]:
             st.write(f'')
         for avg_df,title in zip(all_rank_list,titles):
             player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
-            # sort by SEASON
-            player_df = player_df.sort_values(by=['SEASON'], ascending=True).reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
             create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
             # remove _Percentile and _Rank from the columns
