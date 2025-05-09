@@ -120,9 +120,7 @@ threadpoolctl==3.1.0
 toml==0.10.2
 tornado==6.4.2
 tqdm==4.64.1
-Twisted==18.9.0
 typing-extensions==4.12.2
-ubuntu-advantage-tools==8001
 ufw==0.36
 unattended-upgrades==0.1
 unzip==1.0.0
