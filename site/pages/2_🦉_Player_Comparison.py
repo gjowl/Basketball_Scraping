@@ -64,6 +64,7 @@ def get_session_state_example(example=None):
         st.session_state['Stat'] = stats[0]
     if stats[0] in advanced_stat_options:
         st.session_state['advanced'] = True
+        st.session_state['stat'] = 'TS%'
     #st.session_state['compare_years'] = examples_df[examples_df['Question'] == example]['compare_years'].values[0]
     #st.session_state['advanced'] = examples_df[examples_df['Question'] == example]['advanced'].values[0]    
 
