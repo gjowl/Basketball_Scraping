@@ -56,7 +56,6 @@ logomaker==0.8
 markdown-it-py==3.0.0
 MarkupSafe==2.1.1
 matplotlib==3.5.3
-mdurl==0.1.2
 more-itertools==4.2.0
 narwhals==1.14.3
 nba-api==1.5.2
@@ -115,7 +114,6 @@ smmap==5.0.1
 ssh-import-id==5.10
 streamlit==1.40.1
 streamlit-searchbox==0.1.17
-systemd-python==234
 tenacity==9.0.0
 texttable==1.6.2
 threadpoolctl==3.1.0
