@@ -106,9 +106,8 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0, colors=graph_co
             # add in the hover template for the first player
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
             #fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='lines', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
-    # add the lines between the points
-    for i in range(len(_player_dfs)-1):
-        fig.add_trace(go.Scatter(x=[_player_dfs[i]['#YEARS IN LEAGUE'].values[0], _player_dfs[i+1]['#YEARS IN LEAGUE'].values[0]], y=[_player_dfs[i][_yaxis].values[0], _player_dfs[i+1][_yaxis].values[0]], mode='lines', line=dict(color='black', width=2), showlegend=False))
+    # add a trajectory line for the first player
+    fig.add_trace(go.Scatter(x=_player_dfs[0][_xaxis], y=_player_dfs[0][_yaxis], mode='lines', name=_player_dfs[0]['PLAYER_NAME'].values[0], hovertemplate=hover_templates[0], line=dict(color='black', width=2)))
     fig.update_traces(marker=dict(size=16, line=dict(width=3, color='black')))
     fig.update_layout(title=f'{_yaxis}', xaxis_title=_xaxis, yaxis_title=_yaxis, title_font=dict(size=20))
     # keep only the lines for the legend
