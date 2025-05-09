@@ -192,8 +192,8 @@ with col2:
 # GET THE EXAMPLES IF GO DEEPER IS CHECKED
 if go_deeper:
     left, right = st.columns(2, vertical_alignment='bottom') 
-    random_example = None
     with right:
+        random_example = None
         if st.button('**Click to see an example**', key='example_checkbox'):
             random_example = random.choice(examples)
             example_index = examples.index(random_example)
@@ -205,7 +205,7 @@ if go_deeper:
             st.session_state['index'] = examples.index(random_example)
     with left:
         example = st.selectbox('**Examples**', examples, index=st.session_state['index'], placeholder='pick something', key='example_selectbox')
-        if st.session_state['example_selectbox'] != st.session_state['Example']:
+        if st.session_state['example_selectbox'] != st.session_state['Example'] and st.session_state['index'] != None:
             get_session_state_example(st.session_state['example_selectbox'])
     st.divider()
 
