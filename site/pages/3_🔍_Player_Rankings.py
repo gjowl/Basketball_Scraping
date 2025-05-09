@@ -358,7 +358,7 @@ with tabs[0]:
             player_df = player_rank_dfs[player_rank_dfs['PLAYER_NAME'] == player].reset_index(drop=True)
             player_df = player_df[[col for col in player_df.columns if '_Percentile' not in col and '_Rank' not in col and '_RANK' not in col]]
             # sort the dataframe by the season
-            player_df = player_df.sort_values(by=['SEASON'], ascending=False).reset_index(drop=True)
+            player_df = player_df.sort_values(by=['SEASON'], ascending=True).reset_index(drop=True)
             df_list.append(player_df)
         # merge the dataframes together
         output_df = join_season_dfs(df_list)
