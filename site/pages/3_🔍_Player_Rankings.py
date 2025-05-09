@@ -334,9 +334,6 @@ with tabs[0]:
     st.expander('**All Time**', expanded=False)
     with st.expander(':rainbow[**All Time**]', expanded=False):
         # TODO: add a choice for team color here; maybe pills?
-        if explanation:
-            st.write(f'*TEAM COLOR IS THE FIRST TEAM PLAYED FOR')
-            st.write(f'')
         for avg_df,title in zip(all_rank_list,titles):
             player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
