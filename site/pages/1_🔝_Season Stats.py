@@ -283,12 +283,12 @@ if st.session_state['go_deeper'] == False:
 
 # MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
 if st.session_state['go_deeper'] == True:
-    data = data.sort_values(by=y_axis, ascending=flip_top)
+    data = data.sort_values(by=y_axis, ascending=st.session_state['flip_top'])
     data.reset_index(drop=True, inplace=True)
     # plot the quadrant graph with the stat vs the y_axis
     plot_quadrant_scatter(data, stat, y_axis, top_players, team_colors)
     scatter_data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
-    scatter_data.sort_values(by=stat, ascending=flip_top, inplace=True)
+    scatter_data.sort_values(by=stat, ascending=st.session_state['flip_top'], inplace=True)
     x_avg, y_avg = round(data[stat].mean(),2), round(data[y_axis].mean(),2)
 
     # if explanations is true, show the explanation for the scatter plot
@@ -327,7 +327,7 @@ st.expander('**Show All Data**', expanded=False)
 with st.expander(f'**Show All Data**', expanded=False):
     if st.toggle('**Simplified Data**', key='show_all_data', value=True):
         data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
-        data.sort_values(by=stat, ascending=flip_top, inplace=True)
+        data.sort_values(by=stat, ascending=st.session_state['flip_top'], inplace=True)
         st.dataframe(data, use_container_width=True, hide_index=True)
     else:
         st.dataframe(data, use_container_width=True, hide_index=True)
