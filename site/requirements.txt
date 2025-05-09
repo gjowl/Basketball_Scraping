@@ -122,7 +122,6 @@ tornado==6.4.2
 tqdm==4.64.1
 Twisted==18.9.0
 typing-extensions==4.12.2
-tzdata==2024.2
 ubuntu-advantage-tools==8001
 ufw==0.36
 unattended-upgrades==0.1
