@@ -1,0 +1,32 @@
+[server]
+headless = true
+runOnSave = true
+fileWatcherType = "poll"
+
+[theme]
+base="dark"
+#1
+#primaryColor="#4082de"
+#backgroundColor="#0A1222"
+#secondaryBackgroundColor="#262730"
+#textColor="#F27522"
+
+#2
+#primaryColor="#F27522"
+#backgroundColor="#0D1226"
+#secondaryBackgroundColor="#1D58AA"
+
+#3
+#primaryColor="#F27522"
+#backgroundColor="#141A19"
+#secondaryBackgroundColor="#4B4E4E"
+
+#4
+primaryColor="#F27522"
+backgroundColor="#101014"
+secondaryBackgroundColor="#3C3F4E"
+#primaryColor="#4082de"
+#primaryColor="#f63366"
+
+#textColor="#4082de"
+font="monospace"
