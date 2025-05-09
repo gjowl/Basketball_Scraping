@@ -1,5 +1,6 @@
 import streamlit as st
-import os, pandas as pd
+import os
+import pandas as pd
 import plotly.express as px
 from functions import sort_and_show_data, change_to_team_colors,plot_quadrant_scatter, create_year_data_dict, annotate_with_emojis,emoji_check
 import random
