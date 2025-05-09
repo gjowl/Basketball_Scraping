@@ -331,6 +331,7 @@ with tabs[0]:
             st.dataframe(season_df, use_container_width=True, hide_index=True)
             plot_number += 1
     my_bar.progress(90, text='Loading...')
+    
     # OUTPUT THE ALL TIME RANKS FOR THE PLAYER INTO AN EXPANDER
     st.expander('**All Time**', expanded=False)
     with st.expander(':rainbow[**All Time**]', expanded=False):
