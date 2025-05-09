@@ -110,8 +110,6 @@ def get_all_time_player_rankings(_year_data_dict, _advanced_data_dict, _rank_col
             tmp_df = pd.concat([tmp_df, season_df], ignore_index=True)
         # get the mean for each stat in the rank list
         avg_df = tmp_df.groupby('PLAYER_NAME')[ranks].mean().reset_index()
-        # sort by SEASON
-        avg_df = avg_df.sort_values(by='SEASON', ascending=True).reset_index(drop=True)
         # replace team abbreviation with the first team played for
         avg_df['TEAM_ABBREVIATION'] = tmp_df.groupby('PLAYER_NAME')['TEAM_ABBREVIATION'].first().values
         # internally rids of players who have not had enough years in the league
@@ -341,6 +339,8 @@ with tabs[0]:
             st.write(f'')
         for avg_df,title in zip(all_rank_list,titles):
             player_df = avg_df[avg_df['PLAYER_NAME'] == player].reset_index(drop=True)
+            # sort by SEASON
+            player_df = player_df.sort_values(by=['SEASON'], ascending=True).reset_index(drop=True)
             player_ranks = transform_ranks_for_plotting(player_df) 
             create_player_rank_bar_graph(player_df, player_ranks, player, title, team_colors) 
             # remove _Percentile and _Rank from the columns
