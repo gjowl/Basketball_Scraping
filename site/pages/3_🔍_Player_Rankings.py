@@ -308,10 +308,8 @@ with tabs[0]:
             if player_gp < gp:
                 st.warning(f'{player_emoji} only played {player_gp} games in the {season} season.')
                 with st.spinner(text=f'**loading ranks for players who played <= {player_gp} games...**') as status:
-                    #st.write(f'loading ranks for **{player_emoji}**...')
                     season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
                     all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
-                    #status.update(label=f'**Ranks Loaded!**', state='complete')
     st.divider()
     my_bar.progress(75, text='Loading...')
 
