@@ -47,24 +47,25 @@ emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 example_df = pd.read_csv(example_file, sep='|')
 
+# SETS THE OPTIONS FOR THE SELECTBOXES USING THE EXAMPLE DATAFRAME
 def get_session_state_example(example=None):
-        st.session_state['Example'] = example
-        # get the players for the example
-        season = example_df[example_df['Question'] == example]['Season'].values[0]
-        st.session_state['season_selectbox'] = season 
-        # get the stats for the example
-        stat = example_df[example_df['Question'] == example]['Stat'].values[0]
-        num_players = int(example_df[example_df['Question'] == example]['Number of Players'].values[0])
-        age_range = example_df[example_df['Question'] == example]['Age Range'].values[0]
-        age_range = [int(age_range[0]), int(age_range[1])]
-        #st.write(st.session_state['age_range'])
-        st.session_state['age_range'] = age_range
-        st.session_state['num_players'] = num_players
-        if stat in advanced_stat_options:
-            st.session_state['advanced_toggle'] = True
-        else:
-            st.session_state['advanced_toggle'] = False
-        st.session_state['stat_selectbox'] = stat
+    st.session_state['Example'] = example
+    # get the players for the example
+    season = example_df[example_df['Question'] == example]['Season'].values[0]
+    st.session_state['season_selectbox'] = season 
+    # get the stats for the example
+    stat = example_df[example_df['Question'] == example]['Stat'].values[0]
+    num_players = int(example_df[example_df['Question'] == example]['Number of Players'].values[0])
+    age_range = example_df[example_df['Question'] == example]['Age Range'].values[0]
+    age_range = [int(age_range[0]), int(age_range[1])]
+    #st.write(st.session_state['age_range'])
+    st.session_state['age_range'] = age_range
+    st.session_state['num_players'] = num_players
+    if stat in advanced_stat_options:
+        st.session_state['advanced_toggle'] = True
+    else:
+        st.session_state['advanced_toggle'] = False
+    st.session_state['stat_selectbox'] = stat
 
 # SESSION STATE
 if 'Emojis Unlocked' not in st.session_state:
@@ -86,18 +87,34 @@ if example_df.empty == False:
         example_index = examples.index(random_example)
         get_session_state_example(random_example)
 
-# CHECKBOX FOR MORE OPTIONS
+# FUNCTIONS
+def show_stat_explanation_expander(_stat_df):
+    stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
+    with stat_explanation:
+        click_me = st.checkbox('**click me :D**', value=False, key='click_me')
+        stat_types = _stat_df['Type'].unique()
+        for type in stat_types:
+            stat_type_df = _stat_df[_stat_df['Type'] == type]
+            st.write(f'**{type} Stats**')
+            for index, row in stat_type_df.iterrows():
+                stat_type = row['Type']
+                if stat_type == 'Traditional':
+                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
+                else:
+                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
+
+# CHECKBOX FOR MORE OPTIONS AND EXPLANATIONS
 go_deeper_variable_color = ':grey'
 cols = st.columns(2)
 with cols[0]:
     go_deeper = st.checkbox(f'**{go_deeper_variable_color}[Go Deeper]**', value=False, key='go_deeper')
-    if go_deeper == True:
+    if st.session_state['go_deeper'] == True:
         go_deeper_variable_color = ':green'
 with cols[1]:
-    explanation = st.checkbox(f'**:grey[Explanations]**', value=True)
+    explanation = st.checkbox(f'**:grey[Explanations]**', value=True, key='explanations')
 
 # GET THE EXAMPLE: FIXED THIS ON 2025-05-06 TO WORK MORE SEEMLESSLY
-if go_deeper:
+if st.session_state['go_deeper'] == True:
     left, right = st.columns(2, vertical_alignment='bottom')
     with right:
         random_example = None
@@ -117,8 +134,8 @@ if go_deeper:
             get_session_state_example(st.session_state['example_selectbox'])
 
 # INTRO BLURB
-if explanation == True:
-    if go_deeper == False:
+if st.session_state['explanations'] == True:
+    if st.session_state['go_deeper'] == False:
         st.write('''
                 **Pick the :violet[number of players] and the stat you want to see, and the top players will be plotted in a bar graph.**\n
                 ***Data from present to the 1996-97 season.***\n
@@ -131,37 +148,18 @@ if explanation == True:
                 ***Data from present to the 1996-97 season.***\n
                 \n
         ''')
-
 st.divider()
+
 ## TOGGLE FOR TRADITIONAL/ADVANCED STATS
-if go_deeper == False:
-    if explanation == True:
-        st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-    if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
-        datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-        stat_options = advanced_stat_options
-        advanced = True
-if go_deeper == True:
-    if explanation == True:
-        st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
-    if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
-        datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
-        stat_options = advanced_stat_options
-        advanced = True
-    stat_explanation = st.expander(':green[**Traditional/Advanced Stats**]', expanded=False)
-    with stat_explanation:
-        click_me = st.checkbox('**click me :D**', value=False, key='click_me')
-        stat_types = stat_df['Type'].unique()
-        for type in stat_types:
-            stat_type_df = stat_df[stat_df['Type'] == type]
-            st.write(f'**{type} Stats**')
-            for index, row in stat_type_df.iterrows():
-                stat_type = row['Type']
-                if stat_type == 'Traditional':
-                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
-                else:
-                    st.write(f'🏀 **{row["Stat"]}** - [{row["Definition"]}]({row["Link"]})')
-    
+if st.session_state['go_deeper'] == True:
+    show_stat_explanation_expander(stat_df)
+
+## TOGGLE FOR ADVANCED STATS
+if st.session_state['explanations'] == True:
+    st.write('**Toggle to switch between :green[Traditional/Advanced] Stats**')
+if st.toggle('**Advanced**', value=False, key='advanced_toggle'):
+    datadir = '/mnt/h/NBA_API_DATA/BOXSCORES/ADVANCED'
+    stat_options = advanced_stat_options
 
 # LOAD IN THE DATA
 year_data_dict = create_year_data_dict(datadir)
@@ -179,96 +177,88 @@ max_gp = data['GP'].max()
 # MAIN
 ## PAGE SETUP BELOW
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
-## PICK A PLAYER TO VIEW
-## SELECT THE STAT TO PLOT
-## PLOTS
+## SELECT THE STAT/STATS TO PLOT
+## BAR GRAPH PLOT AND OUTPUTS
 
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
-if go_deeper == True:
+if st.session_state['go_deeper'] == True:
     max_players = 100
 num_players = st.slider('***Number of players to show***', 1, max_players, 10, key='num_players')
 num_gp = default_num_gp 
-if go_deeper == True:
-    num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp)
+if st.session_state['go_deeper'] == True:
+    num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp, key='num_gp')
     min_age, max_age = data['AGE'].min(), data['AGE'].max()
     ages = st.slider('***Age Range***', min_age, max_age, (min_age, max_age), format='%d', key='age_range')
     data = data[(data['AGE'] >= ages[0]) & (data['AGE'] <= ages[1])]
     go_deeper = True
-st.divider()
-
 # check if there are less than num_players in the data
 if len(data) < num_players:
     num_players = len(data)
+st.divider()
+
 ## SELECT THE STAT TO PLOT
 cols = data.columns.tolist()
-if go_deeper == True and click_me == True:
+# IF GO DEEPER AND CLICK ME ARE TRUE, THEN ADD THE HIDDEN TOGGLE TO LOOK AT BOTTOM PLAYERS
+if st.session_state['go_deeper'] == True and st.session_state['click_me'] == True:
     flip_top = st.toggle(f'{go_deeper_variable_color}[**Flip Top**]', value=False, key='flip_top')
     if flip_top == True:
         descriptor = 'Bottom'
+
+# WRITE THE EXPLANATION FOR WHAT TO DO IF GO DEEPER IS TRUE (DIFFERENT COLORS AND LONGER EXPLANATION)
 stat_options = [col for col in stat_options if col in cols]
-if go_deeper == True and explanation == True:
+if st.session_state['go_deeper'] == True and st.session_state['explanations'] == True:
     stat_options = [col for col in stat_options if col in cols]
     st.write(f'Choose a second stat to plot the :violet[**{descriptor} {num_players}**] players who played at least {go_deeper_variable_color}[**{num_gp} games**] and are between ages {go_deeper_variable_color}[**{int(ages[0])} and {int(ages[1])}**]')
-elif explanation == True:
+# IF GO DEEPER IS FALSE, THEN WRITE THE EXPLANATION FOR WHAT TO DO
+elif st.session_state['explanations'] == True:
     st.write(f'Choose a stat to plot the :violet[**{descriptor} {num_players}**] players who played at least :grey[**{num_gp} games**]')
 with right:
     stat = st.selectbox('**Stat**', stat_options, index=1, placeholder='Statistic...', key='stat_selectbox')
 if stat is None:
     st.warning('*Please select a stat to plot*')
     st.stop()
-# GET THE Y-AXIS STAT
-y_axis = option_df[option_df['OPTION'] == stat]['SORT'].values[0]
-if go_deeper == True:
+
+# check if the stat is in the options list
+if stat not in option_df['OPTION'].tolist():
+    y_axis = 'MPG'
+else:
+    y_axis = option_df[option_df['OPTION'] == stat]['SORT'].values[0]
+if st.session_state['go_deeper'] == True:
     stat_options_2 = stat_options.copy()
     stat_options_2.remove(stat)
-    # find y_axis in the stat_options_2 list and set it to the index of the stat
     default_index = stat_options_2.index(y_axis)
-    #st.write(f'**Choose a second stat to plot**')
     stat_2 = st.selectbox('**y-axis**', stat_options_2, index=default_index, placeholder='Statistic...')
     y_axis = stat_2
-
-### FILTERING/DATA PREPROCESSING
-if 'AST_TO' in stat:
-    if data[stat].isnull().values.any():
-        data[stat] = data[stat].replace([float('inf'), -float('inf')], float('nan'))
-else:
-    if data[stat].isnull().values.any():
-        data[stat] = data[stat].replace([float('inf'), -float('inf')], float('nan'))
-## make sure that the GP column is not infinite/NaN
-if data['GP'].isnull().values.any():
-    data['GP'] = data['GP'].replace([float('inf'), -float('inf')], float('nan'))
 ## keep only the nubmer of games played
 data = data[data['GP'] >= num_gp]
 st.divider()
 
-## PLOTS
 ### calculate percentiles for the option
 data[f'Percentile'] = data[stat].rank(pct=True)
-# sort the data by the stat
 
-# BAR GRAPH PLOT AND OUTPUTS
+## BAR GRAPH PLOT AND OUTPUTS
 top_players, bar_graph = sort_and_show_data(data, stat, team_colors, descriptor, flip_top, num_players) # plots the top player bar graph and scatter plot
 st.plotly_chart(bar_graph, use_container_width=True)
 output_df = top_players.copy()
 output_df = output_df[['PLAYER_NAME', 'GP', stat, 'TEAM_ABBREVIATION']]
-if go_deeper == False:
+if st.session_state['go_deeper'] == False:
     top_players_by_age = top_players.sort_values(by='AGE', ascending=True)
     if top_players_by_age.empty:
         st.write('**No players found with the selected filters, try lowering the number of GP!**')
         st.stop()
     emoji_df = emoji_check(emoji_df, top_players_by_age)
+    # get the youngest and oldest players
     young_player = top_players_by_age.iloc[0]['PLAYER_NAME']
     old_player = top_players_by_age.iloc[-1]['PLAYER_NAME']
     if young_player in emoji_df['PLAYER_NAME'].tolist():
         young_player = annotate_with_emojis(young_player, emoji_df)
     if old_player in emoji_df['PLAYER_NAME'].tolist():
         old_player = annotate_with_emojis(old_player, emoji_df)
-    if explanation == True:
+    if st.session_state['explanations'] == True:
         st.write(f'''
                 The youngest player in the :violet[**{descriptor} {num_players}**] is **{young_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[0]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[0][stat],1)} {stat}**]\n 
                 The oldest player in the :violet[**{descriptor} {num_players}**] is **{old_player}** at {go_deeper_variable_color}[**{int(top_players_by_age.iloc[-1]['AGE'])}**] years old, averaging {expander_color}[**{round(top_players_by_age.iloc[-1][stat],1)} {stat}**]\n
                  ''')
-    # if there are more players from the same team, write them out
     # check if there are any non-unique TEAM_ABBREVIATION values in the top players
     team_counts = top_players['TEAM_ABBREVIATION'].value_counts()
     if len(team_counts) > 1:
@@ -292,16 +282,17 @@ if go_deeper == False:
     st.divider()
 
 # MORE OPTIONS INCLUDES THE ADDITION OF THE SCATTERPLOT
-if go_deeper == True:
+if st.session_state['go_deeper'] == True:
     data = data.sort_values(by=y_axis, ascending=flip_top)
     data.reset_index(drop=True, inplace=True)
     # plot the quadrant graph with the stat vs the y_axis
     plot_quadrant_scatter(data, stat, y_axis, top_players, team_colors)
     scatter_data = data[['PLAYER_NAME', 'GP', stat, y_axis, 'TEAM_ABBREVIATION']].copy()
     scatter_data.sort_values(by=stat, ascending=flip_top, inplace=True)
-    x_avg = round(data[stat].mean(),2)
-    y_avg = round(data[y_axis].mean(),2)
-    if explanation == True:
+    x_avg, y_avg = round(data[stat].mean(),2), round(data[y_axis].mean(),2)
+
+    # if explanations is true, show the explanation for the scatter plot
+    if st.session_state['explanations'] == True:
         st.write(f'''
                 The :blue[**{stat}**] vs :red[**{y_axis}**] scatter plot shows the distribution of players in the league for the :green[**{season} season**]. \n
                 The :violet[{descriptor} {num_players}] players are highlighted by their team colors in the scatter plot, and all other players are plotted in gray. \n
@@ -311,6 +302,8 @@ if go_deeper == True:
                 Typically, the best players are found in the top right quadrant, being above average for both stats. \n
                 Hover over a point to see the player name, team, and the **:green[**{season} season**]** averages ! \n
                  ''')
+    
+    # add the player data as an expander
     st.expander(f'**{descriptor} Players Data**', expanded=False)
     with st.expander(f'**{expander_color}[{descriptor} Players Scatter Data]**', expanded=False):
         st.write(f'''
@@ -340,7 +333,7 @@ with st.expander(f'**Show All Data**', expanded=False):
         st.dataframe(data, use_container_width=True, hide_index=True)
 
 ## ADD IN THE EMOJIS
-if go_deeper == True and click_me == True and explanation == True:
+if st.session_state['go_deeper'] == True and st.session_state['click_me'] == True and st.session_state['explanations'] == True:
     if st.session_state['Emojis Unlocked'] == False:
         st.session_state['Emojis Unlocked'] = True
         st.toast('**Emojis Unlocked! Check the bottom of the page :D**')

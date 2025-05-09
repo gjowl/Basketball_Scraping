@@ -34,9 +34,9 @@ start_player = 'LeBron James'
 # 
 cols = st.columns(2)
 with cols[0]:
-    go_deeper = st.checkbox('**:grey[Go Deeper]**', value=False)
+    go_deeper = st.checkbox('**:grey[Go Deeper]**', value=False, key='go_deeper')
 with cols[1]:
-    explanation = st.checkbox('**:grey[Explanations]**', value=True)
+    explanation = st.checkbox('**:grey[Explanations]**', value=True, key='explanations')
 
 # read in the team colors
 team_colors = pd.read_csv(colors)
@@ -215,8 +215,8 @@ def get_years_in_league(_year_data_dict):
     return player_years
 
 # EXPLANATIONS
-def tab1_explanation(_go_deeper):
-    if _go_deeper:
+def tab1_explanation():
+    if st.session_state['go_deeper']:
         st.write('''
                 **Choose a player and season below to see their \*ranks in the given season**\n
                 ''')
@@ -243,7 +243,7 @@ for key in year_data_dict.keys():
     player_names_df = pd.concat([player_names_df, year_data_dict[key][['PLAYER_NAME', 'YEAR']].copy()], ignore_index=True)
 player_names = player_names_df['PLAYER_NAME'].unique()
 # if not going deeper, get the player names for the current season only
-if go_deeper == False:
+if st.session_state['go_deeper'] == False:
     player_names = player_names_df[player_names_df['YEAR'] == season]['PLAYER_NAME'].unique()
 
 # get the years in the league for each player
@@ -258,45 +258,47 @@ tabs = st.tabs(['**Player Search**', '**Rank Finder**'])
 
 # TAB 1: PLAYER SEARCH
 found_emojis = pd.DataFrame()
+my_bar = st.progress(0, text='Loading...')
 with tabs[0]:
     # variables
     titles = ['Traditional', 'Shooting', 'Advanced']
 
     # START HERE: Turn this into a function that can be rerun with a button, potentially a fragment
     left, right = st.columns(2, vertical_alignment='bottom')
-    if explanation: 
-        tab1_explanation(go_deeper)
+    if st.session_state['go_deeper']:
+        left, middle, right = st.columns(3, vertical_alignment='bottom')
+    if st.session_state['explanations']: 
+        tab1_explanation()
+    my_bar.progress(10, text='Loading...')
+
     ## SELECT A PLAYER FROM THE DROPDOWN
-    if go_deeper == False:
-        with right:
-            if st.button('**Random Player**', key=f'random_player'):
-                player_index = random.randint(0, len(player_names)-1)
-                player = player_names[player_index]
-                st.session_state['player'] = player
+    with right:
+        if st.button('**Random Player**', key=f'random_player'):
+            player_index = random.randint(0, len(player_names)-1)
+            player = player_names[player_index]
+            st.session_state['player'] = player
     with left:
         player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...', key=f'player')
-    
+    my_bar.progress(25, text='Loading...')
+
+    # check if the player is in the emoji_df
     player_emoji = annotate_with_emojis(player, emoji_df)
     if player_emoji != player:
         found_emojis['PLAYER_NAME'] = player_emoji
         with st.sidebar:
             st.caption(player_emoji)
             #player = st.selectbox('**Select a Player**', player_names, index=player_names.tolist().index(start_player), placeholder='Player Name...', key=f'player_sidebar')
-    # if thep player has an emoji, output it to the bottom right corner
-    #if player_emoji != player:
-    with st.status(f'**loading...**') as status:
-        st.write(f'calculating ranks for **{player_emoji}**...')
-        ## get the data for the player from all years they played in the league
-        player_rank_dfs = get_rank_player_data(season_rank_list, player)
+    player_rank_dfs = get_rank_player_data(season_rank_list, player)
     
-        # reverse the list to get the most recent season first
-        season_list = sorted(player_rank_dfs[0]['YEAR'].unique(), reverse=True) 
-        status.update(label=f'**{player_emoji}** ranks calculated!', state='complete')
+    # reverse the list to get the most recent season first
+    season_list = sorted(player_rank_dfs[0]['YEAR'].unique(), reverse=True) 
+    #status.update(label=f'**{player_emoji}** ranks calculated!', state='complete')
+    my_bar.progress(50, text='Loading...')
 
     # go deeper into the stats
-    if go_deeper:
+    if st.session_state['go_deeper']:
         # add a season select box to choose the season to show the ranks for
-        with right:
+        with middle:
             season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
         # remove players who have played less than the minimum games played in the season
         check_gp = st.checkbox('**:green[Games Played] Filter**', value=False)
@@ -305,12 +307,13 @@ with tabs[0]:
             player_gp = player_rank_dfs[0][player_rank_dfs[0]['YEAR'] == season]['GP'].max()
             if player_gp < gp:
                 st.warning(f'{player_emoji} only played {player_gp} games in the {season} season.')
-                with st.status(f'**loading ranks for players who played <= {player_gp} games...**') as status:
+                with st.spinner(text=f'**loading ranks for players who played <= {player_gp} games...**') as status:
                     st.write(f'loading ranks for **{player_emoji}**...')
                     season_rank_list = get_season_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
                     all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, player_gp)
                     status.update(label=f'**Ranks Loaded!**', state='complete')
     st.divider()
+    my_bar.progress(75, text='Loading...')
 
     # plot the player ranks for the season as bar graphs
     st.expander(f'**{player_emoji}**', expanded=False)
@@ -327,7 +330,7 @@ with tabs[0]:
             season_df[ranks] = season_df[ranks].round(2)
             st.dataframe(season_df, use_container_width=True, hide_index=True)
             plot_number += 1
-
+    my_bar.progress(90, text='Loading...')
     # OUTPUT THE ALL TIME RANKS FOR THE PLAYER INTO AN EXPANDER
     st.expander('**All Time**', expanded=False)
     with st.expander(':rainbow[**All Time**]', expanded=False):
@@ -347,35 +350,48 @@ with tabs[0]:
             player_df[cols] = player_df[cols].round(2)
             st.dataframe(player_df, use_container_width=True, hide_index=True)
             plot_number += 1
+    my_bar.progress(100, text='Loading...')
+    st.expander(f'**{player_emoji}** All Data', expanded=False)
+    with st.expander(f'**{player_emoji} All Data**', expanded=False):
+        # remove _Percentile and _Rank from the columns
+        output_df, df_list = pd.DataFrame(), []
+        for player_rank_dfs in season_rank_list:
+            player_df = player_rank_dfs[player_rank_dfs['PLAYER_NAME'] == player].reset_index(drop=True)
+            player_df = player_df[[col for col in player_df.columns if '_Percentile' not in col and '_Rank' not in col and '_RANK' not in col]]
+            df_list.append(player_df)
+        # merge the dataframes together
+        output_df = join_season_dfs(df_list)
+        # round all but player name and team abbreviation to 2 decimal places
+        cols = output_df.columns.tolist()
+        cols = [col for col in cols if col not in ['PLAYER_NAME', 'TEAM_ABBREVIATION']]
+        output_df[cols] = output_df[cols].round(2)
+        st.dataframe(output_df, use_container_width=True, hide_index=True)
+my_bar.empty()
 
 # TAB 2: STAT SEARCH
 # merge dataframes for finding ranks
 season_avg_df = join_season_dfs(season_rank_list)
 all_rank_list_df = merge_rank_dfs(all_rank_list)
 reset = False
+# get the stat list
+all_rank_cols = pd.concat(season_rank_list, ignore_index=True)
+stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
+# remove rank from the stat list
+stat_list = [stat.split('_Rank')[0] for stat in stat_list]
 with tabs[1]:
-    if explanation:
-        if go_deeper == False:
+    if st.session_state['explanations']:
+        if st.session_state['go_deeper'] == False:
             st.write('''
                     **Choose a stat to see where the player ranks in the league this season.**\n
                     ''')
-    all_rank_cols = pd.concat(season_rank_list, ignore_index=True)
-    stat_list = all_rank_cols.columns[all_rank_cols.columns.str.contains('_Rank')].tolist()
-    # remove rank from the stat list
-    stat_list = [stat.split('_Rank')[0] for stat in stat_list]
-
-    left, right = st.columns(2)
-    with left:
-        stat = st.selectbox('**Select a Stat**', stat_list, index=1, placeholder='Stat Name...')
-
     # go deeper into the stats
-    if go_deeper:
+    if st.session_state['go_deeper']:
         # if you want all time rankings
-        all_time = st.checkbox('**Show All Time Ranks**', value=True)
-        if all_time == False:
+        all_time = st.checkbox('**Show All Time Ranks**', value=True, key=f'all_time')
+        if st.session_state['all_time'] == False:
             # if no all time rankings, add a season select box
-            season = st.selectbox('**Select the Season**', season_list, key=f'season_{plot_number}')
-        if explanation and all_time:
+            season = st.selectbox('**Select the Season**', season_list, key=f'season')
+        if st.session_state['explanations'] and st.session_state['all_time']:
                 st.write(f'''
                         **Choose a stat to see where the player ranks in the league \*All Time.**\n
                         ''')
@@ -384,14 +400,14 @@ with tabs[1]:
                         ''')
 
         # if you want to filter by games played
-        check_gp = st.checkbox('**:green[Games Played] Filter**', value=False, key=f'check_gp_{plot_number}')
-        if check_gp:
-            gp = st.slider('Number of games played', 0, 82, 65, key=f'gp_{plot_number}')
+        check_gp = st.checkbox('**:green[Games Played] Filter**', value=False, key=f'check_gp')
+        if st.session_state['check_gp']:
+            gp = st.slider('Number of games played', 0, 82, 65, key=f'gp')
             years_in_league = None
-            check_years = st.checkbox('**:green[Years Minimum] Filter**', value=True, key=f'check_years_{plot_number}')
+            check_years = st.checkbox('**:green[Years Minimum] Filter**', value=True, key=f'check_years')
 
             # optional additional filter for # of years in the league
-            if check_years:
+            if st.session_state['check_years']:
                 max_years = all_player_years['YEARS_IN_LEAGUE'].max()
                 # max years in league
                 years_in_league = st.slider('Minimum years in league', 0, max_years, 5)
@@ -403,7 +419,7 @@ with tabs[1]:
             tmp_all_rank_list = get_all_time_player_rankings(year_data_dict, advanced_data_dict, rank_cols, check_gp, gp, years_in_league)
 
             # if all time rankings are selected, merge the dataframes together
-            if all_time:
+            if st.session_state['all_time']:
                 tmp_all_rank_list_df = merge_rank_dfs(tmp_all_rank_list)
                 # if empty the filters have no players
                 if tmp_all_rank_list_df.empty:
@@ -418,7 +434,6 @@ with tabs[1]:
             else:
                 season_rank_df = join_season_dfs(season_rank_list)
                 rank_df = season_rank_df
-                # 
                 season_players_df = player_years[player_years['YEAR'] == season].copy()
                 rank_df = rank_df[rank_df['YEAR'] == season]
                 # keep only the players in the rank_df
@@ -433,7 +448,17 @@ with tabs[1]:
         rank_df = season_avg_df
         # add the years in league column to the dataframe
         rank_df = rank_df[rank_df['YEAR'] == season]
-    st.divider()
+
+    # SETUP THE STAT DROPDOWN AND BUTTON
+    left, right = st.columns(2, vertical_alignment='bottom')
+    with right:
+        if st.button('**Random Stat**', key=f'random_stat'):
+            # get a random stat
+            stat_index = random.randint(0, len(stat_list)-1)
+            stat = stat_list[stat_index]
+            st.session_state['stat'] = stat 
+    with left:
+        stat = st.selectbox('**Select a Stat**', stat_list, index=1, placeholder='Stat Name...', key=f'stat')
     # keep only the rank column
     rank, percentile = f'{stat}_Rank', f'{stat}_Percentile'
     # rerank the data to make sure the ranks are correct
@@ -442,8 +467,17 @@ with tabs[1]:
     rank_list = sorted(rank_df[rank].unique(), reverse=False)
     # convert the rank list to a list of int
     rank_list = [int(rank) for rank in rank_list if str(rank) != 'nan']
-    with right:
-        rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...')
+
+    # SETUP THE RANK DROPDOWN AND BUTTON
+    left_rank, right_rank = st.columns(2, vertical_alignment='bottom')
+    with right_rank:
+        if st.button('**Random Rank**', key=f'random_rank'):
+            # get a random rank
+            rank_index = random.randint(0, len(rank_list)-1)
+            rank_num = rank_list[rank_index]
+            st.session_state['rank'] = rank_num
+    with left_rank:
+        rank_num = st.selectbox('**Select a Rank**', rank_list, index=0, placeholder='Rank...', key=f'rank')
     # get the x ranked player
     player = rank_df[rank_df[rank] == rank_num]['PLAYER_NAME'].values[0]
     player_emoji = annotate_with_emojis(player, emoji_df)
@@ -452,9 +486,10 @@ with tabs[1]:
     years_in_league = all_player_years[all_player_years['PLAYER_NAME'] == player]['YEARS_IN_LEAGUE'].values[0]
     # add the values to the df 
     tmp_df = pd.DataFrame({'PLAYER_NAME': [player], 'RANK': [rank_num], 'STAT': [stat], 'VALUE': [stat_value], 'SEASON': [season], 'YEARS': [years_in_league]})
-    if go_deeper:
-        if all_time:
-            if check_gp and reset == False:
+    st.divider()
+    if st.session_state['go_deeper']:
+        if st.session_state['all_time']:
+            if st.session_state['check_gp'] and reset == False:
                 # the count ofthe years the player matched the given search filters
                 year_count = year_counts[year_counts['PLAYER_NAME'] == player]['YEARS_COUNT'].values[0]
                 st.write(f'In the :green[**{year_count}**] seasons where **{player_emoji}** played at least :green[{gp} games], he averaged :green[**{round(stat_value,2)}**  **{stat}**] good for :violet[**#{rank_num}**] All Time.')
@@ -478,7 +513,6 @@ with tabs[1]:
         st.dataframe(output_df, use_container_width=True, hide_index=True)
 
 # TODO: if possible, make this like queereable where it shows up to the last x searches (like a search history)
-
 # TODO: add secret emojis here (really hard ones to find; need to do x searches, hit certain buttons, etc.)
 
 
