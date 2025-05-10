@@ -33,6 +33,7 @@ stat_color = ':blue'
 top_players_color = ':violet'
 default_num_gp = 65
 max_players = 30
+default_num_players = 10
 descriptor = 'Top'
 flip_top = False
 
@@ -42,9 +43,6 @@ option_df = pd.read_csv(options)
 emoji_df = pd.read_csv(emoji_file)
 stat_df = pd.read_csv(stat_file)
 example_df = pd.read_csv(example_file, sep='|')
-
-if 'num_players' not in st.session_state:
-    st.session_state['num_players'] = 10
 
 # SETS THE OPTIONS FOR THE SELECTBOXES USING THE EXAMPLE DATAFRAME
 def get_session_state_example(example=None):
@@ -182,7 +180,7 @@ max_gp = data['GP'].max()
 ## SELECT THE NUMBER OF PLAYERS AND GP TO FILTER 
 if st.session_state['go_deeper'] == True:
     max_players = 100
-num_players = st.slider('***Number of players to show***', 1, max_players, st.session_state['num_players'], key='num_players')
+num_players = st.slider('***Number of players to show***', 1, max_players, default_num_players, key='num_players')
 num_gp = default_num_gp 
 if st.session_state['go_deeper'] == True:
     num_gp = st.slider('***Minimum number of games played****', 1, max_gp, default_num_gp, key='num_gp')

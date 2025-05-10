@@ -29,6 +29,7 @@ stat_file = f'{cwd}/site/stats.csv'
 examples = f'{cwd}/site/examples/player_comparison_examples.csv'
 stat_options = ['PPG', 'APG', 'RPG', 'SPG', 'BPG', 'STOCKS_PG', 'FG%', 'FT%', '2P%', '3P%', 'OREB_PG', 'DREB_PG', 'AST_TO', 'TOV_PG', 'FTA_PG', '3PM_PG', '3PA_PG', '2PM_PG', '2PA_PG', 'NBA_FANTASY_PTS_PG'] 
 advanced_stat_options = ['TS%', 'USG%', 'OREB%', 'DREB%', 'AST%', 'W%', 'EFG%', 'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_RATIO', 'TM_TOV%', 'PACE', 'PIE', 'POSS', 'POSS_PG']
+default_advanced_stats = ['TS%', 'USG%', 'AST%']
 xaxis = 'SEASON'
 plot_number = 0
 
@@ -289,7 +290,8 @@ if go_deeper:
         stats = st.multiselect('**Select Stats to Compare**', stat_options, default=st.session_state['Stats'], key='Stats')
     # if advanced is True, pick from the advanced stats
     else:
-        stats = st.multiselect('**Select Stats to Compare**', advanced_stat_options, default=['TS%', 'USG%', 'AST%'], key='Stats')
+        st.session_state['Stats'] = default_advanced_stats
+        stats = st.multiselect('**Select Stats to Compare**', advanced_stat_options, default=st.session_state['Stats'], key='Stats')
 
     ## CHOOSE TO PLOT BY YEARS IN LEAGUE OR SEASON
     if st.session_state['explanations'] == True:

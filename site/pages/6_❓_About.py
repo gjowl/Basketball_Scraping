@@ -23,8 +23,9 @@ st.write(
     🔝 Season Stats
     ===========\n
     **This page allows you to view graphs for :violet[**Top N**] players in the league for a :blue[**CHOSEN SEASON**]**\n
-    **Graphs Include:**\n
+    **Base**\n
     🏀 **Bar Graph** - :violet[**Top N**] players in the league for a given stat\n
+    **Go Deeper**\n
     🏀 **Quadrant Plot** - :violet[**Top N**] players highlighted against all other players in the league for a given stat (will add the ability to choose :red[**Y-AXIS**] stat in the future)\n
     """
 )
@@ -36,9 +37,10 @@ st.write(
     🦉 Player Comparison
     ===========\n
     **This page allows you to compare the stats of players over the years they have played in the league**\n
-    How many seasons did Dirk Nowitzki shoot 3s better than Lebron James?
-     - Compare By #YEARS IN LEAGUE: off; select Dirk Nowitzki and Lebron James, select 3P%\n
-    
+    **By choosing players and a stat, you can see their performance trajectory over the years they have played in the league.**\n
+    **Base**\n
+    🏀 Select :violet[**2 PLAYERS**] to compare simultaneously on scatterplots\n
+    **Go Deeper**\n
     🏀 Select up to :violet[**10 PLAYERS**] to compare simultaneously on scatterplots\n
     🏀 :red[**Y-AXIS**] - Stat Averages \n
     🏀 :blue[**X-AXIS**] - **# of YEARS IN THE LEAGUE** or **SEASON**\n
@@ -51,14 +53,17 @@ st.write(
     """
     🔍 Player Rankings
     ===========\n
-    Go Deeper Questions
-    🏀 How many players in the 2024-25 season have played in the league for 10+ years?\n
-     - Rank Finder: Turn off Show All Time Ranks, select 2024-25 season, # of games played 0, minimum years in league 10\n
-    🏀 Who were the top 5 players in STOCK_PG (steal & blocks per game) in the 2020-21 season who would qualify for player awards (>65 games played)?\n
-     - Rank Finder: Turn off Show All Time Ranks, select 2020-21 season, # of games played 65, minimum years in league 0\n
+    **This page acts as a stat and rank finder**\n
+    **Using the search bar, you can search for a player and view their stats and ranks in the league**\n
+    **Base**\n
+    🏀 **Stat Finder** - Search for a player and view their stats in the league\n
+    🏀 **Rank Finder** - Search for a rank and view the stats for all players in the league\n
+
+    **Go Deeper**\n
     **You can search for a player and view their statistical rankings **OR** search for a rank and output the player**\n
-    🏀 **PLAYER SEARCH** - Search for a **PLAYER** to make ranking bar graphs for either a :blue[**CHOSEN SEASON**] OR :violet[**ALL TIME**]\n
-    🏀 **RANKING SEARCH** - Search for a **RANK** to output a player; currently only be done for :violet[**ALL TIME**]\n
+    🏀 **PLAYER SEARCH** - Search for a **PLAYER** to make ranking bar graphs\n
+    🏀 **RANKING SEARCH** - Search for a **RANK** to output a player\n
+    **Both searches can be done for either a **SEASON** or **ALL TIME** (data back to the 1996-97 season)**\n
     **Rankings are made by normalizing each stat as a percentile from lowest stat (0) to highest stat (1)**\n
     """
 )
@@ -95,12 +100,11 @@ st.write(
     """
     MAJOR TODOs:
     =========\n
-    🏀 **Hide more emojis**\n
     🏀 **A page where draft classes are searchable for the following data: how many players with x number of years in the NBA?**\n
     🏀 **A way to compare the success of draft classes (Ex. 1984 vs 2003 vs 2021: maybe something like # of players who played more than x years in the NBA?)**\n
-    🏀 **Scatterplot of data where you highlight players who are in their first, second, third etc. years in the league?**
-    
-    🏀**Playoff stat for all pages?**\n
+    🏀 **Scatterplot of data where you highlight players who are in their first, second, third etc. years in the league?**\n
+    🏀 **Playoff stat for all pages?**\n
+    🏀 **Comparison page for historic teams (maybe categorizing the rankings for each player on each team and then giving a composite score somehow?)**\n
     """
 )
 # Add in social at the bottom

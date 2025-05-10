@@ -20,8 +20,8 @@ emoji_df = pd.read_csv(emoji_file)
 # Page Setup
 
 st.write('''
-         **Stats that occur "once in a :blue[blue moon]" are rare events that go down in the history books.**\n
-            **This page is dedicated to those rare events (data from Wikipedia).**\n
+        [**Once in a Blue Moon**](https://english-grammar-lessons.com/once-in-a-blue-moon-meaning/): something that happens seldom or rarely.\n
+        **This page is dedicated to the rare single game statistics that end up in the record books (data from Wikipedia).**\n
          ''')
 # TODO: need to work on the analysis here
 # TODO: add in a way to update these if there's ever a new blue moon (and link it to the home page!)

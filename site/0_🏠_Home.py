@@ -10,10 +10,6 @@ st.sidebar.success('Select a page to get started!')
 st.write('''
 🪣 ⛹🏽‍♂️⛹🏾‍♀️⛹🏿⛹🏽‍♀️⛹🏻
 🏀
-⛹🏾⛹🏼‍♂️⛹🏿‍♂️⛹🏻‍♀️⛹🏼
-🏀
-⛹🏽⛹🏾⛹🏻‍♂️⛹🏼‍♀️⛹🏽‍♂️
-🏀
 ⛹🏾⛹🏼‍♀️⛹🏽⛹🏻‍♂️⛹🏾
 🪣
          ''')
@@ -26,27 +22,26 @@ st.write('''
             🏀 **Most Points, Assists, Rebounds, Steals, and Blocks** \n
             🏀 **Highest & Lowest +/-, TS%, USG%, and other Advanced Stats** \n 
             🏀 **Player Stat Trajectories over the Last 5, 10, 15, 20, 25, and 30 Games Played** \n
-            🏀 :rainbow[**Statistical Anomalies**] (**>=** 50 point games, 5x5s or close, insane triple doubles (**like 🃏 Jokic's 30-20-20**), random career highs, etc.)\n 
+            🏀 :rainbow[**Statistical Anomalies**] (**>= 50 point games, 5x5s or close, insane triple doubles, random career highs**)\n 
         ''')
 st.divider()
 st.write('''
-        For now, feel free to explore the links on the sidebar to view the visuals and data!\n
+        Feel free to explore the links on the sidebar to view visuals and data!\n
         Data collected from **[NBA.com](https://www.nba.com/stats/leaders)** (data from **1996-1997** season to **present**).\n
         ''')
-# add in credits here (nba, basketball-reference, etc.)
-
-# add in a link to the github repo
-
 st.divider()
+# add in credits here (nba, basketball-reference, etc.)
 # add in a link to my linkedin (gross) and substack
-# TODO: add in buttons or something to link to my links
+# add in a link to the github repo
 st.write('''
-        EMOJIS to Find:
-        👾👑🐜
-        🪄🌈🦄🕷️
-        🐍🖐🏿🐐🐎
-        
-⭐😷🪰
-🐛🦋
-🐌🐢🦥
+
+        ''')
+
+
+st.write('''
+🪣 
+⛹🏾⛹🏼‍♂️⛹🏿‍♂️⛹🏻‍♀️⛹🏼
+🏀
+⛹🏽⛹🏾⛹🏻‍♂️⛹🏼‍♀️⛹🏽‍♂️
+🪣
          ''')
