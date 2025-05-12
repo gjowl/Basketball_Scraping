@@ -10,12 +10,15 @@ cheat_sheet_df = pd.read_csv(cheat_sheet)
 # MAIN
 
 st.title('Emoji Cheat Sheet')
-st.write('''
-         **This is a cheat sheet for emojis used in the website!**\n
-         **I thought it would be nice to share facts about players in a fun way, so I added emojis to over 200 players!**\n
-         **Some of these emojis can describe the same player, but each player only has one emoji associated with them (ex. Manu Gi).**\n
-         **There are also a set of x players that have their own special emoji, usually tied to one of their basketball-reference nicknames (ex: Lebron James ).**\n
-         ''')
 
 # Display the cheat sheet
 st.dataframe(cheat_sheet_df, use_container_width=True, hide_index=True)
+
+st.write('''
+         **This is a cheat sheet for emojis used in the website!**\n
+         **I thought it would be a nice fun way to share facts about over 200 players!**\n
+         **Each player only has one emoji associated with them (ex. Manu Ginóbili is an Olypmpic Gold medalist [🏅], 
+         multitime NBA Champion [💍], Argentinian [🇦🇷], and a 2x All Star [⭐], but is only represented by the [🏅]).**\n
+         **Each emoji also acts as a clickable link: sometimes to their basketball-reference page or a unique video (usually highlights or a memorable moment)!**\n
+         **Good luck searching :D
+         ''')
