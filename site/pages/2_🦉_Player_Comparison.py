@@ -208,21 +208,7 @@ if go_deeper:
             st.session_state['index'] = examples.index(random_example)
     with left:
         example = st.selectbox('**Examples**', examples, index=st.session_state['index'], placeholder='pick something', key='example_selectbox')
-        st.write(st.session_state['example_selectbox'])
-        st.write(st.session_state['index'])
-        st.write(st.session_state['Example'])
-        #get_session_state_example(random_example)
-        #st.session_state['example_selectbox'] = random_example
-        #if 'index' not in st.session_state:
-        #    st.session_state['index'] = None 
-        #if random_example is not None:
-        #    st.session_state['index'] = examples.index(random_example)
-        #if example != None:
-        #    example_index = examples.index(example)
-        #if st.session_state['index'] == None:
-        #    st.session_state['index'] = example_index
         if st.session_state['example_selectbox'] != st.session_state['Example']:
-        #if st.session_state['example_selectbox'] != st.session_state['Example'] and st.session_state['index'] != None:
             get_session_state_example(st.session_state['example_selectbox'])
     st.divider()
 

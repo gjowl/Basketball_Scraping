@@ -120,6 +120,7 @@ st.write(
     🏀 **Scatterplot of data where you highlight players who are in their first, second, third etc. years in the league?**\n
     🏀 **Playoff stat for all pages?**\n
     🏀 **Comparison page for historic teams (maybe categorizing the rankings for each player on each team and then giving a composite score somehow?)**\n
+    🏀 **A model to find the players to compare examples on each page
     '''
 )
 # Add in social at the bottom

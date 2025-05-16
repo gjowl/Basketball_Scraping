@@ -314,8 +314,8 @@ with tabs[0]:
     my_bar.progress(75, text='Loading...')
 
     # plot the player ranks for the season as bar graphs
-    st.expander(f'**{player_emoji}**', expanded=False)
-    with st.expander(f'**{player_emoji} {season} Season Ranks**', expanded=False):
+    st.expander(f'**{player}**', expanded=False)
+    with st.expander(f'**{season} Season Ranks**', expanded=False):
         for ranks,rank_df,title in zip(rank_cols, player_rank_dfs, titles):
             player_df = rank_df[rank_df['PLAYER_NAME'] == player].reset_index(drop=True)
             season_df = player_df[player_df['YEAR'] == season].reset_index(drop=True)
@@ -347,8 +347,8 @@ with tabs[0]:
             st.dataframe(player_df, use_container_width=True, hide_index=True)
             plot_number += 1
     my_bar.progress(100, text='Loading...')
-    st.expander(f'**{player_emoji}** All Data', expanded=False)
-    with st.expander(f'**{player_emoji} All Data**', expanded=False):
+    st.expander(f'**{player}** All Data', expanded=False)
+    with st.expander(f'**{player} All Data**', expanded=False):
         # remove _Percentile and _Rank from the columns
         output_df, df_list = pd.DataFrame(), []
         for player_rank_dfs in season_rank_list:
@@ -499,6 +499,8 @@ with tabs[1]:
             st.write(f'**{player_emoji}** averaged :green[**{round(stat_value,2)}**  **{stat}**], which is :violet[**#{rank_num}**] in the :grey[**{season} season**].')
     else:
         st.write(f'**{player_emoji}** averaged :green[**{round(stat_value,2)}**  **{stat}**], which is :violet[**#{rank_num}**] in the :grey[**{season} season**].')
+    with st.sidebar:
+        st.caption(player_emoji)
     st.expander(f'**{stat} {season} Data**', expanded=False)
     with st.expander(f':green[**{stat} {season} Data**]', expanded=False):
         cols = ['PLAYER_NAME', 'TEAM_ABBREVIATION', rank, stat, 'YEARS_IN_LEAGUE']
