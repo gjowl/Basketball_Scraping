@@ -4,6 +4,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 import requests
+import random
+
 def url_checker(url):
 	try:
 		#Get Url
@@ -215,27 +217,24 @@ def create_year_data_dict(_datadir):
             year_data_dict[filename] = tmp_df
     return year_data_dict
 
-def annotate_with_emojis(_player_name, _emoji_df):
+def annotate_with_emojis(_player_name, _emoji_df, random_link=False):
     # Check if the player name is in the emoji_df
     if _player_name in _emoji_df['PLAYER_NAME'].values:
         # Get the corresponding emoji from the emoji_df
         emoji = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Emoji'].values[0]
-        link_1 = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link 1'].values[0]
-        link_2 = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link 2'].values[0]
-        st.write(f"Link 1: {link_1}")
-        # check if the link works
-        # check if the links are None
-        if url_checker(link_1) == None:
-            link_1 = None
-        if url_checker(link_2) == None:
-            link_2 = None
-        if link_1 == None:
-            return f"[{_player_name}] [{emoji}]({link_2})"
-        if link_2 == None:
-            return f"[{_player_name}] [{emoji}]({link_1})"
-        if link_1 == None and link_2 == None:
-            return f"[{_player_name}] [{emoji}]"
-        return f"[{_player_name}]({link_1}) [{emoji}]({link_2})"
+        if random_link:
+            # get the columns with Link in the name
+            links = _emoji_df.columns[_emoji_df.columns.str.contains('Link')]
+            # get a random link from the columns
+            link_length = len(links)
+            link_to_annotate = links[0]
+            if link_length > 1:
+                link_to_annotate = random.choice(links)
+        else:
+            # get the column with Link in the name
+            link_to_annotate = 'Link'
+        link = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, link_to_annotate].values[0]
+        return f"[{_player_name}] [{emoji}]({link})"
     else:
         return _player_name
 
