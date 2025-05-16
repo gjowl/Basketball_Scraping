@@ -3,6 +3,23 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 import os
+import requests
+def url_checker(url):
+	try:
+		#Get Url
+		get = requests.get(url)
+		# if the request succeeds 
+		if get.status_code == 200:
+			return(f"{url}: is reachable")
+		else:
+			return(f"{url}: is Not reachable, status_code: {get.status_code}")
+
+	#Exception
+	except requests.exceptions.RequestException as e:
+        # print URL with Errs
+		raise SystemExit(f"{url}: is Not reachable \nErr: {e}")
+
+# url checker function from https://pytutorial.com/check-url-is-reachable/
 
 def change_to_team_colors(_fig, _data, team_colors):
     # set the color for each player to be the same as their team color
@@ -203,8 +220,22 @@ def annotate_with_emojis(_player_name, _emoji_df):
     if _player_name in _emoji_df['PLAYER_NAME'].values:
         # Get the corresponding emoji from the emoji_df
         emoji = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Emoji'].values[0]
-        link = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link'].values[0]
-        return f"{_player_name} [{emoji}]({link})"
+        link_1 = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link 1'].values[0]
+        link_2 = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Link 2'].values[0]
+        st.write(f"Link 1: {link_1}")
+        # check if the link works
+        # check if the links are None
+        if url_checker(link_1) == None:
+            link_1 = None
+        if url_checker(link_2) == None:
+            link_2 = None
+        if link_1 == None:
+            return f"[{_player_name}] [{emoji}]({link_2})"
+        if link_2 == None:
+            return f"[{_player_name}] [{emoji}]({link_1})"
+        if link_1 == None and link_2 == None:
+            return f"[{_player_name}] [{emoji}]"
+        return f"[{_player_name}]({link_1}) [{emoji}]({link_2})"
     else:
         return _player_name
 

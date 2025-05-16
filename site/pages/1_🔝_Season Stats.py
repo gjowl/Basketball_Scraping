@@ -46,6 +46,8 @@ example_df = pd.read_csv(example_file, sep='|')
 
 # SETS THE OPTIONS FOR THE SELECTBOXES USING THE EXAMPLE DATAFRAME
 def get_session_state_example(example=None):
+    if example is None:
+        return
     st.session_state['Example'] = example
     # get the players for the example
     season = example_df[example_df['Question'] == example]['Season'].values[0]

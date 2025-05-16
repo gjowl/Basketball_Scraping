@@ -52,6 +52,8 @@ st.session_state['Stats'] = ['PPG', '3P%', 'FG%']
 
 # SETS THE OPTIONS FOR THE SELECTBOXES USING THE EXAMPLE DATAFRAME
 def get_session_state_example(example=None):
+    if example is None:
+        return
     st.session_state['Example'] = example
     # get the players for the example
     players = examples_df[examples_df['Question'] == example]['Players'].values[0]
@@ -101,7 +103,7 @@ def compare_player_scatterplot(_player_dfs, _xaxis, _yaxis, n=0, colors=graph_co
     for player_df, hover_template, player_name, color in zip(_player_dfs, hover_templates, names, colors):
         # if the first player, create the fig
         # sort the data by yaxis
-        player_df = player_df.sort_values(by=_xaxis, ascending=False)
+        player_df = player_df.sort_values(by=_xaxis, ascending=True)
         if player_df['PLAYER_NAME'].values[0] == _player_dfs[0]['PLAYER_NAME'].values[0]:
             fig = px.scatter(player_df, x=_xaxis, y=_yaxis, hover_name='PLAYER_NAME')
             fig.add_trace(go.Scatter(x=player_df[_xaxis], y=player_df[_yaxis], mode='markers', name=player_name, hovertemplate=hover_template, marker=dict(color=color, size=18, line=dict(width=2, color='DarkSlateGrey'))))
@@ -206,7 +208,21 @@ if go_deeper:
             st.session_state['index'] = examples.index(random_example)
     with left:
         example = st.selectbox('**Examples**', examples, index=st.session_state['index'], placeholder='pick something', key='example_selectbox')
-        if st.session_state['example_selectbox'] != st.session_state['Example'] and st.session_state['index'] != None:
+        st.write(st.session_state['example_selectbox'])
+        st.write(st.session_state['index'])
+        st.write(st.session_state['Example'])
+        #get_session_state_example(random_example)
+        #st.session_state['example_selectbox'] = random_example
+        #if 'index' not in st.session_state:
+        #    st.session_state['index'] = None 
+        #if random_example is not None:
+        #    st.session_state['index'] = examples.index(random_example)
+        #if example != None:
+        #    example_index = examples.index(example)
+        #if st.session_state['index'] == None:
+        #    st.session_state['index'] = example_index
+        if st.session_state['example_selectbox'] != st.session_state['Example']:
+        #if st.session_state['example_selectbox'] != st.session_state['Example'] and st.session_state['index'] != None:
             get_session_state_example(st.session_state['example_selectbox'])
     st.divider()
 
