@@ -22,7 +22,8 @@ st.write('''
             🏀 **Most Points, Assists, Rebounds, Steals, and Blocks** \n
             🏀 **Highest & Lowest +/-, TS%, USG%, and other Advanced Stats** \n 
             🏀 **Player Stat Trajectories over the Last 5, 10, 15, 20, 25, and 30 Games Played** \n
-            🏀 :rainbow[**Statistical Anomalies**] (**>= 50 point games, 5x5s or close, insane triple doubles, random career highs**)\n 
+            🏀 **Statistical Anomalies** (**>= 50 point games, 5x5s or close, insane triple doubles, random career highs**)\n 
+            🏀 :rainbow[**WNBA & Playoff Stats**]\n
         ''')
 st.divider()
 st.write('''
