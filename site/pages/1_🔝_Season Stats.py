@@ -51,7 +51,8 @@ def get_session_state_example(example=None):
     st.session_state['Example'] = example
     # get the players for the example
     season = example_df[example_df['Question'] == example]['Season'].values[0]
-    st.session_state['season_selectbox'] = season 
+    if 'season_selectbox' in st.session_state:
+        st.session_state['season_selectbox'] = season 
     # get the stats for the example
     stat = example_df[example_df['Question'] == example]['Stat'].values[0]
     num_players = int(example_df[example_df['Question'] == example]['Number of Players'].values[0])
