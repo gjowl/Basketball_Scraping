@@ -58,8 +58,10 @@ def get_session_state_example(example=None):
     age_range = example_df[example_df['Question'] == example]['Age Range'].values[0]
     age_range = [int(age_range[0]), int(age_range[1])]
     #st.write(st.session_state['age_range'])
-    st.session_state['age_range'] = age_range
-    st.session_state['num_players'] = num_players
+    if 'age_range' in st.session_state:
+        st.session_state['age_range'] = age_range
+    if 'num_players' in st.session_state:
+        st.session_state['num_players'] = num_players
     if stat in advanced_stat_options:
         st.session_state['advanced_toggle'] = True
     else:
