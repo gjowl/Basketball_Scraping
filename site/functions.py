@@ -217,22 +217,12 @@ def create_year_data_dict(_datadir):
             year_data_dict[filename] = tmp_df
     return year_data_dict
 
-def annotate_with_emojis(_player_name, _emoji_df, random_link=False):
+# adapted this in case I decide to add more links to the emoji_df in the future; can use another column to add a link
+def annotate_with_emojis(_player_name, _emoji_df, link_to_annotate='Link'):
     # Check if the player name is in the emoji_df
     if _player_name in _emoji_df['PLAYER_NAME'].values:
         # Get the corresponding emoji from the emoji_df
         emoji = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Emoji'].values[0]
-        if random_link:
-            # get the columns with Link in the name
-            links = _emoji_df.columns[_emoji_df.columns.str.contains('Link')]
-            # get a random link from the columns
-            link_length = len(links)
-            link_to_annotate = links[0]
-            if link_length > 1:
-                link_to_annotate = random.choice(links)
-        else:
-            # get the column with Link in the name
-            link_to_annotate = 'Link'
         link = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, link_to_annotate].values[0]
         return f"[{_player_name}] [{emoji}]({link})"
     else:
