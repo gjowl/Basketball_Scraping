@@ -224,7 +224,7 @@ def annotate_with_emojis(_player_name, _emoji_df, link_to_annotate='Link'):
         # Get the corresponding emoji from the emoji_df
         emoji = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, 'Emoji'].values[0]
         link = _emoji_df.loc[_emoji_df['PLAYER_NAME'] == _player_name, link_to_annotate].values[0]
-        return f"[{_player_name}] [{emoji}]({link})"
+        return f"**{_player_name}** [{emoji}]({link})"
     else:
         return _player_name
 
