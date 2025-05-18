@@ -4,7 +4,7 @@ Emoji,Hint
 🔒,Players who have made at least 1-All Defense Team
 🌟,Players who've made at least 10-All Star
 🏆,Players who won 1 NBA Championship
-🔥,Players who can go on scoring heaters
+🔥,Players who can go on heaters (>= 8 threes in a game)
 ➕,Players who won the Most Improved Player award
 🎙️,Players who had/have a podcast
 🇵🇭,Flags represent where NBA players are from/play for national teams
@@ -18,3 +18,4 @@ Emoji,Hint
 ♸,Players who won 6th man of the year
 ⬅️,Southpaws/Left-handed players
 🌍,Players who played in other professional leagues between NBA stints
+‼️,Players who have had at least 5 triple doubles
