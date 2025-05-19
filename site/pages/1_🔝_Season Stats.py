@@ -139,15 +139,15 @@ if st.session_state['go_deeper'] == True:
 if st.session_state['explanations'] == True:
     if st.session_state['go_deeper'] == False:
         st.write('''
-                **Pick the :violet[number of players] and the stat you want to see, and the top players will be plotted in a bar graph.**\n
-                ***Data from present to the 1996-97 season.***\n
+                **Pick the :violet[number of players] and the stat you want to see, and the top players will be plotted in a bar graph**\n
+                ***Data from present to the 1996-97 season***\n
                 \n
         ''')
     else:
         st.write(f'''
-                **Pick the :violet[number of players], :green[games played], and the :green[age range] of players.**\n
-                **Then pick two stats you want to graph, and the top players will be plotted in scatterplots.**\n
-                ***Data from present to the 1996-97 season.***\n
+                **Pick the :violet[number of players], :green[games played], and the :green[age range] of players**\n
+                **Then pick :green[two stats] you want to graph, and the :violet[top players] will be plotted in scatterplots**\n
+                ***Data from present to the 1996-97 season***\n
                 \n
         ''')
 st.divider()

@@ -7,23 +7,29 @@ st.title("About")
 st.write(
     '''
     **For years I've been interested in the NBA and taking boxscore data and**
-    **finding a way to visualize it for myself!**\n
+    **finding a way to visualize it for myself**\n
     **I put this website together to help me learn about web development and data scraping, allowing me to practice dynamic data visualization.**\n
-    **Data is sourced from [NBA.com](https://www.nba.com/stats/leaders) going back to the 1996-97 season.**\n
-    **Website is built using [Streamlit](https://streamlit.io/).**\n
-    **Code is available on [GitHub](https://github.com/gjowl/Basketball_Scraping/tree/test/site).**\n
-    **If you have any questions, comments, suggestions, or if you feel like you've found all of the hidden emojis :P, please feel free to reach out: gjowl04@gmail.com!**\n
+    🏀 **Data sourced from [NBA.com](https://www.nba.com/stats/leaders) going back to the 1996-97 season**\n
+    🏀 **Website is built using [Streamlit](https://streamlit.io/)**\n
+    🏀 **Code is available on [GitHub](https://github.com/gjowl/Basketball_Scraping/tree/test/site)**\n
+    **If you have any questions, comments, suggestions, or if you feel like you've found all of the hidden emojis :P, please feel free to reach out: gjowl04@gmail.com**\n
     '''
 )
 st.divider()
 
-# Some other cool stat pages!
+# Some other cool basketball links!
 st.write('''
 
-    **Some other cool stat pages that helped inspire building this website:**\n
-    🏀 **[Basketball Reference](https://www.basketball-reference.com/)**\n
-    🏀 **[StatMuse](https://www.statmuse.com/)**\n
-    🏀 **[ChampsOrChumps](https://champsorchumps.us/records/biggest-nba-comebacks-all-time)**\n
+    **Some other cool basketball links that helped inspire building this website:**\n
+    🏀 **[Basketball Reference](https://www.basketball-reference.com/)** | an awesome basketball stats resource\n
+    🏀 **[CoshReport](https://www.youtube.com/@CoshReport)** | "NBA videos but they get increasingly more amazing"\n 
+    🏀 **[StatMuse](https://www.statmuse.com/)** | really cleanly design stat website\n
+    🏀 **[HoopsHype](https://hoopshype.com/)** | like basketball focused social media\n
+    🏀 **[spotrac](https://www.spotrac.com/nba/cap/_/year/2024) | great resource for NBA player salaries\n
+    🏀 **[ChampsOrChumps](https://champsorchumps.us/records/biggest-nba-comebacks-all-time)** | biggest comebacks\n
+    🏀 **[Evin Gualberto](https://www.youtube.com/@EvinGualberto) | niche highlight videos
+    🏀 **[TeamColorCodes](https://teamcolorcodes.com/nba-team-color-codes/)\n
+
     ''')
 st.divider()
 
