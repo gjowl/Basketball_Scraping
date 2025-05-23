@@ -20,5 +20,5 @@ st.write('''
          **Each player only has one emoji associated with them (ex. Manu Ginóbili is an Olypmpic Gold medalist [🏅], 
          multitime NBA Champion [💍], Argentinian [🇦🇷], and a 2x All Star [⭐], but is only represented by the [🏅]).**\n
          **Each emoji also acts as a clickable link: sometimes to their basketball-reference page or a unique video (usually highlights or a memorable moment)!**\n
-         **Good luck searching :D
+         **Happy searching 😄**
          ''')
