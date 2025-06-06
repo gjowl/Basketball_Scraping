@@ -29,6 +29,7 @@ st.write('''
     🏀 **[ChampsOrChumps](https://champsorchumps.us/records/biggest-nba-comebacks-all-time)** | biggest comebacks\n
     🏀 **[Evin Gualberto](https://www.youtube.com/@EvinGualberto) | niche highlight videos
     🏀 **[TeamColorCodes](https://teamcolorcodes.com/nba-team-color-codes/)\n
+    🏀 **[SportsOddHistory](https://www.sportsoddshistory.com/nba-playoffs-series/?y=0000&o=s&fv=&hv=&fd=&rd=fnl)**
 
     ''')
 st.divider()
