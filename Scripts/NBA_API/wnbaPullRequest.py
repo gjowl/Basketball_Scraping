@@ -48,7 +48,9 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     #&StarterBench='+starter_bench+'&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
     player_info_url = f'https://stats.wnba.com/stats/leagueLeaders?LeagueID=10&PerMode=PerGame&Scope=S&Season=2025&SeasonType=Regular Season&StatCategory=PTS'
     # maybe below: looks like the same from nba? if so, make a variable for instead of new file
-    #https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Advanced&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2025&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+    #https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0
+    # &LeagueID=10&Location=&MeasureType=Advanced&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame
+    # &Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2025&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
     # TODO: see if there are other player urls than just: https://stats.wnba.com/leaders/
     # TODO: edit the variables above
     # There are a bunch more urls that can be used to get more data; for example, the below url can be used to get the shot locations of each player
