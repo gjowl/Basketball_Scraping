@@ -31,6 +31,8 @@ st.write('''
     🏀 **[TeamColorCodes](https://teamcolorcodes.com/nba-team-color-codes/)\n
     🏀 **[SportsOddHistory](https://www.sportsoddshistory.com/nba-playoffs-series/?y=0000&o=s&fv=&hv=&fd=&rd=fnl)**\n
     🏀 **[Dunks & Threes](https://dunksandthrees.com/)**\n
+    🏀 **[Thinking Basketball](https://www.youtube.com/@ThinkingBasketball)**\n
+
 
     ''')
 st.divider()
