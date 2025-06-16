@@ -1392,3 +1392,17 @@ Program started at: 2025-06-16 14:32:27.194890
 scraping mode:: PerGame
  - scraping season:: 1998
  - scraping url:: https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGamePerGame&Period=0    &PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998&SeasonSegment=&SeasonType=Regular Season&ShotClockRange=&    StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+Program started at: 2025-06-16 14:41:27.618307
+scraping mode:: PerGame
+ - scraping season:: 1998
+ - scraping url:: https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/WNBA/RAW/OLD\PerGame\1998.csvscraping mode:: Per36
+ - scraping season:: 1998
+ - scraping url:: https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Per36&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/WNBA/RAW/OLD\Per36\1998.csvscraping mode:: Totals
+ - scraping season:: 1998
+ - scraping url:: https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/WNBA/RAW/OLD\Totals\1998.csvscraping mode:: Per100Possessions
+ - scraping season:: 1998
+ - scraping url:: https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=    &GameSegment=&Height=&LastNGames=0&LeagueID=10&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=Per100Possessions&Period=    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=1998&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=    &StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight=
+H:/NBA_API_DATA/WNBA/RAW/OLD\Per100Possessions\1998.csvFiles saved to: H:/NBA_API_DATA/WNBA/RAW/OLD

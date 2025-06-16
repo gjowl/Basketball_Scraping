@@ -42,16 +42,16 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     }
     # url that is used to access the specified data: on nba.com/stats/, go to the webpage of interest, 
     # right click, inspect element (Q), go to network, search for league, then copy the url
-    #player_info_url = 'https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick='+draft_pick+'&DraftYear='+draft_year+'&GameScope=\
-    #&GameSegment=&Height=&LastNGames='+lastNGames+'&LeagueID=10&Location=&MeasureType='+measureType+'&Month='+month+'&OpponentTeamID=0&Outcome='+outcome+'&PORound=0&PaceAdjust=N&PerMode='+per_mode+'&Period='+period+'\
-    #0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season='+season+'&SeasonSegment='+segment+'&SeasonType='+season_type+'&ShotClockRange=\
-    #&StarterBench='+starter_bench+'&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
+    player_info_url = 'https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick='+draft_pick+'&DraftYear='+draft_year+'&GameScope=\
+    &GameSegment=&Height=&LastNGames='+lastNGames+'&LeagueID=10&Location=&MeasureType='+measureType+'&Month='+month+'&OpponentTeamID=0&Outcome='+outcome+'&PORound=0&PaceAdjust=N&PerMode='+per_mode+'&Period='+period+'\
+    0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season='+season+'&SeasonSegment='+segment+'&SeasonType='+season_type+'&ShotClockRange=\
+    &StarterBench='+starter_bench+'&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
     #player_info_url = f'https://stats.wnba.com/stats/leagueLeaders?LeagueID=10&PerMode=PerGame&Scope=S&Season=2025&SeasonType=Regular Season&StatCategory=PTS'
     # maybe below: looks like the same from nba? if so, make a variable for instead of new file
-    player_info_url = f'https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick={draft_pick}&DraftYear={draft_year}&GameScope=\
-    &GameSegment=&Height=&LastNGames={lastNGames}&LeagueID=10&Location=&MeasureType={measureType}&Month={month}&OpponentTeamID=0&Outcome={outcome}&PORound=0&PaceAdjust=N&PerMode={per_mode}PerGame&Period=0\
-    &PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season={season}&SeasonSegment={segment}&SeasonType={season_type}&ShotClockRange=&\
-    StarterBench={starter_bench}&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
+    #player_info_url = f'https://stats.wnba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick={draft_pick}&DraftYear={draft_year}&GameScope=\
+    #&GameSegment=&Height=&LastNGames={lastNGames}&LeagueID=10&Location=&MeasureType={measureType}&Month={month}&OpponentTeamID=0&Outcome={outcome}&PORound=0&PaceAdjust=N&PerMode={per_mode}PerGame&Period=0\
+    #&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season={season}&SeasonSegment={segment}&SeasonType={season_type}&ShotClockRange=&\
+    #StarterBench={starter_bench}&TeamID=0&TwoWay=0&VsConference=&VsDivision=&Weight='
     # TODO: see if there are other player urls than just: https://stats.wnba.com/leaders/
     # There are a bunch more urls that can be used to get more data; for example, the below url can be used to get the shot locations of each player
     # need to figure out a way to run through more urls easily instead of just one
@@ -65,6 +65,7 @@ def getDataframeFromWeb(per_mode, lastNGames, season, params):
     except ValueError:
         file.write(f'Error: {player_info_url}')
     # get column names and data for each player from the response
+    # write out the response
     column_names, data = response['resultSets'][0]['headers'], response['resultSets'][0]['rowSet']
     # convert the player_info to a dataframe
     nba_df = pd.DataFrame(data)
